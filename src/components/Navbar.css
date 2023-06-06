@@ -31,10 +31,6 @@ svg {
   margin-right: 10px;
 }
 
-li a.active {
-  background-color: #04aa6d;
-}
-
 li a:hover:not(.active) {
   background-color: #7f7f7f;
 }
