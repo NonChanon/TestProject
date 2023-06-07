@@ -1,4 +1,4 @@
-import "./DataResult.css";
+import "./DataResult.css"
 import Data from "./Data";
 
 export default function DataResult() {
@@ -64,16 +64,16 @@ export default function DataResult() {
           {dataTable}
           <tfoot>
             <tr>
-              <th>Total</th>
-              <th></th>
-              <th>60</th>
-              <th></th>
-              <th></th>
-              <th></th>
-              <th>6,000</th>
-              <th>0</th>
-              <th>6,000</th>
-              <th></th>
+              <th className="ltb">Total</th>
+              <th className="ltb"></th>
+              <th className="ltb">60</th>
+              <th className="ltb"></th>
+              <th className="ltb"></th>
+              <th className="ltb"></th>
+              <th className="ltb">6,000</th>
+              <th className="ltb">0</th>
+              <th className="ltb">6,000</th>
+              <th className="ltb"></th>
             </tr>
           </tfoot>
         </table>
@@ -153,33 +153,35 @@ export default function DataResult() {
       <div className="Transection">
         <div className="BatchBar shadow ">
           <div className="space3 ">
-            <div className="Filter spaceTitle2">
-              <button className="button button:hover black">All</button>
-              <button className="button2 button2:hover black">
-                <p className="row ">
-                  Approved
-                  <p className="green">230</p>
-                </p>
-              </button>
-              <button className="button2 button2:hover black">
-                <p className="row">
-                  Pending
-                  <p className="yellow">18</p>
-                </p>
-              </button>
-              <button className="button2 button2:hover black">
-                <p className="row">
-                  Invalid Data
-                  <p className="red">2</p>
-                </p>
-              </button>
-              <button className="button2 button2:hover black">
-                <p className="row ">
-                  Denied
-                  <p className="gray">18</p>
-                </p>
-              </button>
-            </div>
+          <div className="filter spaceTitle2">
+                <button className="button button:hover black active">
+                  All
+                </button>
+                <button className="button button:hover black">
+                  <p className="row ">
+                    Approved
+                    <p className="green">230</p>
+                  </p>
+                </button>
+                <button className="button button:hover black">
+                  <p className="row">
+                    Pending
+                    <p className="yellow">18</p>
+                  </p>
+                </button>
+                <button className="button button:hover black">
+                  <p className="row">
+                    Invalid Data
+                    <p className="red">2</p>
+                  </p>
+                </button>
+                <button className="button button:hover black">
+                  <p className="row ">
+                    Denied
+                    <p className="gray">18</p>
+                  </p>
+                </button>
+              </div>
             {overviewTable}
           </div>
         </div>
