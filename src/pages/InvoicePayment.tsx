@@ -3,10 +3,10 @@ import React from "react";
 import DataInvoice from "./DataInvoice";
 
 export const InvoicePayment = () => {
-  const dataInvoiceTable = DataInvoice.map((data) => {
+  const dataInvoiceTable = DataInvoice.map((data, i) => {
     return (
       <tr>
-        <td>1</td>
+        <td>{i+1}</td>
         <td>{data.lot_name}</td>
         <td>{data.batch_date}</td>
         <td>{data.batch_time}</td>
