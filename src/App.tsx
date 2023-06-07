@@ -1,4 +1,4 @@
-import './App.css'
+import "./App.css"
 import Navbar from './components/Navbar'
 import { Routes, Route } from "react-router-dom"
 import DataResult from './pages/DataResult.tsx'

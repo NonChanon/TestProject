@@ -1,4 +1,4 @@
-import './DetailCollection.css'
+
 
 export default function DetailCollection() {
   return (
