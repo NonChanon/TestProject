@@ -3,7 +3,7 @@ import "./RDTransaction.css"
 import DataRD from "./DataRD";
 
 export default function RDTransaction() {
-  const dataRDTable = DataRD.map((data) => {
+  const dataRDTable = DataRD.map((data, i) => {
     const RDStatus = data.rd_status;
     let display;
     if(RDStatus != 0) { display = <p className='Fail'> Fail ({data.rd_status}) </p> }
@@ -11,7 +11,7 @@ export default function RDTransaction() {
   }
     return (
       <tr>
-        <td>1</td>
+        <td>{i+1}</td>
         <td>{data.lot_name}</td>
         <td>{data.batch_date}</td>
         <td>{data.batch_time}</td>

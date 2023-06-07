@@ -1,4 +1,4 @@
-const Data = [
+const DataRD = [
     {
         lot_name: 'lot_1',
         batch_date: '01/01/66',
@@ -46,4 +46,4 @@ const Data = [
 
 ];
 
-export default Data
+export default DataRD

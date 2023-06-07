@@ -3,11 +3,11 @@ import Data from "./Data";
 
 export default function DataResult() {
 
-  const dataTable = Data.map((data) => {
+  const dataTable = Data.map((data, i) => {
     return (
       <tbody>
         <tr>
-          <td></td>
+          <td>{i+1}</td>
           <td>{data.lot_name}</td>
           <td>{data.total_docs}</td>
           <td>{data.batch_date}</td>
