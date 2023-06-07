@@ -1,5 +1,5 @@
 import React from "react";
-import "./InvoicePayment.css";
+
 import DataInvoice from "./DataInvoice";
 
 export const InvoicePayment = () => {
