@@ -1,23 +1,46 @@
 import "./DataResult.css"
-import Data from "./Data";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 export default function DataResult() {
+  
+  const [batches, setBatches] = useState([]);
+  const [lots, setLots] = useState([]);
 
-  const dataTable = Data.map((data, i) => {
+  useEffect(() => {
+    console.log("Trigger use Effect");
+    loadBatches();
+    loadData();
+  }, []);
+
+  const loadBatches = async() =>{
+    const batchRes = await axios.get("http://localhost:8080/api/batches");
+    setBatches(batchRes.data);
+    console.log(batchRes.data);
+
+  }
+
+  const loadData = async() =>{
+    const lotRes = await axios.get("http://localhost:8080/api/31_10_2022/lots");
+    setLots(lotRes.data);
+    console.log(lotRes.data);
+  }
+
+  const dataTable = lots.map((lot, i) => {
     return (
       <tbody>
         <tr>
           <td>{i+1}</td>
-          <td>{data.lot_name}</td>
-          <td>{data.total_docs}</td>
-          <td>{data.batch_date}</td>
+          <td>{lot.name}</td>
+          <td>{lot.totalDoc}</td>
+          <td>{lot.batchDate}</td>
           <td>
-            <p className={data.status}>{data.status}</p>
+            <p className={lot.approvalStatus}>{lot.approvalStatus}</p>
           </td>
-          <td>{data.approved_by}</td>
-          <td>{data.total_duty}</td>
-          <td>{data.total_dub}</td>
-          <td>{data.total_payment}</td>
+          <td>{lot.approvedBy}</td>
+          <td>{lot.totalDuty}</td>
+          <td>{lot.totalDubDutyAmount}</td>
+          <td>{lot.totalPayment}</td>
           <td className="action">
             <a href="/detail">
               <svg
@@ -38,13 +61,13 @@ export default function DataResult() {
     );
   });
 
-  const overviewTable = Data.map((data) => {
+  const overviewTable = batches.map((data) => {
     return (
       <div>
         <div className="Batch  shadow row space4 ">
-          <p className="tab">Batch Date : {data.batch_date}</p>
+          <p className="tab">Batch Date : {data.batchDate}</p>
           <div className="tab line3"></div>
-          <p className="tab">Batch Time : {data.batch_time}</p>
+          <p className="tab">Batch Time : {data.batchTime}</p>
         </div>
         <table className="transaction-table">
           <thead>
