@@ -32,6 +32,10 @@ svg {
 }
 
 li a:hover:not(.active) {
+  background-color: #888888;
+}
+
+.nav-active {
   background-color: #7f7f7f;
 }
 

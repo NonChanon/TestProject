@@ -1,7 +1,9 @@
-import React from "react";
+
 import { NavLink } from "react-router-dom";
 import "./Navbar.css";
 import logo from "../img/logo.png";
+
+let activeClassName = "nav-active"
 
 export default function Navbar() {
   return (
@@ -12,7 +14,7 @@ export default function Navbar() {
         </span>
         <ul className="menulist">
           <li>
-            <a href="/">
+            <NavLink to ='/' className={({ isActive }) => isActive ? activeClassName : undefined}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="20"
@@ -29,10 +31,10 @@ export default function Navbar() {
                 />
               </svg>
               Batch Data Result
-            </a>
+            </NavLink>
           </li>
           <li>
-            <a href="/transaction">
+            <NavLink to ='/transaction' className={({ isActive }) => isActive ? activeClassName : undefined}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="20"
@@ -51,10 +53,10 @@ export default function Navbar() {
                 </g>
               </svg>
               RD Transaction
-            </a>
+            </NavLink>
           </li>
           <li>
-            <a href="/invoice">
+            <NavLink to ='/invoice' className={({ isActive }) => isActive ? activeClassName : undefined}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="20"
@@ -73,10 +75,10 @@ export default function Navbar() {
                 </g>
               </svg>
               Invoice Payment
-            </a>
+            </NavLink>
           </li>
           <li>
-            <a href="">
+            <NavLink to ='/reciept' className={({ isActive }) => isActive ? activeClassName : undefined}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="20"
@@ -89,11 +91,11 @@ export default function Navbar() {
                   d="M13 19c0-.34.04-.67.09-1H4V8l8 5l8-5v5.09c.72.12 1.39.37 2 .72V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h9.09c-.05-.33-.09-.66-.09-1m7-13l-8 5l-8-5h16m-2 10v2h4v2h-4v2l-3-3l3-3Z"
                 />
               </svg>
-              Recieve & AS9
-            </a>
+              Reciept & AS9
+            </NavLink>
           </li>
           <li>
-            <a href="">
+            <NavLink to ='/manage' className={({ isActive }) => isActive ? activeClassName : undefined}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="20"
@@ -110,10 +112,10 @@ export default function Navbar() {
                 />
               </svg>
               User Management
-            </a>
+            </NavLink>
           </li>
           <li>
-            <a href="">
+            <NavLink to ='/role' className={({ isActive }) => isActive ? activeClassName : undefined}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="20"
@@ -130,7 +132,7 @@ export default function Navbar() {
                 />
               </svg>
               Role Management
-            </a>
+            </NavLink>
           </li>
         </ul>
         </div>
