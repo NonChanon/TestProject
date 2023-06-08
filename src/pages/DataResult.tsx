@@ -1,18 +1,22 @@
 import "./DataResult.css"
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useLocation } from "react-router-dom";
 
 export default function DataResult() {
   
   const [datas, setDatas] = useState([]);
-  
+
+  const path = useLocation().pathname;
+  console.log("path = " + path);
+
   let sumApproved = 0,
       sumPending = 0,
       sumInvalidData = 0,
       sumDenied = 0;
 
-  const loadDatas = async() =>{
-    const dataRes = await axios.get("http://localhost:8080/api/lots");
+  const loadDatas = async() => {
+    const dataRes = await axios.get(`http://localhost:8080/api${path}`);
     setDatas(dataRes.data);
     console.log(dataRes.data);
   }
@@ -201,7 +205,7 @@ export default function DataResult() {
               <div className="space">Lot Name</div>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="20"
+                width="20" 
                 height="20"
                 viewBox="0 0 24 24"
               >

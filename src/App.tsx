@@ -12,7 +12,11 @@ function App() {
     <>
     <Navbar />
     <Routes>
-      <Route path="/" element={<DataResult />} />
+      <Route path="/lots" element={<DataResult />} />
+      <Route path="/approved" element={<DataResult />} />
+      <Route path="/pending" element={<DataResult />} />
+      <Route path="/invaliddata" element={<DataResult />} />
+      <Route path="/denied" element={<DataResult />} />
       <Route path='/invoice' element={<InvoicePayment />} />
       <Route path='/detail' element={<DetailCollection />} />
       <Route path='/transaction' element={<RDTransaction />} />
