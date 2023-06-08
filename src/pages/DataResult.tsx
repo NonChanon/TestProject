@@ -10,6 +10,8 @@ export default function DataResult() {
   const path = useLocation().pathname;
   console.log("path = " + path);
 
+  let active = "active";
+
   let sumApproved = 0,
       sumPending = 0,
       sumInvalidData = 0,
@@ -247,28 +249,28 @@ export default function DataResult() {
         <div className="BatchBar shadow ">
           <div className="space3 ">
           <div className="filter spaceTitle2">
-                <button className="button button:hover black active">
+                <button id="allBtn" className="button button:hover black ${active}">
                   All
                 </button>
-                <button className="button button:hover black">
+                <button id="approvedBtn" className="button button:hover black">
                   <p className="row ">
                     Approved
                     <p className="green">{sumApproved}</p>
                   </p>
                 </button>
-                <button className="button button:hover black">
+                <button id="pendingBtn" className="button button:hover black">
                   <p className="row">
                     Pending
                     <p className="yellow">{sumPending}</p>
                   </p>
                 </button>
-                <button className="button button:hover black">
+                <button id="invalidBtn" className="button button:hover black">
                   <p className="row">
                     Invalid Data
                     <p className="red">{sumInvalidData}</p>
                   </p>
                 </button>
-                <button className="button button:hover black">
+                <button id="deniedBtn" className="button button:hover black">
                   <p className="row ">
                     Denied
                     <p className="gray">{sumDenied}</p>
