@@ -5,6 +5,11 @@ import axios from "axios";
 export default function DataResult() {
   
   const [datas, setDatas] = useState([]);
+  
+  let sumApproved = 0,
+      sumPending = 0,
+      sumInvalidData = 0,
+      sumDenied = 0;
 
   const loadDatas = async() =>{
     const dataRes = await axios.get("http://localhost:8080/api/lots");
@@ -64,6 +69,12 @@ export default function DataResult() {
   // });
 
   const overviewTable = batchDate.map((data) => {
+
+    let sumDoc = 0, 
+        sumTotalDuty = 0,
+        sumTotalDubDutyAmount = 0,
+        sumTotalPayment = 0;
+
     return (
       <div>
         <div className="Batch  shadow row space4 ">
@@ -88,6 +99,24 @@ export default function DataResult() {
           </thead>
           {
             grouped[data].map((lot: Array<any>, i: number) => {
+              sumDoc += lot.totalDoc;
+              sumTotalDuty += lot.totalDuty;
+              sumTotalDubDutyAmount += lot.totalDubDutyAmount;
+              sumTotalPayment += lot.totalPayment;
+              switch(lot.approvalStatus) {
+                case "Approved":
+                  sumApproved += 1;
+                  break;
+                case "Pending":
+                  sumPending += 1;
+                  break;
+                case "Invalid Data":
+                  sumInvalidData += 1;
+                  break;
+                case "Canceled":
+                  sumCanceled += 1;
+                  break;
+              }
               return (
                 <tbody>
                   <tr>
@@ -126,13 +155,13 @@ export default function DataResult() {
             <tr>
               <th className="ltb">Total</th>
               <th className="ltb"></th>
-              <th className="ltb">60</th>
+              <th className="ltb">{sumDoc}</th>
               <th className="ltb"></th>
               <th className="ltb"></th>
               <th className="ltb"></th>
-              <th className="ltb">6,000</th>
-              <th className="ltb">0</th>
-              <th className="ltb">6,000</th>
+              <th className="ltb">{sumTotalDuty}</th>
+              <th className="ltb">{sumTotalDubDutyAmount}</th>
+              <th className="ltb">{sumTotalPayment}</th>
               <th className="ltb"></th>
             </tr>
           </tfoot>
@@ -220,25 +249,25 @@ export default function DataResult() {
                 <button className="button button:hover black">
                   <p className="row ">
                     Approved
-                    <p className="green">230</p>
+                    <p className="green">{sumApproved}</p>
                   </p>
                 </button>
                 <button className="button button:hover black">
                   <p className="row">
                     Pending
-                    <p className="yellow">18</p>
+                    <p className="yellow">{sumPending}</p>
                   </p>
                 </button>
                 <button className="button button:hover black">
                   <p className="row">
                     Invalid Data
-                    <p className="red">2</p>
+                    <p className="red">{sumInvalidData}</p>
                   </p>
                 </button>
                 <button className="button button:hover black">
                   <p className="row ">
                     Denied
-                    <p className="gray">18</p>
+                    <p className="gray">{sumDenied}</p>
                   </p>
                 </button>
               </div>
