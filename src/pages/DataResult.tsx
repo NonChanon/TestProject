@@ -1,7 +1,7 @@
 import "./DataResult.css"
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 export default function DataResult() {
   
@@ -9,8 +9,6 @@ export default function DataResult() {
 
   const path = useLocation().pathname;
   console.log("path = " + path);
-
-  let active = "active";
 
   let sumApproved = 0,
       sumPending = 0,
@@ -249,28 +247,34 @@ export default function DataResult() {
         <div className="BatchBar shadow ">
           <div className="space3 ">
           <div className="filter spaceTitle2">
-                <button id="allBtn" className="button button:hover black ${active}">
+                <button className="button button:hover black active">
                   All
                 </button>
-                <button id="approvedBtn" className="button button:hover black">
+                <Link className="button button:hover black" to="/approved">
                   <p className="row ">
                     Approved
                     <p className="green">{sumApproved}</p>
                   </p>
-                </button>
-                <button id="pendingBtn" className="button button:hover black">
+                </Link>
+                {/* <button className="button button:hover black">
+                  <p className="row ">
+                    Approved
+                    <p className="green">{sumApproved}</p>
+                  </p>
+                </button> */}
+                <button className="button button:hover black">
                   <p className="row">
                     Pending
                     <p className="yellow">{sumPending}</p>
                   </p>
                 </button>
-                <button id="invalidBtn" className="button button:hover black">
+                <button className="button button:hover black">
                   <p className="row">
                     Invalid Data
                     <p className="red">{sumInvalidData}</p>
                   </p>
                 </button>
-                <button id="deniedBtn" className="button button:hover black">
+                <button className="button button:hover black">
                   <p className="row ">
                     Denied
                     <p className="gray">{sumDenied}</p>
