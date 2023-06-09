@@ -11,7 +11,9 @@
   },
   "dependencies": {
     "@types/react-router-dom": "^5.3.3",
+    "ax": "^0.2.2",
     "axios": "^1.4.0",
+    "install": "^0.13.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.12.0"

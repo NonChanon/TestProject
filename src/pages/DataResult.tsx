@@ -4,27 +4,29 @@ import axios from "axios";
 
 export default function DataResult() {
   
-  const [batches, setBatches] = useState([]);
+  const [datas, setDatas] = useState([]);
   const [lots, setLots] = useState([]);
 
   useEffect(() => {
     console.log("Trigger use Effect");
-    loadBatches();
     loadData();
   }, []);
 
-  const loadBatches = async() =>{
-    const batchRes = await axios.get("http://localhost:8080/api/batches");
-    setBatches(batchRes.data);
-    console.log(batchRes.data);
-
-  }
-
   const loadData = async() =>{
-    const lotRes = await axios.get("http://localhost:8080/api/31_10_2022/lots");
-    setLots(lotRes.data);
-    console.log(lotRes.data);
+    const dataRes = await axios.get("http://localhost:8080/api/lots");
+    setDatas(dataRes.data);
+    console.log(dataRes.data);
   }
+
+  const grouped = datas.reduce((acc: any, obj: string) => {
+      console.log("Acc ======>", acc)
+      const key: string = obj.batchDate;
+      acc[key] = acc[key] || [];
+      acc[key].push(obj);
+      return acc;
+    }, {});
+
+  grouped();
 
   const dataTable = lots.map((lot, i) => {
     return (
@@ -61,7 +63,7 @@ export default function DataResult() {
     );
   });
 
-  const overviewTable = batches.map((data) => {
+  const overviewTable = datas.map((data) => {
     return (
       <div>
         <div className="Batch  shadow row space4 ">
