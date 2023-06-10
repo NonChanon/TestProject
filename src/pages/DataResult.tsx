@@ -10,8 +10,6 @@ export default function DataResult() {
   const path = useLocation().pathname;
   console.log("path = " + path);
 
-  let active = "active";
-
   let sumApproved = 0,
       sumPending = 0,
       sumInvalidData = 0,
