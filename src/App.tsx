@@ -1,6 +1,6 @@
 import "./App.css"
 import Navbar from './components/Navbar'
-import { Routes, Route } from "react-router-dom"
+import { Routes, Route, Navigate } from "react-router-dom"
 import DataResult from './pages/DataResult.tsx'
 import DetailCollection from './pages/DetailCollection.tsx'
 import { InvoicePayment } from './pages/InvoicePayment.tsx'
@@ -12,6 +12,7 @@ function App() {
     <>
     <Navbar />
     <Routes>
+      <Route path="/" element={<Navigate to="/lots" />} />
       <Route path="/lots" element={<DataResult />} />
       <Route path="/approved" element={<DataResult />} />
       <Route path="/pending" element={<DataResult />} />
