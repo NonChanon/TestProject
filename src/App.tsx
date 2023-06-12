@@ -6,13 +6,14 @@ import DetailCollection from './pages/DetailCollection.tsx'
 import { InvoicePayment } from './pages/InvoicePayment.tsx'
 import RDTransaction from './pages/RDTransaction.tsx'
 import RecieptAS9 from './pages/RecieptAS9.tsx'
+import UserManagement from "./pages/UserManagement.tsx"
 
 function App() {
   return (
     <>
     <Navbar />
     <Routes>
-      <Route path="/" element={<Navigate to="/lots" />} />
+      <Route path="/" element={<Navigate to="/usermanagement" />} />
       <Route path="/lots" element={<DataResult />} />
       <Route path="/approved" element={<DataResult />} />
       <Route path="/pending" element={<DataResult />} />
@@ -22,6 +23,8 @@ function App() {
       <Route path='/detail' element={<DetailCollection />} />
       <Route path='/transaction' element={<RDTransaction />} />
       <Route path='/reciept' element={<RecieptAS9 />} />
+      <Route path="/lots" element={<DataResult />} />
+      <Route path="/usermanagement" element={<UserManagement />} />
     </Routes>
     </>
   )

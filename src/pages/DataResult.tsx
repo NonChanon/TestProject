@@ -146,7 +146,7 @@ export default function DataResult() {
     <div className="space2">
       <div className="title spaceTitle">
         <div className="line"></div>
-        <div>Data Result Collection</div>
+        <div>Data Result Correction</div>
       </div>
 
       <div className="SearchBar shadow row btw spaceTitle">
