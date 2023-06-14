@@ -7,6 +7,7 @@ import { InvoicePayment } from './pages/InvoicePayment.tsx'
 import RDTransaction from './pages/RDTransaction.tsx'
 import RecieptAS9 from './pages/RecieptAS9.tsx'
 import UserManagement from "./pages/UserManagement.tsx"
+import RoleManagement from "./pages/RoleManagement.tsx"
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
       <Route path='/reciept' element={<RecieptAS9 />} />
       <Route path="/lots" element={<DataResult />} />
       <Route path="/usermanagement" element={<UserManagement />} />
+      <Route path="/rolemanagement" element={<RoleManagement />} />
     </Routes>
     </>
   )

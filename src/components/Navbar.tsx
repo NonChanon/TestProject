@@ -115,7 +115,7 @@ export default function Navbar() {
             </NavLink>
           </li>
           <li>
-            <NavLink to ='/role' className={({ isActive }) => isActive ? activeClassName : undefined}>
+            <NavLink to ='/rolemanagement' className={({ isActive }) => isActive ? activeClassName : undefined}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="20"

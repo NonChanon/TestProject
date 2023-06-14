@@ -1,0 +1,145 @@
+.space2 {
+  margin: 10px 10px 0 210px;
+  height: 100%;
+}
+
+.line {
+  margin-right: 10px;
+  min-height: 50px;
+  min-width: 3px;
+  background-color: #489788;
+}
+
+.spaceTitle {
+  margin-bottom: 20px;
+}
+
+.title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 600;
+  color: #393939;
+}
+
+.searchButton {
+  background-color: #489788;
+  border: none;
+  border-radius: 5px;
+  color: #ffffff;
+  padding: 0px;
+  margin: 26px 5px 5px 0px;
+  text-align: center;
+  display: inline-block;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.addButton {
+  background-color: #00ca07;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.deleteButton {
+  background-color: #ca0700;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.editButton {
+  background-color: #00ca07;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.buttonLayout {
+  font-size: 14px;
+  border-radius: 5px;
+  margin-right: 10px;
+  padding: 10px;
+  border: none;
+  font-weight: lighter;
+  text-align: center;
+}
+
+.manageButtonLayout {
+  font-size: 14px;
+  border-radius: 5px;
+  margin: -5px 5px -5px 5px;
+  padding: 5px;
+  border: none;
+  font-weight: lighter;
+  text-align: center;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.spaceSearchButton {
+  margin-left: 5px;
+  margin-right: 10px;
+}
+
+.searchFunctionContainer {
+  background-color: rgba(57, 57, 57, 0.1);
+  width: 100%;
+  border-radius: 5px;
+}
+
+.searchFunctionBox {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px;
+}
+
+.searchFunctionContainer label {
+  padding: 5px;
+  width: 30%;
+}
+
+.searchFunctionContainer label input {
+  padding-left: 15px;
+  border-radius: 5px;
+  border-style: none;
+  margin-top: 5px;
+  box-shadow: 0px 0px 4px 0.5px rgba(0, 0, 0, 0.15);
+  height: 25px;
+  width: 100%;
+  font-size: 14px;
+  font-weight: lighter;
+}
+
+.searchFunctionContainer label select {
+  padding-left: 10px;
+  border-radius: 5px;
+  border-style: none;
+  margin-top: 5px;
+  box-shadow: 0px 0px 4px 0.5px rgba(0, 0, 0, 0.15);
+  height: 25px;
+  width: 100%;
+  font-size: 14px;
+  font-weight: lighter;
+}
+
+.userTable {
+  background-color: #393939;
+}
+
+.Active {
+  background-color: #00ca07;
+  color: #ffffff;
+  padding: 7px;
+  border-radius: 10px;
+}
+
+.Inactive {
+  background-color: #ca0700;
+  color: #ffffff;
+  padding: 7px;
+  border-radius: 10px;
+}
