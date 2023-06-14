@@ -15,11 +15,11 @@ function App() {
     <Navbar />
     <Routes>
       <Route path="/" element={<Navigate to="/usermanagement" />} />
-      <Route path="/lots" element={<DataResult />} />
-      <Route path="/approved" element={<DataResult />} />
-      <Route path="/pending" element={<DataResult />} />
-      <Route path="/invaliddata" element={<DataResult />} />
-      <Route path="/denied" element={<DataResult />} />
+      <Route path="/lots/all" element={<DataResult />} />
+      <Route path="/lots/approved" element={<DataResult />} />
+      <Route path="/lots/pending" element={<DataResult />} />
+      <Route path="/lots/invaliddata" element={<DataResult />} />
+      <Route path="/lots/denied" element={<DataResult />} />
       <Route path='/invoice' element={<InvoicePayment />} />
       <Route path='/detail' element={<DetailCollection />} />
       <Route path='/transaction' element={<RDTransaction />} />
@@ -27,6 +27,7 @@ function App() {
       <Route path="/lots" element={<DataResult />} />
       <Route path="/usermanagement" element={<UserManagement />} />
       <Route path="/rolemanagement" element={<RoleManagement />} />
+      <Route path={`/:lotname`} element={<DetailCollection />} />
     </Routes>
     </>
   )
