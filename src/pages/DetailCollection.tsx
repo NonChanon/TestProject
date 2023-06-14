@@ -183,7 +183,7 @@ export default function DetailCollection() {
                       xmlns="http://www.w3.org/2000/svg"
                       width="16"
                       height="16"
-                      viewBox="0 2 16 16"
+                      viewBox="0 2 16 16"    
                     >
                       <g transform="translate(24 0) scale(-1 1)">
                         <path
