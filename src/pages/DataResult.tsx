@@ -1,7 +1,7 @@
 import "./DataResult.css"
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 export default function DataResult() {
   
