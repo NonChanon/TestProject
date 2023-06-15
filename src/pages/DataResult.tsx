@@ -26,13 +26,14 @@ export default function DataResult() {
     sumInvalidData = 0,
     sumDenied = 0;
 
+  let grouped = datas;
+
   const loadDatas = async () => {
     const dataRes = await axios.get(`http://localhost:8080/api${path}`);
     setDatas(dataRes.data);
     console.log(dataRes.data);
   };
 
-  let grouped = datas;
   if (datas.length > 0) {
     grouped = datas.reduce((acc: any, obj: lotModel) => {
       console.log("Acc ======>", acc);
@@ -49,7 +50,7 @@ export default function DataResult() {
   useEffect(() => {
     console.log("Trigger use Effect");
     loadDatas();
-  }, [useLocation().key]);
+  });
 
   const overviewTable = batchDate.map((data) => {
     let sumDoc = 0,
@@ -59,7 +60,7 @@ export default function DataResult() {
 
     return (
       <div>
-        <div className="Batch  shadow row space4 ">
+        <div className="Batch shadow row space4 ">
           <p className="tab">Batch Date : {data}</p>
           {/* <div className="tab line3"></div>
           <p className="tab">Batch Time : {data.batchTime}</p> */}
@@ -81,7 +82,6 @@ export default function DataResult() {
           </thead>
           {grouped[data].map((lot: lotModel, i: number) => {
             console.log(lot);
-            sumDoc += lot.totalDoc;
             sumTotalDuty += lot.totalDuty;
             sumTotalDubDutyAmount += lot.totalDubDutyAmount;
             sumTotalPayment += lot.totalPayment;
@@ -160,10 +160,10 @@ export default function DataResult() {
         <div>Data Result Correction</div>
       </div>
 
-      <div className="SearchBar shadow row btw spaceTitle">
-        <div className="FilterButon">
+      <div className="shadow row btw spaceTitle">
+        <div>
           <button className="BatchDate button1">
-            <div className="row ">
+            <div className="row">
               <div className="space">Batch Date</div>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -223,7 +223,7 @@ export default function DataResult() {
         </button>
       </div>
 
-      <div className="Transection">
+      <div className="Transaction">
         <div className="BatchBar shadow ">
           <div className="space3 ">
             <div className="filter spaceTitle2">

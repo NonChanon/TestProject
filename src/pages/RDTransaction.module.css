@@ -1,28 +1,3 @@
-table,
-td,
-th {
-  border-bottom: 1px solid #B1B1B1;
-  text-align: center;
-  background-color: #fafafa;
-  padding: 15px;
-}
-
-table {
-  border-collapse: collapse;
-  width: 100%;
-
-  color: #393939;
-  font-size: 14px;
-}
-
-th {
-  height: 50px;
-  background-color: #FAFAFA;
-  font-weight: 500;
-  font-size: 14px;
-  color: #8c8c8c;
-}
-
 .line {
   margin-right: 10px;
   min-height: 50px;
@@ -34,11 +9,10 @@ th {
   margin-top: 5px;
   height: 2px;
   width: auto;
-  background-color: #cecece;
+  background-color: #e6e5e5;
 }
 
 .line3 {
-
   height: 30px;
   width: 2px;
   background-color: #cecece;
@@ -61,10 +35,8 @@ th {
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 15px;
   font-weight: lighter;
   cursor: pointer;
-  transition-duration: 0.4s;
 }
 
 .button:hover {
@@ -77,6 +49,18 @@ th {
   display: inline-block;
   font-size: 15px;
 
+  cursor: pointer;
+}
+
+.button.active {
+  background-color: #ffffff;
+  border: none;
+  color: #535353;
+  padding: 15px 32px;
+  text-align: center;
+  border-bottom: 3px solid #489788;
+  display: inline-block;
+  font-size: 15px;
   cursor: pointer;
 }
 
@@ -103,7 +87,6 @@ th {
   display: inline-block;
   font-size: 15px;
   cursor: pointer;
-  transition-duration: 0.4s;
 }
 
 .button2:hover {
@@ -164,33 +147,14 @@ th {
   border-radius: 5px;
 }
 
-.Approved {
-  background-color: #00CA07;
+.Success {
+  background-color: #00ca07;
   color: #ffffff;
   font-size: 13px;
   padding: 10px 2px;
   border-radius: 5px;
   margin-left: 20px;
   margin-right: 20px;
-}
-
-.yellow {
-  margin-left: 10px;
-  background-color: #ecbf21;
-  color: #ffffff;
-  font-size: 13px;
-  padding: 3px 8px 3px 8px;
-  border-radius: 5px;
-}
-
-.Pending {
-  background-color: #ecbf21;
-  color: #ffffff;
-  font-size: 13px;
-  padding: 10px 20px;
-  border-radius: 5px;
-  margin-left: 10px;
-  margin-right: 10px;
 }
 
 .red {
@@ -202,26 +166,7 @@ th {
   border-radius: 5px;
 }
 
-.gray {
-  margin-left: 10px;
-  background-color: #b1b1b1;
-  color: #ffffff;
-  font-size: 13px;
-  padding: 3px 8px 3px 8px;
-  border-radius: 5px;
-}
-
-.Denied {
-  background-color: #B1B1B1;
-  color: #ffffff;
-  font-size: 13px;
-  padding: 10px 2px;
-  border-radius: 5px;
-  margin-left: 20px;
-  margin-right: 20px;
-}
-
-.Invalid {
+.Fail {
   background-color: #ca0700;
   color: #ffffff;
   font-size: 13px;
@@ -262,39 +207,9 @@ th {
   cursor: pointer;
 }
 
-.grid-container {
-  background-color: #FAFAFA;
-  font-size: 14px;
-  border-bottom: 1px solid #B1B1B1;
-  justify-content: space-between;
-  color: #393939;
-}
-
-.grid-item {
-  background-color: #FAFAFA;
-  text-align: center;
-  padding: 15px;
-
-
-}
-
-.lastgrid-container {
-  display: grid;
-  grid-template-columns: 100px 150px 150px 200px 200px 250px 150px 250px 150px 100px;
-  background-color: #7f7f7f28;
-  font-size: 14px;
-  justify-content: space-between;
-  color: #393939;
-}
-
-.lastgrid-item {
-  text-align: center;
-  padding: 15px;
-}
-
 .top {
   margin-top: 5px;
-  color: #8C8C8C;
+  color: #8c8c8c;
 }
 
 .apbutton {
@@ -304,10 +219,25 @@ th {
 
 .total {
   font-weight: 600;
-  color: #777777;
+  color: #535353;
 }
 
-.transaction-table {
+.ltb {
+  background-color: #7f7f7f23;
+  font-weight: 600;
+  color: #535353;
+  border-bottom: 1px solid #7f7f7f23;
+}
+
+.filter {
+  border-bottom: 1px solid #e6e5e5;
+}
+
+.fontSize {
+  font-size: 14px;
+}
+
+.transactionTable {
   margin-top: 5px;
   margin-bottom: 20px;
   width: 100%;
@@ -316,15 +246,4 @@ th {
 
   background-color: #FAFAFA;
   font-size: 14px;
-}
-
-.ltb {
-  background-color: #7f7f7f13;
-  font-weight: 600;
-  color: #535353;
-  border-bottom: 1px solid #7f7f7f23;
-}
-
-tfoot {
-  border-top: 2px solid #B1B1B1;
 }

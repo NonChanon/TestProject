@@ -22,7 +22,9 @@ function App() {
       <Route path="/lots/denied" element={<DataResult />} />
       <Route path='/invoice' element={<InvoicePayment />} />
       <Route path='/detail' element={<DetailCollection />} />
-      <Route path='/transaction' element={<RDTransaction />} />
+      <Route path='/rd/all' element={<RDTransaction />} />
+      <Route path='/rd/success' element={<RDTransaction />} />
+      <Route path='/rd/fail' element={<RDTransaction />} />
       <Route path='/reciept' element={<RecieptAS9 />} />
       <Route path="/lots" element={<DataResult />} />
       <Route path="/usermanagement" element={<UserManagement />} />
