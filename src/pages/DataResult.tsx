@@ -50,7 +50,7 @@ export default function DataResult() {
   useEffect(() => {
     console.log("Trigger use Effect");
     loadDatas();
-  });
+  }, [useLocation().key]);
 
   const overviewTable = batchDate.map((data) => {
     let sumDoc = 0,

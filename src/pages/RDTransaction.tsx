@@ -43,7 +43,7 @@ export default function RDTransaction() {
   useEffect(() => {
     console.log("trigger useEffect");
     loadDatas();
-  });
+  }, [useLocation().key]);
 
   return (
     <div className={style.space2}>
