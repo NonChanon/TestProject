@@ -117,7 +117,7 @@ export default function DataResult() {
                     {/* <Routes>
                       <Route path={`/${lot.name}`} element={<DetailCollection />} />
                     </Routes> */}
-                    <Link to={`/${lot.name}`} state={{ data: lot }}>
+                    <Link to={`/${lot.name}`} state={{ lot: lot }}>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="21"

@@ -1,6 +1,8 @@
+import { useLocation } from "react-router-dom";
 import "./EditDetail.css";
 
 export default function EditDetail() {
+    const { state } = useLocation();
     return (
         <div className="ttspace">
             <div className="title">
@@ -72,15 +74,15 @@ export default function EditDetail() {
                         </div>
                         <div className="item">
                             <p className="txtblk">Duty Amount</p>
-                            <input type="text" className="txt" />
+                            <input type="text" className="txt" defaultValue={state.customer.totalDuty} />
                         </div>
                         <div className="item">
                             <p className="txtblk">Dub Duty Amount</p>
-                            <input type="text" className="txt" />
+                            <input type="text" className="txt" defaultValue={state.customer.totalDubDutyAmount} />
                         </div>
                         <div className="item">
                             <p className="txtblk">Total Amount</p>
-                            <input type="text" className="txt" />
+                            <input type="text" className="txt" defaultValue={state.customer.totalPayment} />
                         </div>
                     </div>
                 </div>
@@ -89,57 +91,57 @@ export default function EditDetail() {
                     <div className="grid-container">
                         <div className="item">
                             <p className="txtblk">Title</p>
-                            <input type="text" className="txt" />
+                            <input type="text" className="txt" defaultValue={state.customer.address.title} />
                         </div>
                         <div className="item">
                             <p className="txtblk">Name</p>
-                            <input type="text" className="txt" />
+                            <input type="text" className="txt" defaultValue={state.customer.name.split()[0]} />
                         </div>
                         <div className="item">
                             <p className="txtblk">Last Name</p>
-                            <input type="text" className="txt" />
+                            <input type="text" className="txt" defaultValue={state.customer.name.split()[1]} />
                         </div>
                         <div className="item">
                             <p className="txtblk">Village / Building</p>
-                            <input type="text" className="txt" />
+                            <input type="text" className="txt" defaultValue={state.customer.address.village} />
                         </div>
                         <div className="minigrid">
                             <div className="item">
                                 <p className="minitxtblk">Address Number</p>
-                                <input type="" className="minitxt" />
+                                <input type="" className="minitxt" defaultValue={state.customer.address.addressNo} />
                             </div>
                             <div className="item">
                                 <p className="minitxtblk">Floor</p>
-                                <input type="" className="minitxt" />
+                                <input type="" className="minitxt" defaultValue={state.customer.address.floor} />
                             </div>
                         </div>
                         <div className="item">
                             <p className="txtblk">Village Number</p>
-                            <input type="text" className="txt" />
+                            <input type="text" className="txt" defaultValue={state.customer.address.villageNo} />
                         </div>
                         <div className="item">
                             <p className="txtblk">Alley / Section</p>
-                            <input type="text" className="txt" />
+                            <input type="text" className="txt" defaultValue={state.customer.address.alley} />
                         </div>
                         <div className="item">
                             <p className="txtblk">Street</p>
-                            <input type="text" className="txt" />
+                            <input type="text" className="txt" defaultValue={state.customer.address.street} />
                         </div>
                         <div className="item">
                             <p className="txtblk">Subdistrict</p>
-                            <input type="text" className="txt" />
+                            <input type="text" className="txt" defaultValue={state.customer.address.subDistrict} />
                         </div>
                         <div className="item">
                             <p className="txtblk">District</p>
-                            <input type="text" className="txt" />
+                            <input type="text" className="txt" defaultValue={state.customer.address.district} />
                         </div>
                         <div className="item">
                             <p className="txtblk">Province</p>
-                            <input type="text" className="txt" />
+                            <input type="text" className="txt" defaultValue={state.customer.address.province} />
                         </div>
                         <div className="item">
                             <p className="txtblk">Postal Code</p>
-                            <input type="text" className="txt" />
+                            <input type="text" className="txt" defaultValue={state.customer.address.postalCode} />
                         </div>
                     </div>
                 </div>

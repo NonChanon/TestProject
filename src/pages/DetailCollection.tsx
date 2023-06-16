@@ -1,17 +1,18 @@
 import { MouseEvent, useEffect, useState } from "react";
 import "./DetailCollection.css";
 import axios from "axios";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 interface customerModel {
 
-  instInfoId: string;
-  taxPayerId: string;
   name: string;
+  taxPayerId: string;
+  instInfoId: string;
   totalDuty: number;
   totalDubDutyAmount: number;
   totalPayment: number;
-
+  completed: boolean;
+  address: object;
 }
 
 export default function DetailCollection() {
@@ -22,7 +23,7 @@ export default function DetailCollection() {
   console.log(useLocation());
 
   const { state } = useLocation();
-  console.log("data = " + state.data.batchDate);
+  console.log("data = " + state.lot.batchDate);
   const navigate = useNavigate();
 
   const onApprove = async (e:MouseEvent, status:object) => {
@@ -55,25 +56,25 @@ export default function DetailCollection() {
             <div className="Batch  shadow  space4">
               <div className="row spaceTitle btw">
                 <div className="row">
-                  <p className="tab">Batch Date : {state.data.batchDate}</p>
+                  <p className="tab">Batch Date : {state.lot.batchDate}</p>
                   <div className="tab line3"></div>
-                  <p className="tab">Lot Name : {state.data.name}</p>
+                  <p className="tab">Lot Name : {state.lot.name}</p>
                 </div>
                 <p className=" row">
                   Status :
-                  <div className={state.data.approvalStatus}>
-                    {state.data.approvalStatus}
+                  <div className={state.lot.approvalStatus}>
+                    {state.lot.approvalStatus}
                   </div>
                 </p>
               </div>
               <div className="row ">
-                <p className="tab1 ">Total Duty : {state.data.totalDuty}</p>
+                <p className="tab1 ">Total Duty : {state.lot.totalDuty}</p>
                 <div className="tab line3"></div>
                 <p className="tab">
-                  Total Dub Duty Amount : {state.data.totalDubDutyAmount}
+                  Total Dub Duty Amount : {state.lot.totalDubDutyAmount}
                 </p>
                 <div className="tab line3"></div>
-                <p className="tab">Total Payment : {state.data.totalPayment}</p>
+                <p className="tab">Total Payment : {state.lot.totalPayment}</p>
               </div>
             </div>
 
@@ -103,21 +104,24 @@ export default function DetailCollection() {
                         <td>{customer.totalDubDutyAmount}</td>
                         <td>{customer.totalPayment}</td>
                         <td style={{cursor:"pointer"}}>
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="21"
-                            height="21"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              fill="none"
-                              stroke="#393939"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="1.5"
-                              d="m5 16l-1 4l4-1L19.586 7.414a2 2 0 0 0 0-2.828l-.172-.172a2 2 0 0 0-2.828 0L5 16ZM15 6l3 3m-5 11h8"
-                            />
-                          </svg>
+                          <Link to={`/${state.lot.name}/${customer.taxPayerId}/edit`} state={{customer: customer}}>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="21"
+                              height="21"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                fill="none"
+                                stroke="#393939"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="1.5"
+                                d="m5 16l-1 4l4-1L19.586 7.414a2 2 0 0 0 0-2.828l-.172-.172a2 2 0 0 0-2.828 0L5 16ZM15 6l3 3m-5 11h8"
+                              />
+                            </svg>
+                          </Link>
+                              
                         </td>
                       </tr>
                     </tbody>

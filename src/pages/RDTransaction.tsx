@@ -191,7 +191,9 @@ export default function RDTransaction() {
                         return (
                           <tr>
                             <td>{i + 1}</td>
-                            <td>{lot.name}</td>
+                            <td>
+                            <Link to={`/${lot.name}`} state={{ lot: lot }}>{lot.name}</Link>
+                            </td>
                             <td>{lot.batchDate}</td>
                             <td>{lot.batchTime}</td>
                             <td>{lot.sendRdDate}</td>
