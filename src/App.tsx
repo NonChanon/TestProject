@@ -15,7 +15,7 @@ function App() {
     <>
     <Navbar />
     <Routes>
-      <Route path="/" element={<EditDetail />} />
+      <Route path="/" element={<Navigate to={"/lots/all"} />} />
       <Route path="/lots/all" element={<DataResult />} />
       <Route path="/lots/approved" element={<DataResult />} />
       <Route path="/lots/pending" element={<DataResult />} />

@@ -1,8 +1,16 @@
 import { useLocation } from "react-router-dom";
 import "./EditDetail.css";
+import { useState } from "react";
 
 export default function EditDetail() {
     const { state } = useLocation();
+    
+    const [states, setStates] = useState(state);
+    
+    const onInputChange = (e: { target: { name: any; value: any; }; }) => {
+        setStates({...states, [e.target.name]: e.target.value});
+    };
+
     return (
         <div className="ttspace">
             <div className="title">
@@ -10,19 +18,19 @@ export default function EditDetail() {
                 <div>Edit Detail</div>
             </div>
 
-            <div className="content">
+            <form className="content">
                 <div className="Contract Information">
                     <p className="tt">Contract Information</p>
                     <div className="grid-container">
                         <div className="item">
                             <p className="txtblk">Contract Number</p>
-                            <input type="text" className="txt" />
+                            <input type="text" className="txt" defaultValue={states.customer.contract.number} onChange={(e)=>onInputChange(e)}/>
                         </div>
                         <div className="item">
                             <p className="txtblk">Contract Start Date</p>
 
                             <div className="con ">
-                                <input type="text" className="txt " />
+                                <input type="text" className="txt" defaultValue={state.customer.contract.startDate} />
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     width="21"
@@ -38,7 +46,7 @@ export default function EditDetail() {
                         </div>
                         <div className="item">
                             <p className="txtblk">Contract End Date</p>
-                            <input type="text" className="txt" />
+                            <input type="text" className="txt" defaultValue={state.customer.contract.endDate} />
                         </div>
                     </div>
                 </div>
@@ -49,19 +57,19 @@ export default function EditDetail() {
                             <p className="txtblk">
                                 Identification number of the applicant for stamp duty
                             </p>
-                            <input type="text" className="txt" />
+                            <input type="text" className="txt" defaultValue={state.customer.contract.applicantId} />
                         </div>
                         <div className="item">
                             <p className="txtblk">Branch Number</p>
-                            <input type="text" className="txt" />
+                            <input type="text" className="txt" defaultValue={state.customer.contract.branchNumber} />
                         </div>
                         <div className="item">
                             <p className="txtblk">Branch Type</p>
-                            <input type="text" className="txt" />
+                            <input type="text" className="txt" defaultValue={state.customer.contract.branchType} />
                         </div>
                         <div className="item">
                             <p className="txtblk">Contract related Status</p>
-                            <input type="text" className="txt" />
+                            <input type="text" className="txt" defaultValue={state.customer.contract.relatedStatus} />
                         </div>
                     </div>
                 </div>
@@ -70,7 +78,7 @@ export default function EditDetail() {
                     <div className="grid-container">
                         <div className="item">
                             <p className="txtblk">Final Payment Date</p>
-                            <input type="text" className="txt" />
+                            <input type="text" className="txt" defaultValue={state.customer.finalPaymentDate} />
                         </div>
                         <div className="item">
                             <p className="txtblk">Duty Amount</p>
@@ -91,15 +99,15 @@ export default function EditDetail() {
                     <div className="grid-container">
                         <div className="item">
                             <p className="txtblk">Title</p>
-                            <input type="text" className="txt" defaultValue={state.customer.address.title} />
+                            <input type="text" className="txt" defaultValue={state.customer.title} onChange={(e)=>onInputChange(e)}/>
                         </div>
                         <div className="item">
                             <p className="txtblk">Name</p>
-                            <input type="text" className="txt" defaultValue={state.customer.name.split()[0]} />
+                            <input type="text" className="txt" defaultValue={state.customer.firstname} onChange={(e)=>onInputChange(e)}/>
                         </div>
                         <div className="item">
                             <p className="txtblk">Last Name</p>
-                            <input type="text" className="txt" defaultValue={state.customer.name.split()[1]} />
+                            <input type="text" className="txt" defaultValue={state.customer.lastname} onChange={(e)=>onInputChange(e)}/>
                         </div>
                         <div className="item">
                             <p className="txtblk">Village / Building</p>
@@ -145,7 +153,7 @@ export default function EditDetail() {
                         </div>
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
     );
 }

@@ -3,16 +3,43 @@ import "./DetailCollection.css";
 import axios from "axios";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
-interface customerModel {
+export interface customerModel {
 
-  name: string;
+  title: string;
+  firstname: string;
+  lastname: string;
   taxPayerId: string;
   instInfoId: string;
   totalDuty: number;
   totalDubDutyAmount: number;
   totalPayment: number;
+  finalPaymentDate: string;
   completed: boolean;
-  address: object;
+  address: addressModel;
+  contract: contractModel;
+}
+
+export interface addressModel {
+  village: string;
+  addressNo: string;
+  floor: string;
+  villageNo: string;
+  alley: string;
+  street: string;
+  subDistrict: string;
+  district: string;
+  province: string;
+  postalCode: string;
+}
+
+export interface contractModel {
+  number: string;
+  startDate: string;
+  endDate: string;
+  applicantId: string;
+  branchNumber: string;
+  branchType: string;
+  relatedStatus: string;
 }
 
 export default function DetailCollection() {
@@ -99,7 +126,7 @@ export default function DetailCollection() {
                         <td>{i+1}</td>
                         <td>{customer.instInfoId}</td>
                         <td>{customer.taxPayerId}</td>
-                        <td>{customer.name}</td>
+                        <td>{`${customer.firstname} ${customer.lastname}`}</td>
                         <td>{customer.totalDuty}</td>
                         <td>{customer.totalDubDutyAmount}</td>
                         <td>{customer.totalPayment}</td>
