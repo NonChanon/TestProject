@@ -1,6 +1,16 @@
+import { useLocation } from "react-router-dom";
 import "./EditDetail.css";
+import { useState } from "react";
 
 export default function EditDetail() {
+    const { state } = useLocation();
+    
+    const [states, setStates] = useState(state);
+    
+    const onInputChange = (e: { target: { name: any; value: any; }; }) => {
+        setStates({...states, [e.target.name]: e.target.value});
+    };
+
     return (
         <div className="ttspace">
             <div className="title">
@@ -8,19 +18,19 @@ export default function EditDetail() {
                 <div>Edit Detail</div>
             </div>
 
-            <div className="content">
+            <form className="content">
                 <div className="Contract Information">
                     <p className="tt">Contract Information</p>
                     <div className="grid-container">
                         <div className="item">
                             <p className="txtblk">Contract Number</p>
-                            <input type="text" className="txt" />
+                            <input type="text" className="txt" defaultValue={states.customer.contract.number} onChange={(e)=>onInputChange(e)}/>
                         </div>
                         <div className="item">
                             <p className="txtblk">Contract Start Date</p>
 
                             <div className="con ">
-                                <input type="text" className="txt " />
+                                <input type="text" className="txt" defaultValue={state.customer.contract.startDate} />
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     width="21"
@@ -36,7 +46,7 @@ export default function EditDetail() {
                         </div>
                         <div className="item">
                             <p className="txtblk">Contract End Date</p>
-                            <input type="text" className="txt" />
+                            <input type="text" className="txt" defaultValue={state.customer.contract.endDate} />
                         </div>
                     </div>
                 </div>
@@ -47,19 +57,19 @@ export default function EditDetail() {
                             <p className="txtblk">
                                 Identification number of the applicant for stamp duty
                             </p>
-                            <input type="text" className="txt" />
+                            <input type="text" className="txt" defaultValue={state.customer.contract.applicantId} />
                         </div>
                         <div className="item">
                             <p className="txtblk">Branch Number</p>
-                            <input type="text" className="txt" />
+                            <input type="text" className="txt" defaultValue={state.customer.contract.branchNumber} />
                         </div>
                         <div className="item">
                             <p className="txtblk">Branch Type</p>
-                            <input type="text" className="txt" />
+                            <input type="text" className="txt" defaultValue={state.customer.contract.branchType} />
                         </div>
                         <div className="item">
                             <p className="txtblk">Contract related Status</p>
-                            <input type="text" className="txt" />
+                            <input type="text" className="txt" defaultValue={state.customer.contract.relatedStatus} />
                         </div>
                     </div>
                 </div>
@@ -68,19 +78,19 @@ export default function EditDetail() {
                     <div className="grid-container">
                         <div className="item">
                             <p className="txtblk">Final Payment Date</p>
-                            <input type="text" className="txt" />
+                            <input type="text" className="txt" defaultValue={state.customer.finalPaymentDate} />
                         </div>
                         <div className="item">
                             <p className="txtblk">Duty Amount</p>
-                            <input type="text" className="txt" />
+                            <input type="text" className="txt" defaultValue={state.customer.totalDuty} />
                         </div>
                         <div className="item">
                             <p className="txtblk">Dub Duty Amount</p>
-                            <input type="text" className="txt" />
+                            <input type="text" className="txt" defaultValue={state.customer.totalDubDutyAmount} />
                         </div>
                         <div className="item">
                             <p className="txtblk">Total Amount</p>
-                            <input type="text" className="txt" />
+                            <input type="text" className="txt" defaultValue={state.customer.totalPayment} />
                         </div>
                     </div>
                 </div>
@@ -89,61 +99,61 @@ export default function EditDetail() {
                     <div className="grid-container">
                         <div className="item">
                             <p className="txtblk">Title</p>
-                            <input type="text" className="txt" />
+                            <input type="text" className="txt" defaultValue={state.customer.title} onChange={(e)=>onInputChange(e)}/>
                         </div>
                         <div className="item">
                             <p className="txtblk">Name</p>
-                            <input type="text" className="txt" />
+                            <input type="text" className="txt" defaultValue={state.customer.firstname} onChange={(e)=>onInputChange(e)}/>
                         </div>
                         <div className="item">
                             <p className="txtblk">Last Name</p>
-                            <input type="text" className="txt" />
+                            <input type="text" className="txt" defaultValue={state.customer.lastname} onChange={(e)=>onInputChange(e)}/>
                         </div>
                         <div className="item">
                             <p className="txtblk">Village / Building</p>
-                            <input type="text" className="txt" />
+                            <input type="text" className="txt" defaultValue={state.customer.address.village} />
                         </div>
                         <div className="minigrid">
                             <div className="item">
                                 <p className="minitxtblk">Address Number</p>
-                                <input type="" className="minitxt" />
+                                <input type="" className="minitxt" defaultValue={state.customer.address.addressNo} />
                             </div>
                             <div className="item">
                                 <p className="minitxtblk">Floor</p>
-                                <input type="" className="minitxt" />
+                                <input type="" className="minitxt" defaultValue={state.customer.address.floor} />
                             </div>
                         </div>
                         <div className="item">
                             <p className="txtblk">Village Number</p>
-                            <input type="text" className="txt" />
+                            <input type="text" className="txt" defaultValue={state.customer.address.villageNo} />
                         </div>
                         <div className="item">
                             <p className="txtblk">Alley / Section</p>
-                            <input type="text" className="txt" />
+                            <input type="text" className="txt" defaultValue={state.customer.address.alley} />
                         </div>
                         <div className="item">
                             <p className="txtblk">Street</p>
-                            <input type="text" className="txt" />
+                            <input type="text" className="txt" defaultValue={state.customer.address.street} />
                         </div>
                         <div className="item">
                             <p className="txtblk">Subdistrict</p>
-                            <input type="text" className="txt" />
+                            <input type="text" className="txt" defaultValue={state.customer.address.subDistrict} />
                         </div>
                         <div className="item">
                             <p className="txtblk">District</p>
-                            <input type="text" className="txt" />
+                            <input type="text" className="txt" defaultValue={state.customer.address.district} />
                         </div>
                         <div className="item">
                             <p className="txtblk">Province</p>
-                            <input type="text" className="txt" />
+                            <input type="text" className="txt" defaultValue={state.customer.address.province} />
                         </div>
                         <div className="item">
                             <p className="txtblk">Postal Code</p>
-                            <input type="text" className="txt" />
+                            <input type="text" className="txt" defaultValue={state.customer.address.postalCode} />
                         </div>
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
     );
 }
