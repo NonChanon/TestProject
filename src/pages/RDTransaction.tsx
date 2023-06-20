@@ -16,7 +16,7 @@ interface lotModel {
 }
 
 export default function RDTransaction() {
-  const [datas, setDatas] = useState([]);
+  const [datas, setDatas] = useState<any>([]);
 
   let grouped = datas;
   const path = useLocation().pathname;
@@ -29,7 +29,7 @@ export default function RDTransaction() {
   };
 
   if (datas.length > 0) {
-    grouped = datas.reduce((acc: any, obj: lotModel) => {
+    grouped = datas.reduce((acc: {[key: string]:lotModel[]}, obj: lotModel) => {
       console.log("Acc ======>", acc);
       const key: string = obj.batchDate;
       acc[key] = acc[key] || [];
@@ -147,7 +147,7 @@ export default function RDTransaction() {
               </Link>
             </div>
 
-            {batchDate.map((data) => {
+            {batchDate.map((data: string) => {
               let sumTotalDuty = 0,
                   sumTotalDubDutyAmount = 0,
                   sumTotalPayment = 0;
@@ -191,7 +191,7 @@ export default function RDTransaction() {
                         return (
                           <tr>
                             <td>{i + 1}</td>
-                            <Link to={`/${lot.name}`} state={{ lot: lot }}>{lot.name}</Link>
+                            <td><Link to={`/${lot.name}`} state={{ lot: lot }}>{lot.name}</Link></td>
                             <td>{lot.batchDate}</td>
                             <td>{lot.batchTime}</td>
                             <td>{lot.sendRdDate}</td>
