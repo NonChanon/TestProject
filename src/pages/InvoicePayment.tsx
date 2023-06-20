@@ -1,12 +1,35 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from 'react'
 
-import DataInvoice from "./DataInvoice";
+interface dataType {
+  lot_name: string;
+  batch_date: string;
+  batch_time: string;
+  total_docs: string;
+  total_duty: string;
+  total_dub: string;
+  total_payment: string;
+  ref1: string;
+  ref2: string;
+}
 
-export const InvoicePayment = () => {
-  const dataInvoiceTable = DataInvoice.map((data, i) => {
+export default function InvoicePayment() {
+  const [users, setUsers] = useState([])
+
+  useEffect(() => {
+    loadUsers()
+  }, [])
+
+  const loadUsers = async () => {
+    const result = await axios.get("http://localhost:8080/edutyuser");
+    setUsers(result.data);
+
+  }
+
+  const dataInvoiceTable = users.map((data: dataType, index: number) => {
     return (
       <tr>
-        <td>{i+1}</td>
+        <td key={index}>{index + 1}</td>
         <td>{data.lot_name}</td>
         <td>{data.batch_date}</td>
         <td>{data.batch_time}</td>
@@ -91,6 +114,7 @@ export const InvoicePayment = () => {
       </tr>
     );
   });
+
   return (
     <div className="space2">
       <div className="title spaceTitle">
@@ -198,7 +222,7 @@ export const InvoicePayment = () => {
                   <th>Pay in slip</th>
                   <th>e-Payment</th>
                 </tr>
-              {dataInvoiceTable}
+                {dataInvoiceTable}
                 <tr>
                   <td className="ltb">Total</td>
                   <td className="ltb"></td>
@@ -221,5 +245,8 @@ export const InvoicePayment = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
+
+
+
