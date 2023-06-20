@@ -9,6 +9,7 @@ import RDTransaction from './pages/RDTransaction.tsx'
 import RecieptAS9 from './pages/RecieptAS9.tsx'
 import UserManagement from "./pages/UserManagement.tsx"
 import RoleManagement from "./pages/RoleManagement.tsx"
+import EditDetail from "./pages/EditDetail.tsx"
 import Login from "./pages/Login.tsx"
 
 function App() {
@@ -17,20 +18,24 @@ function App() {
     <>
     {/* <Navbar /> */}
     <Routes>
-      <Route path="/" element={<Navigate to="/usermanagement" />} />
+      <Route path="/" element={<Navigate to={"/lots/all"} />} />
       <Route path="/login" element={<Login />} />
-      <Route path="/lots" element={<DataResult />} />
-      <Route path="/approved" element={<DataResult />} />
-      <Route path="/pending" element={<DataResult />} />
-      <Route path="/invaliddata" element={<DataResult />} />
-      <Route path="/denied" element={<DataResult />} />
+      <Route path="/lots/all" element={<DataResult />} />
+      <Route path="/lots/approved" element={<DataResult />} />
+      <Route path="/lots/pending" element={<DataResult />} />
+      <Route path="/lots/invaliddata" element={<DataResult />} />
+      <Route path="/lots/denied" element={<DataResult />} />
       <Route path='/invoice' element={<InvoicePayment />} />
       <Route path='/detail' element={<DetailCollection />} />
-      <Route path='/transaction' element={<RDTransaction />} />
+      <Route path="/:lotname/:customertaxid/edit" element={<EditDetail />} />
+      <Route path='/rd/all' element={<RDTransaction />} />
+      <Route path='/rd/success' element={<RDTransaction />} />
+      <Route path='/rd/fail' element={<RDTransaction />} />
       <Route path='/reciept' element={<RecieptAS9 />} />
       <Route path="/lots" element={<DataResult />} />
       <Route path="/usermanagement" element={<UserManagement />} />
       <Route path="/rolemanagement" element={<RoleManagement />} />
+      <Route path="/:lotname" element={<DetailCollection />} />
     </Routes>
     </>
   )

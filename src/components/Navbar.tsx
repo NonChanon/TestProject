@@ -14,7 +14,7 @@ export default function Navbar() {
         </span>
         <ul className="menulist">
           <li>
-            <NavLink to ='/lots' className={({ isActive }) => isActive ? activeClassName : undefined}>
+            <NavLink to ='/lots/all' className={({ isActive }) => isActive ? activeClassName : undefined}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="20"
@@ -34,7 +34,7 @@ export default function Navbar() {
             </NavLink>
           </li>
           <li>
-            <NavLink to ='/transaction' className={({ isActive }) => isActive ? activeClassName : undefined}>
+            <NavLink to ='/rd/all' className={({ isActive }) => isActive ? activeClassName : undefined}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="20"
