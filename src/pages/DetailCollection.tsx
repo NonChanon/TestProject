@@ -131,7 +131,7 @@ export default function DetailCollection() {
                         <td>{customer.totalDubDutyAmount}</td>
                         <td>{customer.totalPayment}</td>
                         <td style={{cursor:"pointer"}}>
-                          <Link to={`/${state.lot.name}/${customer.taxPayerId}/edit`} state={{customer: customer}}>
+                          <Link to={`/${state.lot.name}/${customer.taxPayerId}/edit`} state={{lot: state.lot, customer: customer}}>
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
                               width="21"
