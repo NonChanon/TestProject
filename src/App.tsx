@@ -1,5 +1,6 @@
 import "./App.css"
 import Navbar from './components/Navbar'
+// import { useAuth } from 'react-auth-hook';
 import { Routes, Route, Navigate } from "react-router-dom"
 import DataResult from './pages/DataResult.tsx'
 import DetailCollection from './pages/DetailCollection.tsx'
@@ -8,13 +9,16 @@ import RDTransaction from './pages/RDTransaction.tsx'
 import RecieptAS9 from './pages/RecieptAS9.tsx'
 import UserManagement from "./pages/UserManagement.tsx"
 import RoleManagement from "./pages/RoleManagement.tsx"
+import Login from "./pages/Login.tsx"
 
 function App() {
+  // const isAuthen  = useAuth();
   return (
     <>
-    <Navbar />
+    {/* <Navbar /> */}
     <Routes>
       <Route path="/" element={<Navigate to="/usermanagement" />} />
+      <Route path="/login" element={<Login />} />
       <Route path="/lots" element={<DataResult />} />
       <Route path="/approved" element={<DataResult />} />
       <Route path="/pending" element={<DataResult />} />

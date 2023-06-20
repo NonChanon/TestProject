@@ -13,10 +13,12 @@
     "@types/react-router-dom": "^5.3.3",
     "ax": "^0.2.2",
     "axios": "^1.4.0",
+    "hooks": "^0.3.2",
     "install": "^0.13.0",
     "react": "^18.2.0",
+    "react-auth-hook": "^1.1.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.12.0"
+    "react-router-dom": "^6.13.0"
   },
   "devDependencies": {
     "@types/react": "^18.0.37",
