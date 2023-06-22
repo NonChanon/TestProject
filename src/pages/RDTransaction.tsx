@@ -115,7 +115,7 @@ export default function RDTransaction() {
             <div className={style.space5}>Search</div>
           </div>
         </button>
-      </div>
+      </div> 
 
       <div className={style.Transection}>
         <div className={`${style.BatchBar} shadow`}>

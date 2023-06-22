@@ -14,7 +14,7 @@ const Data = [
     {
         lot_name: 'lot_2',
         total_docs : 20,
-        batch_date: '01/01/66',
+        batch_date: '02/01/66',
         batch_time: '11:53',
         status: 'Approved',
         approved_by: 'asdasdasd',
@@ -26,7 +26,7 @@ const Data = [
     {
         lot_name: 'lot_3',
         total_docs : 20,
-        batch_date: '01/01/66',
+        batch_date: '03/01/66',
         batch_time: '11:53',
         status: 'Denied',
         approved_by: 'asdad',

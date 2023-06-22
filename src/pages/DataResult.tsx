@@ -1,7 +1,11 @@
 import "./DataResult.css";
-import { useEffect, useState } from "react";
+import { MouseEvent, useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useLocation } from "react-router-dom";
+import DatePicker from "react-datepicker";
+
+import "react-datepicker/dist/react-datepicker.css";
+import moment from "moment";
 
 interface lotModel {
   name: string;
@@ -16,6 +20,10 @@ interface lotModel {
 
 export default function DataResult() {
   const [datas, setDatas] = useState([]);
+  const [startDate, setStartDate] = useState(new Date());
+  const [lotName, setLotName] = useState({
+    lotNameInput: "",
+  });
 
   const path = useLocation().pathname;
   console.log("path = " + path);
@@ -32,6 +40,23 @@ export default function DataResult() {
     const dataRes = await axios.get(`http://localhost:8080/api${path}`);
     setDatas(dataRes.data);
     console.log(dataRes.data);
+  };
+
+  const onSearch = async (e:MouseEvent, request: object) => {
+    e.preventDefault();
+    moment
+    const dataRes = await axios.post(`http://localhost:8080/api/lots/search/dataresult`, request);
+    setDatas(dataRes.data);
+    console.log("search data is " + dataRes.data);
+  };
+
+  const updateLotNameInput = (e: { target: { name: any; value: any } }) => {
+    console.log(e.target.name);
+    setLotName({
+      ...lotName,
+      [e.target.name]: e.target.value,
+    });
+    console.log(lotName.lotNameInput);
   };
 
   if (datas.length > 0) {
@@ -164,8 +189,20 @@ export default function DataResult() {
         <div>
           <button className="BatchDate button1">
             <div className="row">
-              <div className="space">Batch Date</div>
+              <DatePicker
+                id="batchDate"
+                dateFormat="dd/MM/yyy"
+                selected={startDate}
+                onChange={(date: Date) => {
+                  setStartDate(date);
+                  console.log("Selected date is : " + date.toLocaleString());
+                }}
+                isClearable
+                placeholderText="Batch Date"
+                className="calendarDate"
+              />
               <svg
+                style={{ margin: "0px" }}
                 xmlns="http://www.w3.org/2000/svg"
                 width="20"
                 height="20"
@@ -182,24 +219,30 @@ export default function DataResult() {
 
           <button className="LotName button1">
             <div className="row ">
-              <div className="space">Lot Name</div>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  fill="none"
-                  d="M8 14q-.425 0-.713-.288T7 13q0-.425.288-.713T8 12q.425 0 .713.288T9 13q0 .425-.288.713T8 14Zm4 0q-.425 0-.713-.288T11 13q0-.425.288-.713T12 12q.425 0 .713.288T13 13q0 .425-.288.713T12 14Zm4 0q-.425 0-.713-.288T15 13q0-.425.288-.713T16 12q.425 0 .713.288T17 13q0 .425-.288.713T16 14ZM5 22q-.825 0-1.413-.588T3 20V6q0-.825.588-1.413T5 4h1V2h2v2h8V2h2v2h1q.825 0 1.413.588T21 6v14q0 .825-.588 1.413T19 22H5Zm0-2h14V10H5v10ZM5 8h14V6H5v2Zm0 0V6v2Z"
-                />
-              </svg>
+              <input
+                name="lotNameInput"
+                className="form-control"
+                style={{
+                  height: "100%",
+                  border: "0",
+                  fontSize: "14px",
+                  fontFamily: "'Rubik', sans-serif",
+                  margin: "0",
+                  padding: "5px",
+                  boxSizing: "border-box",
+                }}
+                placeholder="Lot Name"
+                onChange={(e) => updateLotNameInput(e)}
+              />
             </div>
             <div className="line2"></div>
           </button>
         </div>
 
-        <button className="SearchButton">
+        <button
+          className="SearchButton"
+          onClick={(e) => onSearch(e, {batchDate: startDate === null? "": moment(startDate).format('DD/MM/yyyy').toString(), lotName: lotName.lotNameInput})}
+        >
           <div className="row ">
             <svg
               xmlns="http://www.w3.org/2000/svg"
