@@ -339,6 +339,8 @@ export default function EditDetail() {
           </div>
         </div>
         <button
+        className={`${style.submitButton}`}
+        style={{marginRight: "5px"}}
           onClick={async (e) => {
             e.preventDefault();
             await axios.put(`http://localhost:8080/api${path}`, states.customer);
@@ -349,6 +351,7 @@ export default function EditDetail() {
           Submit
         </button>
         <button
+        className={`${style.cancelButton}`}
           onClick={(e) => {
             e.preventDefault();
             navigate(-1);

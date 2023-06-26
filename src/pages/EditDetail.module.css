@@ -88,7 +88,6 @@
     margin-left: 10px;
 }
 
-
 .minigrid {
     display: grid;
     grid-template-columns: auto auto;
@@ -103,7 +102,6 @@
   align-items: center;
 }
 
-
 .con{
     background: #ffffff;
     padding: auto;
@@ -111,3 +109,60 @@
     align-items: center;
 }
 
+.submitButton {
+  background-color: #389483;
+  border: none;
+  border-radius: 5px;
+  color: #ffffff;
+  width: 80px;
+  height: 35px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 15px;
+  cursor: pointer;
+  transition-duration: 0.4s;
+}
+
+.submitButton:hover {
+  background-color: #009105;
+  border: none;
+  color: #ffffff;
+  border-radius: 5px;
+  width: 80px;
+  height: 35px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.cancelButton {
+  background-color: #A6431E;
+  border: none;
+  border-radius: 5px;
+  color: #ffffff;
+  width: 80px;
+  height: 35px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 15px;
+  cursor: pointer;
+  transition-duration: 0.4s;
+}
+
+.cancelButton:hover {
+  background-color: #8f0500;
+  border: none;
+  color: #ffffff;
+  border-radius: 5px;
+  width: 80px;
+  height: 35px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 15px;
+  cursor: pointer;
+}
