@@ -16,7 +16,9 @@ interface lotModel {
 }
 
 export default function RDTransaction() {
-  const [datas, setDatas] = useState<any>([]);
+  const [datas, setDatas] = useState<any>({
+    content: [],
+  });
 
   let grouped = datas;
   const path = useLocation().pathname;
@@ -28,8 +30,8 @@ export default function RDTransaction() {
     console.log("loadDatas : " + dataRes.data);
   };
 
-  if (datas.length > 0) {
-    grouped = datas.reduce((acc: {[key: string]:lotModel[]}, obj: lotModel) => {
+  if (datas.content != null) {
+    grouped = datas.content.reduce((acc: {[key: string]:lotModel[]}, obj: lotModel) => {
       console.log("Acc ======>", acc);
       const key: string = obj.batchDate;
       acc[key] = acc[key] || [];

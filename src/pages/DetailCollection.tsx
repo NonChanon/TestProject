@@ -1,5 +1,5 @@
 import { MouseEvent, useEffect, useState } from "react";
-import "./DetailCollection.css";
+import style from "./DetailCollection.module.css";
 import axios from "axios";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
@@ -43,69 +43,91 @@ export interface contractModel {
 }
 
 export default function DetailCollection() {
-  const [datas, setDatas] = useState([]);
+  const [datas, setDatas] = useState<any>({
+    totalItems: Number,
+    totalPages: Number,
+    currentPage: Number,
+    content: [],
+  });
 
   const path = useLocation().pathname;
+  const searchPath = useLocation().search;
   console.log("path = " + path);
+  console.log("search path = " + searchPath);
   console.log(useLocation());
 
   const { state } = useLocation();
-  console.log("data = " + state.lot.batchDate);
+  console.log("batchdate = " + state.lot.batchDate);
   const navigate = useNavigate();
 
-  const onApprove = async (e:MouseEvent, status:object) => {
+  const onApprove = async (e: MouseEvent, status: object) => {
     e.preventDefault();
     await axios.put(`http://localhost:8080/api${path}`, status);
-    navigate(-1);
+    navigate("/lots/all");
     console.log("change status!");
   }
 
   const loadDatas = async () => {
-    const dataRes = await axios.get(`http://localhost:8080/api${path}`);
+    const dataRes = await axios.get(`http://localhost:8080/api${path}${searchPath}`);
     setDatas(dataRes.data);
+    console.log("loaddata = " + dataRes.data);
   };
 
   useEffect(() => {
     console.log("detail trigger");
     loadDatas();
-  }, []);
+  }, [useLocation().key]);
+
+  function renderPageNumber() {
+    const list = []
+    for (let i = 0; i < datas.totalPages; i++) {
+      const pagePath = `${path}?page=${i}`;
+      const isActive = path + searchPath === pagePath;
+      console.log("pagePath = " + pagePath);
+      console.log("isActive = " + isActive);
+      list.push(<Link to={pagePath} className={isActive ? `${style.active}` : undefined} state={{ lot: state.lot }}>{i + 1}</Link>);
+    }
+    return (
+      <label>{list}</label>
+    );
+  }
 
   return (
-    <div className="space2">
-      <div className="title spaceTitle">
-        <div className="line"></div>
+    <div className={`${style.space2}`}>
+      <div className={`${style.title} ${style.spaceTitle}`}>
+        <div className={`${style.line}`}></div>
         <div>Detail Collection</div>
       </div>
 
       <div className="Transection">
-        <div className="BatchBar shadow ">
-          <div className="space3 ">
-            <div className="Batch  shadow  space4">
-              <div className="row spaceTitle btw">
-                <div className="row">
-                  <p className="tab">Batch Date : {state.lot.batchDate}</p>
-                  <div className="tab line3"></div>
-                  <p className="tab">Lot Name : {state.lot.name}</p>
+        <div className="BatchBar shadow">
+          <div className={`${style.space3}`}>
+            <div className="Batch shadow" style={{ position: "relative", padding: "15px 20px 15px 30px", color: "#535353", fontWeight: "600", fontSize: "14px" }}>
+              <div className={`${style.row} ${style.btw}`} style={{marginBottom:"25px"}}>
+                <div className={`${style.row}`}>
+                  <p style={{ position: "absolute", left: "30px" }}>Batch Date : {state.lot.batchDate}</p>
+                  <div className={`${style.line3}`} style={{ position: "absolute", left: "210px" }}></div>
+                  <p style={{ position: "absolute", left: "235px" }}>Lot Name : {state.lot.name}</p>
                 </div>
-                <p className=" row">
+                <p className={`${style.row}`}>
                   Status :
-                  <div className={state.lot.approvalStatus}>
-                    {state.lot.approvalStatus}
+                  <div className={style[state.lot.approvalStatus]}>
+                   <p style={{marginTop:"10px", marginBottom:"10px"}}>{state.lot.approvalStatus}</p>
                   </div>
                 </p>
               </div>
-              <div className="row ">
-                <p className="tab1 ">Total Duty : {state.lot.totalDuty}</p>
-                <div className="tab line3"></div>
-                <p className="tab">
+              <div className={`${style.row}`} style={{marginBottom:"15px"}}>
+                <p style={{ position: "absolute", left: "30px" }}>Total Duty : {state.lot.totalDuty}</p>
+                <div className={`${style.line3}`} style={{ position: "absolute", left: "210px" }}></div>
+                <p style={{ position: "absolute", left: "235px" }}>
                   Total Dub Duty Amount : {state.lot.totalDubDutyAmount}
                 </p>
-                <div className="tab line3"></div>
-                <p className="tab">Total Payment : {state.lot.totalPayment}</p>
+                <div className={`${style.line3}`} style={{ position: "absolute", left: "480px" }}></div>
+                <p style={{ position: "absolute", left: "505px" }}>Total Payment : {state.lot.totalPayment}</p>
               </div>
             </div>
 
-            <div className="top">
+            <div className={`${style.top}`}>
               <table>
                 <thead>
                   <tr>
@@ -119,19 +141,19 @@ export default function DetailCollection() {
                     <th>Edit</th>
                   </tr>
                 </thead>
-                {datas.map((customer: customerModel, i: number) => {
+                {datas.content.map((customer: customerModel, i: number) => {
                   return (
                     <tbody>
                       <tr>
-                        <td>{i+1}</td>
-                        <td>{customer.instInfoId}</td>
-                        <td>{customer.taxPayerId}</td>
-                        <td>{`${customer.firstname} ${customer.lastname}`}</td>
-                        <td>{customer.totalDuty}</td>
-                        <td>{customer.totalDubDutyAmount}</td>
-                        <td>{customer.totalPayment}</td>
-                        <td style={{cursor:"pointer"}}>
-                          <Link to={`/${state.lot.name}/${customer.taxPayerId}/edit`} state={{lot: state.lot, customer: customer}}>
+                        <td width="5%">{i + 1}</td>
+                        <td width="15%">{customer.instInfoId}</td>
+                        <td width="15%">{customer.taxPayerId}</td>
+                        <td width="15%">{`${customer.firstname} ${customer.lastname}`}</td>
+                        <td width="15%">{customer.totalDuty}</td>
+                        <td width="15%">{customer.totalDubDutyAmount}</td>
+                        <td width="15%">{customer.totalPayment}</td>
+                        <td style={{ cursor: "pointer" }} width="5%">
+                          <Link to={`/${state.lot.name}/${customer.taxPayerId}/edit`} state={{ lot: state.lot, customer: customer }}>
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
                               width="21"
@@ -148,7 +170,7 @@ export default function DetailCollection() {
                               />
                             </svg>
                           </Link>
-                              
+
                         </td>
                       </tr>
                     </tbody>
@@ -157,8 +179,8 @@ export default function DetailCollection() {
               </table>
             </div>
 
-            <div className="page&butt row top2 ">
-              <div className="pagination end">
+            <div className= {`page&butt ${style.row} ${style.top2}`}>
+              <div className={`${style.pagination} ${style.end}`}>
                 <a href="#">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -176,10 +198,10 @@ export default function DetailCollection() {
                     </g>
                   </svg>
                 </a>
-                <a href="#" className="active">
-                  1
-                </a>
-                <a href="#">2</a>
+
+                {
+                  renderPageNumber()
+                }
 
                 <a href="#">
                   <svg
@@ -197,9 +219,9 @@ export default function DetailCollection() {
                   </svg>
                 </a>
               </div>
-              <div className="ButtonAction ">
-                <button onClick={(e) => onApprove(e, {approvalStatus: "Approved"})} className="apbutt tab2">Approve</button>
-                <button onClick={(e) => onApprove(e, {approvalStatus: "Denied"})} className="dnbutt">Denied</button>
+              <div className={`${style.ButtonAction}`}>
+                <button onClick={(e) => onApprove(e, { approvalStatus: "Approved" })} className={`${style.apbutt} ${style.tab2}`}>Approve</button>
+                <button onClick={(e) => onApprove(e, { approvalStatus: "Denied" })} className={`${style.dnbutt}`}>Denied</button>
               </div>
             </div>
           </div>
