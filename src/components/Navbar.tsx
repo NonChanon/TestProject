@@ -14,7 +14,7 @@ export default function Navbar() {
         </span>
         <ul className="menulist">
           <li>
-            <NavLink to ='/lots/all' className={({ isActive }) => isActive ? activeClassName : undefined}>
+            <NavLink to ={'/'} end className={({ isActive }) => isActive ? activeClassName : undefined}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="20"
@@ -34,7 +34,7 @@ export default function Navbar() {
             </NavLink>
           </li>
           <li>
-            <NavLink to ='/rd/all' className={({ isActive }) => isActive ? activeClassName : undefined}>
+            <NavLink to ='/rd/all' end className={({ isActive }) => isActive ? activeClassName : undefined}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="20"
@@ -56,7 +56,7 @@ export default function Navbar() {
             </NavLink>
           </li>
           <li>
-            <NavLink to ='/invoice' className={({ isActive }) => isActive ? activeClassName : undefined}>
+            <NavLink to ='/invoice' end className={({ isActive }) => isActive ? activeClassName : undefined}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="20"
@@ -78,7 +78,7 @@ export default function Navbar() {
             </NavLink>
           </li>
           <li>
-            <NavLink to ='/reciept' className={({ isActive }) => isActive ? activeClassName : undefined}>
+            <NavLink to ='/reciept' end className={({ isActive }) => isActive ? activeClassName : undefined}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="20"
@@ -95,7 +95,7 @@ export default function Navbar() {
             </NavLink>
           </li>
           <li>
-            <NavLink to ='/usermanagement' className={({ isActive }) => isActive ? activeClassName : undefined}>
+            <NavLink to ='/usermanagement' end className={({ isActive }) => isActive ? activeClassName : undefined}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="20"
@@ -115,7 +115,7 @@ export default function Navbar() {
             </NavLink>
           </li>
           <li>
-            <NavLink to ='/rolemanagement' className={({ isActive }) => isActive ? activeClassName : undefined}>
+            <NavLink to ='/rolemanagement' end className={({ isActive }) => isActive ? activeClassName : undefined}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="20"
