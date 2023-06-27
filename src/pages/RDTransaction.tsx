@@ -21,11 +21,9 @@ interface lotModel {
 export default function RDTransaction() {
   const [datas, setDatas] = useState<any>({
     content: [],
-    sumStatus: {
-      approved: 0,
-      pending: 0,
-      invalidData: 0,
-      denied: 0
+    sumRdStatus: {
+      success: 0,
+      fail: 0
     }
   });
 
@@ -48,7 +46,7 @@ export default function RDTransaction() {
   const onSearch = async (e: MouseEvent, request: object) => {
     e.preventDefault();
     moment
-    const dataRes = await axios.post(`http://localhost:8080/api/lots/search/dataresult`, request);
+    const dataRes = await axios.post(`http://localhost:8080/api/lots/search/rd`, request);
     setDatas(dataRes.data);
     console.log("search data is " + dataRes.data);
   };
@@ -183,7 +181,7 @@ export default function RDTransaction() {
               >
                 <p className={`${style.row} ${style.fontSize}`}>
                   Success
-                  <p className={style.green}>8</p>
+                  <p className={style.green}>{datas.sumRdStatus.success}</p>
                 </p>
               </Link>
               <Link
@@ -192,7 +190,7 @@ export default function RDTransaction() {
               >
                 <p className={`${style.row} ${style.fontSize}`}>
                   Fail
-                  <p className={style.red}>2</p>
+                  <p className={style.red}>{datas.sumRdStatus.fail}</p>
                 </p>
               </Link>
             </div>

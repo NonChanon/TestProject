@@ -12,7 +12,8 @@
 }
 
 .ttspace {
-  margin: 20px 20px 20px 220px;
+  margin: 10px 10px 0px 210px;
+  height: 100%;
 }
 
 .title {
@@ -48,29 +49,39 @@
 }
 
 .txt {
-  font-size: 14px;
-  margin-left: 10px;
-  border: solid#CECECE 1px;
-  border-radius: 5px;
-  padding: 10px;
-  height: 14px;
+  display: flex;
   
+  font-size: 14px;
+  
+  border: none;
+  align-items: center;
+  padding: 12px;
+  height: 14px;
+  max-width:120px;
+ 
+}
+
+.txt:focus {
+  outline: none;
 }
 
 .minitxt {
   font-size: 14px;
-  margin-left: 10px;
+  align-items: center;
+  text-align: center;
   border: solid#CECECE 1px;
   border-radius: 5px;
-  padding: 10px;
+  padding: 10px 2px;
+  margin-left: 5px;
   height: 14px;
-  width: 45px;
+  width: 40px;
 }
 
 .gridContainer {
   display: grid;
   grid-template-columns: auto auto auto;
-  padding-bottom: 10px;
+  margin: 10px 0;
+  
 }
 
 .gridContainer > div {
@@ -82,24 +93,26 @@
 .txtblk {
   width: 200px;
   height: auto;
+  margin-right: 5px;
 }
 
 .minitxtblk{
-    margin-left: 10px;
+  margin: 0 2px 0 5px;
 }
 
 .minigrid {
-    display: grid;
-    grid-template-columns: auto auto;
-    justify-content: end;
-    flex-direction: column;
-    margin-right: 5px;
+    display: flex;
+    align-items: center;
+    
     
   }
 
 .item {
   display: flex;
   align-items: center;
+  margin-bottom: 10px;
+  justify-content: end;
+  
 }
 
 .con{
@@ -165,4 +178,13 @@
   display: inline-block;
   font-size: 15px;
   cursor: pointer;
+}
+
+.inputDiv {
+  display: flex;
+  align-items: center;
+  margin-left: 3px;
+  border: solid#CECECE 1px;
+  border-radius: 5px;
+  width: 150px;
 }
