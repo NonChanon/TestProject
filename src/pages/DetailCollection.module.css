@@ -166,8 +166,6 @@
     margin-top: 5px;
   }
   
-  
-  
   .pagination {
     display: inline-block;
   }
@@ -204,11 +202,12 @@
   }
 
   .apbutt {
-    background-color: #00ca07;
+    background-color: #389483;
     border: none;
     border-radius: 5px;
     color: #ffffff;
-    padding: 10px 15px;
+    width: 80px;
+    height: 35px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
@@ -222,7 +221,8 @@
     border: none;
     color: #ffffff;
     border-radius: 5px;
-    padding: 10px 15px;
+    width: 80px;
+    height: 35px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
@@ -231,11 +231,12 @@
   }
   
   .dnbutt {
-    background-color: #ca0700;
+    background-color: #A6431E;
     border: none;
     border-radius: 5px;
     color: #ffffff;
-    padding: 10px 15px;
+    width: 80px;
+    height: 35px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
@@ -249,7 +250,8 @@
     border: none;
     color: #ffffff;
     border-radius: 5px;
-    padding: 10px 15px;
+    width: 80px;
+    height: 35px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
@@ -267,5 +269,61 @@
   }
   
   .tab2 {
+    margin-right: 10px;
+  }
+
+  .Approved {
+    background-color: #00CA07;
+    border: none;
+    border-radius: 5px;
+    color: #ffffff;
+    width: 80px;
+    height: 35px;
+    text-align: center;
+    display: inline-block;
+    font-size: 13px;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
+  .Pending {
+    background-color: #ecbf21;
+    border: none;
+    border-radius: 5px;
+    color: #ffffff;
+    width: 80px;
+    height: 35px;
+    text-align: center;
+    display: inline-block;
+    font-size: 13px;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
+  .Invalid {
+    background-color: #ca0700;
+    border: none;
+    border-radius: 5px;
+    color: #ffffff;
+    width: 80px;
+    height: 35px;
+    text-align: center;
+    display: inline-block;
+    font-size: 13px;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
+  .Denied {
+    background-color: #B1B1B1;
+    border: none;
+    border-radius: 5px;
+    color: #ffffff;
+    width: 80px;
+    height: 35px;
+    text-align: center;
+    display: inline-block;
+    font-size: 13px;
+    margin-left: 10px;
     margin-right: 10px;
   }
