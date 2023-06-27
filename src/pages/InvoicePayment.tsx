@@ -353,10 +353,7 @@ export default function InvoicePayment() {
                   <p className="yellow">{sumPending}</p>
                 </p>
               </Link>
-
-
             </div>
-
             <div >
               <table>{dataInvoiceTable}</table>
             </div>
