@@ -1,7 +1,99 @@
-import React from "react";
+import React, { MouseEvent, useEffect, useState } from 'react'
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import "./RecieptAS9.css";
+import axios from "axios";
+
+export interface dataType {
+  lot_name: string;
+  batch_date: string;
+  batch_time: string;
+  total_docs: string;
+  total_duty: string;
+  total_dub: string;
+  total_payment: string;
+  ins_ID: string;
+  tax_ID: string;
+  ref1: string;
+  ref2: string;
+}
 
 export default function RecieptAS9() {
+
+  const [datas, setDatas] = useState([]);
+
+  const path = useLocation().pathname;
+  console.log("path = " + path);
+  console.log(useLocation());
+
+  const { state } = useLocation();
+
+
+
+  const loadDatas = async () => {
+    const dataRes = await axios.get(`http://localhost:8080/api${path}`);
+    setDatas(dataRes.data);
+  };
+
+  useEffect(() => {
+    console.log("Rec AS9 na ja");
+    loadDatas();
+  }, []);
+
+  const dataRecAS9Table = datas.map((customer: dataType, i: number) => {
+    return (
+      <tr>
+        <td key={i}>{i + 1}</td>
+        <td>{customer.lot_name}</td>
+        <td>{customer.batch_date}</td>
+        <td>{customer.batch_time}</td>
+        <td>{customer.total_docs}</td>
+        <td>{customer.total_duty}</td>
+        <td>{customer.total_dub}</td>
+        <td>{customer.total_payment}</td>
+
+        <td>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="21"
+            height="21"
+            viewBox="0 0 24 24"
+          >
+            <g
+              fill="none"
+              stroke="#489788"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+            >
+              <path d="M14 3v4a1 1 0 0 0 1 1h4" />
+              <path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2zM9 7h1m-1 6h6m-2 4h2" />
+            </g>
+          </svg>
+        </td>
+        <td>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="21"
+            height="21"
+            viewBox="0 0 24 24"
+          >
+            <path
+              fill="#489788"
+              d="M21 11h-3V4a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v14c0 1.654 1.346 3 3 3h14c1.654 0 3-1.346 3-3v-6a1 1 0 0 0-1-1zM5 19a1 1 0 0 1-1-1V5h12v13c0 .351.061.688.171 1H5zm15-1a1 1 0 0 1-2 0v-5h2v5z"
+            />
+            <path
+              fill="#489788"
+              d="M6 7h8v2H6zm0 4h8v2H6zm5 4h3v2h-3z"
+            />
+          </svg>
+        </td>
+
+
+
+      </tr>
+    );
+  });
+
   return (
     <div className="space2">
       <div className="title spaceTitle">
@@ -90,190 +182,7 @@ export default function RecieptAS9() {
                   <th>AS9</th>
                   <th>Receipt</th>
                 </tr>
-                <tr>
-                  <td>1</td>
-                  <td>lot_14</td>
-                  <td>20</td>
-                  <td>31/10/2022</td>
-                  <td>12:00</td>
-                  <td>2562/10</td>
-                  <td>1102918928918</td>
-                  <td>2,000</td>
-                  <td>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="21"
-                      height="21"
-                      viewBox="0 0 24 24"
-                    >
-                      <g
-                        fill="none"
-                        stroke="#489788"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                      >
-                        <path d="M14 3v4a1 1 0 0 0 1 1h4" />
-                        <path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2zM9 7h1m-1 6h6m-2 4h2" />
-                      </g>
-                    </svg>
-                  </td>
-                  <td>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="21"
-                      height="21"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        fill="#489788"
-                        d="M21 11h-3V4a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v14c0 1.654 1.346 3 3 3h14c1.654 0 3-1.346 3-3v-6a1 1 0 0 0-1-1zM5 19a1 1 0 0 1-1-1V5h12v13c0 .351.061.688.171 1H5zm15-1a1 1 0 0 1-2 0v-5h2v5z"
-                      />
-                      <path
-                        fill="#489788"
-                        d="M6 7h8v2H6zm0 4h8v2H6zm5 4h3v2h-3z"
-                      />
-                    </svg>
-                  </td>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td>lot_14</td>
-                  <td>20</td>
-                  <td>31/10/2022</td>
-                  <td>12:00</td>
-                  <td>2562/10</td>
-                  <td>1102918928918</td>
-                  <td>2,000</td>
-                  <td>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="21"
-                      height="21"
-                      viewBox="0 0 24 24"
-                    >
-                      <g
-                        fill="none"
-                        stroke="#489788"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                      >
-                        <path d="M14 3v4a1 1 0 0 0 1 1h4" />
-                        <path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2zM9 7h1m-1 6h6m-2 4h2" />
-                      </g>
-                    </svg>
-                  </td>
-                  <td>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="21"
-                      height="21"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        fill="#489788"
-                        d="M21 11h-3V4a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v14c0 1.654 1.346 3 3 3h14c1.654 0 3-1.346 3-3v-6a1 1 0 0 0-1-1zM5 19a1 1 0 0 1-1-1V5h12v13c0 .351.061.688.171 1H5zm15-1a1 1 0 0 1-2 0v-5h2v5z"
-                      />
-                      <path
-                        fill="#489788"
-                        d="M6 7h8v2H6zm0 4h8v2H6zm5 4h3v2h-3z"
-                      />
-                    </svg>
-                  </td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>lot_14</td>
-                  <td>20</td>
-                  <td>31/10/2022</td>
-                  <td>12:00</td>
-                  <td>2562/10</td>
-                  <td>1102918928918</td>
-                  <td>2,000</td>
-                  <td>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="21"
-                      height="21"
-                      viewBox="0 0 24 24"
-                    >
-                      <g
-                        fill="none"
-                        stroke="#489788"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                      >
-                        <path d="M14 3v4a1 1 0 0 0 1 1h4" />
-                        <path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2zM9 7h1m-1 6h6m-2 4h2" />
-                      </g>
-                    </svg>
-                  </td>
-                  <td>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="21"
-                      height="21"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        fill="#489788"
-                        d="M21 11h-3V4a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v14c0 1.654 1.346 3 3 3h14c1.654 0 3-1.346 3-3v-6a1 1 0 0 0-1-1zM5 19a1 1 0 0 1-1-1V5h12v13c0 .351.061.688.171 1H5zm15-1a1 1 0 0 1-2 0v-5h2v5z"
-                      />
-                      <path
-                        fill="#489788"
-                        d="M6 7h8v2H6zm0 4h8v2H6zm5 4h3v2h-3z"
-                      />
-                    </svg>
-                  </td>
-                </tr>
-                <tr>
-                  <td>3</td>
-                  <td>lot_14</td>
-                  <td>20</td>
-                  <td>31/10/2022</td>
-                  <td>12:00</td>
-                  <td>2562/10</td>
-                  <td>1102918928918</td>
-                  <td>2,000</td>
-                  <td>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="21"
-                      height="21"
-                      viewBox="0 0 24 24"
-                    >
-                      <g
-                        fill="none"
-                        stroke="#489788"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                      >
-                        <path d="M14 3v4a1 1 0 0 0 1 1h4" />
-                        <path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2zM9 7h1m-1 6h6m-2 4h2" />
-                      </g>
-                    </svg>
-                  </td>
-                  <td>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="21"
-                      height="21"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        fill="#489788"
-                        d="M21 11h-3V4a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v14c0 1.654 1.346 3 3 3h14c1.654 0 3-1.346 3-3v-6a1 1 0 0 0-1-1zM5 19a1 1 0 0 1-1-1V5h12v13c0 .351.061.688.171 1H5zm15-1a1 1 0 0 1-2 0v-5h2v5z"
-                      />
-                      <path
-                        fill="#489788"
-                        d="M6 7h8v2H6zm0 4h8v2H6zm5 4h3v2h-3z"
-                      />
-                    </svg>
-                  </td>
-                </tr>
+                {dataRecAS9Table}
                 <tr>
                   <td className="ltb">Total</td>
                   <td className="ltb"></td>

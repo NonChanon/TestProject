@@ -1,8 +1,11 @@
 import style from "./RDTransaction.module.css";
-import { useEffect, useState } from "react";
+import { MouseEvent, useEffect, useState } from "react";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { useLocation, Link, NavLink } from "react-router-dom";
+import DatePicker from "react-datepicker";
+
+import "react-datepicker/dist/react-datepicker.css";
+import moment from "moment";
 
 interface lotModel {
   name: string;
@@ -16,7 +19,19 @@ interface lotModel {
 }
 
 export default function RDTransaction() {
-  const [datas, setDatas] = useState<any>([]);
+  const [datas, setDatas] = useState<any>({
+    content: [],
+    sumRdStatus: {
+      success: 0,
+      fail: 0
+    }
+  });
+
+  const [startDate, setStartDate] = useState<Date | null>();
+
+  const [lotName, setLotName] = useState({
+    lotNameInput: "",
+  });
 
   let grouped = datas;
   const path = useLocation().pathname;
@@ -28,8 +43,25 @@ export default function RDTransaction() {
     console.log("loadDatas : " + dataRes.data);
   };
 
-  if (datas.length > 0) {
-    grouped = datas.reduce((acc: {[key: string]:lotModel[]}, obj: lotModel) => {
+  const onSearch = async (e: MouseEvent, request: object) => {
+    e.preventDefault();
+    moment
+    const dataRes = await axios.post(`http://localhost:8080/api/lots/search/rd`, request);
+    setDatas(dataRes.data);
+    console.log("search data is " + dataRes.data);
+  };
+
+  const updateLotNameInput = (e: { target: { name: any; value: any } }) => {
+    console.log(e.target.name);
+    setLotName({
+      ...lotName,
+      [e.target.name]: e.target.value,
+    });
+    console.log(lotName.lotNameInput);
+  };
+
+  if (datas.content != null) {
+    grouped = datas.content.reduce((acc: {[key: string]:lotModel[]}, obj: lotModel) => {
       console.log("Acc ======>", acc);
       const key: string = obj.batchDate;
       acc[key] = acc[key] || [];
@@ -56,10 +88,20 @@ export default function RDTransaction() {
         <div>
           <button className={`BatchDate ${style.button1}`}>
             <div className={style.row}>
-              <div className={`${style.space} ${style.fontSize}`}>
-                Batch Date
-              </div>
-              <svg
+              <DatePicker
+                id="batchDate"
+                dateFormat="dd/MM/yyy"
+                selected={startDate}
+                onChange={(date: Date) => {
+                  setStartDate(date);
+                  console.log("Selected date is : " + date.toLocaleString());
+                }}
+                isClearable
+                placeholderText="Batch Date"
+                className="calendarDate"
+              />
+                <svg
+                style={{ margin: "0px" }}
                 xmlns="http://www.w3.org/2000/svg"
                 width="20"
                 height="20"
@@ -74,26 +116,32 @@ export default function RDTransaction() {
             <div className={style.line2}></div>
           </button>
 
-          <button className={`LotName ${style.button} ${style.fontSize}`}>
+          <button className={`LotName ${style.button1}`}>
             <div className={style.row}>
-              <div className={style.space}>Lot Name</div>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  fill="none"
-                  d="M8 14q-.425 0-.713-.288T7 13q0-.425.288-.713T8 12q.425 0 .713.288T9 13q0 .425-.288.713T8 14Zm4 0q-.425 0-.713-.288T11 13q0-.425.288-.713T12 12q.425 0 .713.288T13 13q0 .425-.288.713T12 14Zm4 0q-.425 0-.713-.288T15 13q0-.425.288-.713T16 12q.425 0 .713.288T17 13q0 .425-.288.713T16 14ZM5 22q-.825 0-1.413-.588T3 20V6q0-.825.588-1.413T5 4h1V2h2v2h8V2h2v2h1q.825 0 1.413.588T21 6v14q0 .825-.588 1.413T19 22H5Zm0-2h14V10H5v10ZM5 8h14V6H5v2Zm0 0V6v2Z"
-                />
-              </svg>
+              <input
+                name="lotNameInput"
+                className="form-control"
+                style={{
+                  height: "100%",
+                  border: "0",
+                  fontSize: "14px",
+                  fontFamily: "'Rubik', sans-serif",
+                  margin: "0",
+                  padding: "5px",
+                  boxSizing: "border-box",
+                }}
+                placeholder="Lot Name"
+                onChange={(e) => updateLotNameInput(e)}
+              />
             </div>
             <div className={style.line2}></div>
           </button>
         </div>
 
-        <button className={style.SearchButton}>
+        <button 
+        className={style.SearchButton}
+        onClick={(e) => onSearch(e, { batchDate: startDate === null ? "" : moment(startDate).format('DD/MM/yyyy').toString(), lotName: lotName.lotNameInput })}
+        >
           <div className={style.row}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -133,7 +181,7 @@ export default function RDTransaction() {
               >
                 <p className={`${style.row} ${style.fontSize}`}>
                   Success
-                  <p className={style.green}>8</p>
+                  <p className={style.green}>{datas.sumRdStatus.success}</p>
                 </p>
               </Link>
               <Link
@@ -142,7 +190,7 @@ export default function RDTransaction() {
               >
                 <p className={`${style.row} ${style.fontSize}`}>
                   Fail
-                  <p className={style.red}>2</p>
+                  <p className={style.red}>{datas.sumRdStatus.fail}</p>
                 </p>
               </Link>
             </div>
@@ -190,16 +238,16 @@ export default function RDTransaction() {
                         }
                         return (
                           <tr>
-                            <td>{i + 1}</td>
-                            <td><Link to={`/${lot.name}`} state={{ lot: lot }}>{lot.name}</Link></td>
-                            <td>{lot.batchDate}</td>
-                            <td>{lot.batchTime}</td>
-                            <td>{lot.sendRdDate}</td>
-                            <td>{display}</td>
-                            <td>{lot.totalDuty}</td>
-                            <td>{lot.totalDubDutyAmount}</td>
-                            <td>{lot.totalPayment}</td>
-                            <td>
+                            <td width="5%">{i + 1}</td>
+                            <td width="10%"><Link to={`/${lot.name}`} state={{ lot: lot }}>{lot.name}</Link></td>
+                            <td width="8%">{lot.batchDate}</td>
+                            <td width="10%">{lot.batchTime}</td>
+                            <td width="15%">{lot.sendRdDate}</td>
+                            <td width="12%">{display}</td>
+                            <td width="10%">{lot.totalDuty}</td>
+                            <td width="10%">{lot.totalDubDutyAmount}</td>
+                            <td width="10%">{lot.totalPayment}</td>
+                            <td width="9%">
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="22"
