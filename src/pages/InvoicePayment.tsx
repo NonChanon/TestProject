@@ -352,10 +352,45 @@ export default function InvoicePayment() {
                   Pending
                   <p className="yellow">{sumPending}</p>
                 </p>
-              </Link>
+              </button>
             </div>
-            <div >
-              <table>{dataInvoiceTable}</table>
+
+            <div className="Table top">
+              <table>
+                <tr>
+                  <th>No.</th>
+                  <th>Lot Name</th>
+                  <th>Batch Date</th>
+                  <th>Batch Time</th>
+                  <th>Total Doc</th>
+                  <th>Total Duty</th>
+                  <th>TotalDubDutyAmount</th>
+                  <th>Total Payment</th>
+                  <th>Ref 1</th>
+                  <th>Ref 2</th>
+                  <th>Payment Status</th>
+                  <th>QR Payment</th>
+                  <th>Pay in slip</th>
+                  <th>e-Payment</th>
+                </tr>
+              {dataInvoiceTable}
+                <tr>
+                  <td className="ltb">Total</td>
+                  <td className="ltb"></td>
+                  <td className="ltb"></td>
+                  <td className="ltb"></td>
+                  <td className="ltb"></td>
+                  <td className="ltb">6,000</td>
+                  <td className="ltb">0</td>
+                  <td className="ltb">6,000</td>
+                  <td className="ltb"></td>
+                  <td className="ltb"></td>
+                  <td className="ltb"></td>
+                  <td className="ltb"></td>
+                  <td className="ltb"></td>
+                  <td className="ltb"></td>
+                </tr>
+              </table>
             </div>
           </div>
         </div>
