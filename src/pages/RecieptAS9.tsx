@@ -4,7 +4,7 @@ import "./RecieptAS9.css";
 import axios from "axios";
 import moment from "moment";
 import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+// import "react-datepicker/dist/react-datepicker.css";
 
 interface lotModel {
   name: string;

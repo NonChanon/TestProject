@@ -4,13 +4,15 @@ import { useState } from "react";
 import axios from "axios";
 import DatePicker from "react-datepicker";
 
-import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
 
 export default function EditDetail() {
   const { state } = useLocation();
   console.log(state);
   const [states, setStates] = useState(state);
+  const [startDate, setStartDate] = useState<Date | null>();
+  const [endDate, setEndDate] = useState<Date | null>();
+  const [finalPaymentDate, setFinalPaymentDate] = useState<Date | null>();
   const navigate = useNavigate();
   const path = useLocation().pathname;
 
@@ -52,7 +54,7 @@ export default function EditDetail() {
       },
     });
   };
-
+  
   return (
     <div className={`${style.ttspace}`}>
       <div className={`${style.title}`}>
@@ -81,12 +83,31 @@ export default function EditDetail() {
                 <p className={`${style.txtblk}`}>Contract Start Date</p>
                 <div className={`${style.inputDiv}`}>
                   <div>
-                    <input
+                    <DatePicker
+                    wrapperClassName={`${style.test}`}
                       name="startDate"
-                      type="text"
-                      className={`${style.txt}`}
-                      defaultValue={states.customer.contract.startDate}
-                      onChange={(e) => updateContract(e)}
+                      dateFormat="dd/MM/yyy"
+                      selected={startDate}
+                      onChange={(date: Date) => {
+                        setStartDate(date);
+                        setStates({
+                          ...states,
+                          customer: {
+                            ...states.customer,
+                            contract: {
+                              ...states.customer.contract,
+                              ["startDate"]: moment(date)
+                                .format("DD/MM/yyyy")
+                                .toString(),
+                            },
+                          },
+                        });
+                        console.log(
+                          "Selected date is : " + date.toLocaleString()
+                        );
+                      }}
+                      isClearable
+                      placeholderText="Select Date"
                     />
                   </div>
                   <div>
@@ -108,12 +129,32 @@ export default function EditDetail() {
                 <p className={`${style.txtblk}`}>Contract End Date</p>
                 <div className={`${style.inputDiv}`}>
                   <div>
-                    <input
+                    <DatePicker
                       name="endDate"
-                      type="text"
-                      className={`${style.txt}`}
-                      defaultValue={states.customer.contract.endDate}
-                      onChange={(e) => updateContract(e)}
+                      wrapperClassName={`${style.test}`}
+                      dateFormat="dd/MM/yyy"
+                      selected={endDate}
+                      onChange={(date: Date) => {
+                        setEndDate(date);
+                        setStates({
+                          ...states,
+                          customer: {
+                            ...states.customer,
+                            contract: {
+                              ...states.customer.contract,
+                              ["endDate"]: moment(date)
+                                .format("DD/MM/yyyy")
+                                .toString(),
+                            },
+                          },
+                        });
+                        console.log(
+                          "Selected date is : " + date.toLocaleString()
+                        );
+                      }}
+                      isClearable
+                      placeholderText="Select Date"
+                      className="calendarDate"
                     />
                   </div>
                   <div>
@@ -197,12 +238,29 @@ export default function EditDetail() {
                 <p className={`${style.txtblk}`}>Final Payment Date</p>
                 <div className={`${style.inputDiv}`}>
                   <div>
-                    <input
+                    <DatePicker
                       name="finalPaymentDate"
-                      type="text"
-                      className={`${style.txt}`}
-                      defaultValue={states.customer.finalPaymentDate}
-                      onChange={(e) => updateCustomer(e)}
+                      wrapperClassName={`${style.test}`}
+                      dateFormat="dd/MM/yyy"
+                      selected={finalPaymentDate}
+                      onChange={(date: Date) => {
+                        setFinalPaymentDate(date);
+                        setStates({
+                          ...states,
+                          customer: {
+                            ...states.customer,
+                            ["finalPaymentDate"]: moment(date)
+                              .format("DD/MM/yyyy")
+                              .toString(),
+                          },
+                        });
+                        console.log(
+                          "Selected date is : " + date.toLocaleString()
+                        );
+                      }}
+                      isClearable
+                      placeholderText="Select Date"
+                      className={`${style.calendarDate}`}
                     />
                   </div>
                   <div>
