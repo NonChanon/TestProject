@@ -4,7 +4,7 @@ import axios from "axios";
 import { Link, useLocation, NavLink } from "react-router-dom";
 import DatePicker from "react-datepicker";
 
-import "react-datepicker/dist/react-datepicker.css";
+// import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
 
 interface lotModel {
@@ -260,10 +260,10 @@ export default function DataResult() {
         <div className="BatchBar shadow ">
           <div className="space3 ">
             <div className="filter spaceTitle2">
-              <Link className="button button:hover black active" to="/lots/all">
+              <Link className={(path === "/lots/all") ? `button button:hover active` : `button button:hover`} to="/lots/all">
                 All
               </Link>
-              <Link className="button button:hover black" to="/lots/approved">
+              <Link className={(path === "/lots/approved") ? 'button button:hover active' : 'button button:hover'} to="/lots/approved">
                 <p className="row ">
                   Approved
                   <p className="green">{datas.sumStatus.approved}</p>
@@ -275,14 +275,14 @@ export default function DataResult() {
                     <p className="green">{sumApproved}</p>
                   </p>
                 </button> */}
-              <Link className="button button:hover black" to="/lots/pending">
+              <Link className={(path === "/lots/pending") ? 'button button:hover active' : 'button button:hover'} to="/lots/pending">
                 <p className="row">
                   Pending
                   <p className="yellow">{datas.sumStatus.pending}</p>
                 </p>
               </Link>
               <Link
-                className="button button:hover black"
+                className={(path === "/lots/invaliddata") ? 'button button:hover active' : 'button button:hover'}
                 to="/lots/invaliddata"
               >
                 <p className="row">
@@ -290,7 +290,7 @@ export default function DataResult() {
                   <p className="red">{datas.sumStatus.invalidData}</p>
                 </p>
               </Link>
-              <Link className="button button:hover black" to="/lots/denied">
+              <Link className={(path === "/lots/denied") ? 'button button:hover active' : 'button button:hover'} to="/lots/denied">
                 <p className="row ">
                   Denied
                   <p className="gray">{datas.sumStatus.denied}</p>
