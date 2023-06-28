@@ -56,7 +56,7 @@ export default function Navbar() {
             </NavLink>
           </li>
           <li>
-            <NavLink to ='/invoice' end className={({ isActive }) => isActive ? activeClassName : undefined}>
+            <NavLink to ='/invoice/all' end className={({ isActive }) => isActive ? activeClassName : undefined}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="20"

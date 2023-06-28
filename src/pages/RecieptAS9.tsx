@@ -1,5 +1,5 @@
 import React, { MouseEvent, useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate, NavLink } from "react-router-dom";
 import "./RecieptAS9.css";
 import axios from "axios";
 import moment from "moment";
@@ -20,8 +20,16 @@ interface lotModel {
 }
 
 export default function RecieptAS9() {
-  const [datas, setDatas] = useState([]);
-  const [startDate, setStartDate] = useState(new Date());
+  const [datas, setDatas] = useState<any>({
+    content: [],
+    sumStatus: {
+      approved: 0,
+      pending: 0,
+      invalidData: 0,
+      denied: 0
+    }
+  });
+  const [startDate, setStartDate] = useState<Date | null>();
   const [lotName, setLotName] = useState({
     lotNameInput: "",
   });
@@ -30,27 +38,18 @@ export default function RecieptAS9() {
   console.log("path = " + path);
   console.log(useLocation());
 
-  const { state } = useLocation();
-
-  let sumApproved = 0,
-    sumPending = 0,
-    sumInvalidData = 0,
-    sumDenied = 0;
-
   let grouped = datas;
 
   const loadDatas = async () => {
     const dataRes = await axios.get(`http://localhost:8080/api${path}`);
     setDatas(dataRes.data);
+    console.log("getData is : " + dataRes.data);
   };
 
   const onSearch = async (e: MouseEvent, request: object) => {
     e.preventDefault();
-    moment;
-    const dataRes = await axios.post(
-      `http://localhost:8080/api/lots/search/dataresult`,
-      request
-    );
+    moment
+    const dataRes = await axios.post(`http://localhost:8080/api/lots/search/dataresult`, request);
     setDatas(dataRes.data);
     console.log("search data is " + dataRes.data);
   };
@@ -64,8 +63,10 @@ export default function RecieptAS9() {
     console.log(lotName.lotNameInput);
   };
 
-  if (datas.length > 0) {
-    grouped = datas.reduce((acc: any, obj: lotModel) => {
+  console.log(grouped);
+
+  if (datas.content != null) {
+    grouped = datas.content.reduce((acc: any, obj: lotModel) => {
       console.log("Acc ======>", acc);
       const key: string = obj.batchDate;
       acc[key] = acc[key] || [];
@@ -74,11 +75,13 @@ export default function RecieptAS9() {
     }, {});
   }
 
+  console.log(grouped);
+
   const batchDate = Object.keys(grouped);
-  console.log(Object.keys(grouped));
+  console.log("batchDate is : " + Object.keys(grouped));
 
   useEffect(() => {
-    console.log("detail trigger");
+    console.log("Trigger use Effect");
     loadDatas();
   }, [useLocation().key]);
 
@@ -110,23 +113,11 @@ export default function RecieptAS9() {
           </thead>
           {grouped[data].map((lot: lotModel, i: number) => {
             console.log(lot);
+            sumDoc += lot.totalDoc;
             sumTotalDuty += lot.totalDuty;
             sumTotalDubDutyAmount += lot.totalDubDutyAmount;
             sumTotalPayment += lot.totalPayment;
-            switch (lot.approvalStatus) {
-              case "Approved":
-                sumApproved += 1;
-                break;
-              case "Pending":
-                sumPending += 1;
-                break;
-              case "Invalid Data":
-                sumInvalidData += 1;
-                break;
-              case "Denied":
-                sumDenied += 1;
-                break;
-            }
+
             return (
               <tbody>
                 <tr>
@@ -142,31 +133,31 @@ export default function RecieptAS9() {
                     {/* <Routes>
                       <Route path={`/${lot.name}`} element={<DetailCollection />} />
                     </Routes> */}
-                    <Link to={`/${lot.name}`} state={{ lot: lot }}>
-                    <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="21"
-            height="21"
-            viewBox="0 0 24 24"
-          >
-            <g
-              fill="none"
-              stroke="#489788"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-            >
-              <path d="M14 3v4a1 1 0 0 0 1 1h4" />
-              <path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2zM9 7h1m-1 6h6m-2 4h2" />
-            </g>
-          </svg>
-                    </Link>
+                    <NavLink to={`/${lot.name}?page=0`} end state={{ lot: lot }}>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="21"
+                        height="21"
+                        viewBox="0 0 24 24"
+                      >
+                        <g
+                          fill="none"
+                          stroke="#489788"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                        >
+                          <path d="M14 3v4a1 1 0 0 0 1 1h4" />
+                          <path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2zM9 7h1m-1 6h6m-2 4h2" />
+                        </g>
+                      </svg>
+                    </NavLink>
                   </td>
                   <td className="action">
                     {/* <Routes>
                       <Route path={`/${lot.name}`} element={<DetailCollection />} />
                     </Routes> */}
-                    <Link to={`/${lot.name}`} state={{ lot: lot }}>
+                    <NavLink to={`/${lot.name}?page=0`} end state={{ lot: lot }}>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="21"
@@ -182,7 +173,7 @@ export default function RecieptAS9() {
                           d="M6 7h8v2H6zm0 4h8v2H6zm5 4h3v2h-3z"
                         />
                       </svg>
-                    </Link>
+                    </NavLink>
                   </td>
                 </tr>
               </tbody>
@@ -307,20 +298,20 @@ export default function RecieptAS9() {
         <div className="BatchBar shadow ">
           <div className="space3 ">
             <div className="filter spaceTitle2">
-              <Link className="button button:hover black active" to="/lots/all">
+              <Link className="button button:hover black active" to="/reciept">
                 All
               </Link>
               <Link className="button button:hover black" to="/lots/approved">
                 <p className="row ">
                   Approved
-                  <p className="green">{sumApproved}</p>
+                  <p className="green">{datas.sumStatus.approved}</p>
                 </p>
               </Link>
 
               <Link className="button button:hover black" to="/lots/pending">
                 <p className="row">
                   Pending
-                  <p className="yellow">{sumPending}</p>
+                  <p className="yellow">{datas.sumStatus.pending}</p>
                 </p>
               </Link>
             </div>
