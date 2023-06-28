@@ -62,6 +62,8 @@ export default function DataResult() {
     console.log(lotName.lotNameInput);
   };
 
+console.log(grouped);
+
   if (datas.content != null) {
     grouped = datas.content.reduce((acc: any, obj: lotModel) => {
       console.log("Acc ======>", acc);
@@ -71,6 +73,8 @@ export default function DataResult() {
       return acc;
     }, {});
   }
+
+  console.log(grouped);
 
   const batchDate = Object.keys(grouped);
   console.log("batchDate is : " + Object.keys(grouped));

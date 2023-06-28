@@ -21,7 +21,9 @@ function App() {
         <Route path="/lots/pending" element={<DataResult />} />
         <Route path="/lots/invaliddata" element={<DataResult />} />
         <Route path="/lots/denied" element={<DataResult />} />
-        <Route path='/invoice' element={<InvoicePayment />} />
+        <Route path='/invoice/all' element={<InvoicePayment />} />
+        <Route path='/invoice/approved' element={<RDTransaction />} />
+        <Route path='/invoice/pending' element={<RDTransaction />} />
         <Route path='/detail' element={<DetailCollection />} />
         <Route path="/:lotname/:customertaxid/edit" element={<EditDetail />} />
         <Route path='/rd/all' element={<RDTransaction />} />

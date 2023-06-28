@@ -1,9 +1,10 @@
 import axios from "axios";
 import React, { MouseEvent, useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate, NavLink } from "react-router-dom";
 import moment from "moment";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+
 
 
 interface lotModel {
@@ -20,8 +21,16 @@ interface lotModel {
 }
 
 export default function InvoicePayment() {
-  const [datas, setDatas] = useState([]);
-  const [startDate, setStartDate] = useState(new Date());
+  const [datas, setDatas] = useState<any>({
+    content: [],
+    sumStatus: {
+      approved: 0,
+      pending: 0,
+      invalidData: 0,
+      denied: 0
+    }
+  });
+  const [startDate, setStartDate] = useState<Date | null>();
   const [lotName, setLotName] = useState({
     lotNameInput: "",
   });
@@ -30,18 +39,12 @@ export default function InvoicePayment() {
   console.log("path = " + path);
   console.log(useLocation());
 
-  const { state } = useLocation();
-
-  let sumApproved = 0,
-    sumPending = 0,
-    sumInvalidData = 0,
-    sumDenied = 0;
-
   let grouped = datas;
 
   const loadDatas = async () => {
     const dataRes = await axios.get(`http://localhost:8080/api${path}`);
     setDatas(dataRes.data);
+    console.log("getData is : " + dataRes.data);
   };
 
   const onSearch = async (e: MouseEvent, request: object) => {
@@ -61,8 +64,10 @@ export default function InvoicePayment() {
     console.log(lotName.lotNameInput);
   };
 
-  if (datas.length > 0) {
-    grouped = datas.reduce((acc: any, obj: lotModel) => {
+  console.log(grouped);
+
+  if (datas.content != null) {
+    grouped = datas.content.reduce((acc: any, obj: lotModel) => {
       console.log("Acc ======>", acc);
       const key: string = obj.batchDate;
       acc[key] = acc[key] || [];
@@ -71,11 +76,13 @@ export default function InvoicePayment() {
     }, {});
   }
 
+  console.log(grouped);
+
   const batchDate = Object.keys(grouped);
-  console.log(Object.keys(grouped));
+  console.log("batchDate is : " + Object.keys(grouped));
 
   useEffect(() => {
-    console.log("detail trigger");
+    console.log("Trigger use Effect");
     loadDatas();
   }, [useLocation().key]);
 
@@ -111,27 +118,15 @@ export default function InvoicePayment() {
           </thead>
           {grouped[data].map((lot: lotModel, i: number) => {
             console.log(lot);
+            sumDoc += lot.totalDoc;
             sumTotalDuty += lot.totalDuty;
             sumTotalDubDutyAmount += lot.totalDubDutyAmount;
             sumTotalPayment += lot.totalPayment;
-            switch (lot.approvalStatus) {
-              case "Approved":
-                sumApproved += 1;
-                break;
-              case "Pending":
-                sumPending += 1;
-                break;
-              case "Invalid Data":
-                sumInvalidData += 1;
-                break;
-              case "Denied":
-                sumDenied += 1;
-                break;
-            }
+
             return (
               <tbody>
                 <tr>
-                  <td>{i + 1}</td>
+                  <td >{i + 1}</td>
                   <td>{lot.name}</td>
                   <td>{lot.batchDate}</td>
                   <td>{lot.totalDoc}</td>
@@ -148,7 +143,7 @@ export default function InvoicePayment() {
                     {/* <Routes>
                       <Route path={`/${lot.name}`} element={<DetailCollection />} />
                     </Routes> */}
-                    <Link to={`/${lot.name}`} state={{ lot: lot }}>
+                    <NavLink to={`/${lot.name}?page=0`} end state={{ lot: lot }}>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="20"
@@ -175,14 +170,14 @@ export default function InvoicePayment() {
                           d="M23 19h-4v4h-5a1 1 0 0 1-1-1v-8v5h2v2h2v-6h-2v-2h-1h3v2h2v2h2v-4h1a1 1 0 0 1 1 1v5zm0 2v1a1 1 0 0 1-1 1h-1v-2h2z"
                         />
                       </svg>
-                    </Link>
+                    </NavLink>
                   </td>
                   <td className="action">
                     {/* <Routes>
                       <Route path={`/${lot.name}`} element={<DetailCollection />} />
                     </Routes> */}
-                    <Link to={`/${lot.name}`} state={{ lot: lot }}>
-                      <svg
+                    <NavLink to={`/${lot.name}?page=0`} end state={{ lot: lot }}>
+                    <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="22"
                         height="22"
@@ -193,14 +188,14 @@ export default function InvoicePayment() {
                           d="M13 16H7a1 1 0 0 0 0 2h6a1 1 0 0 0 0-2Zm-4-6h2a1 1 0 0 0 0-2H9a1 1 0 0 0 0 2Zm12 2h-3V3a1 1 0 0 0-.5-.87a1 1 0 0 0-1 0l-3 1.72l-3-1.72a1 1 0 0 0-1 0l-3 1.72l-3-1.72a1 1 0 0 0-1 0A1 1 0 0 0 2 3v16a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-6a1 1 0 0 0-1-1ZM5 20a1 1 0 0 1-1-1V4.73l2 1.14a1.08 1.08 0 0 0 1 0l3-1.72l3 1.72a1.08 1.08 0 0 0 1 0l2-1.14V19a3 3 0 0 0 .18 1Zm15-1a1 1 0 0 1-2 0v-5h2Zm-7-7H7a1 1 0 0 0 0 2h6a1 1 0 0 0 0-2Z"
                         />
                       </svg>
-                    </Link>
+                    </NavLink>
                   </td>
                   <td className="action">
                     {/* <Routes>
                       <Route path={`/${lot.name}`} element={<DetailCollection />} />
                     </Routes> */}
-                    <Link to={`/${lot.name}`} state={{ lot: lot }}>
-                      <svg
+                    <NavLink to={`/${lot.name}?page=0`} end state={{ lot: lot }}>
+                    <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="21"
                         height="21"
@@ -216,7 +211,7 @@ export default function InvoicePayment() {
                           <rect width="3.5" height="2.5" x="10" y="7.5" rx=".5" />
                         </g>
                       </svg>
-                    </Link>
+                    </NavLink>
                   </td>
                 </tr>
               </tbody>
@@ -337,20 +332,20 @@ export default function InvoicePayment() {
         <div className="BatchBar shadow ">
           <div className="space3 ">
             <div className="filter spaceTitle2">
-              <Link className="button button:hover black active" to="/lots/all">
+              <Link className="button button:hover black active" to="/invoice/all">
                 All
               </Link>
               <Link className="button button:hover black" to="/lots/approved">
                 <p className="row ">
                   Approved
-                  <p className="green">{sumApproved}</p>
+                  <p className="green">{datas.sumStatus.approved}</p>
                 </p>
               </Link>
 
               <Link className="button button:hover black" to="/lots/pending">
                 <p className="row">
                   Pending
-                  <p className="yellow">{sumPending}</p>
+                  <p className="yellow">{datas.sumStatus.pending}</p>
                 </p>
               </Link>
             </div>
