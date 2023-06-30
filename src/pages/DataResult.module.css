@@ -53,7 +53,11 @@ th {
   color: #393939;
 }
 
-.button {
+.filter {
+  border-bottom: 1px solid #e6e5e5;
+}
+
+.filterButton {
   background-color: #ffffff;
   border: none;
   color: #535353;
@@ -61,13 +65,12 @@ th {
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 15px;
   font-weight: lighter;
   cursor: pointer;
   transition-duration: 0.4s;
 }
 
-.button:hover {
+.filterButton:hover {
   background-color: #f5f5f5;
   border: none;
   color: #535353;
@@ -75,8 +78,18 @@ th {
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 15px;
 
+  cursor: pointer;
+}
+
+.filterButtonActive {
+  background-color: #ffffff;
+  border: none;
+  color: #535353;
+  padding: 15px 32px;
+  text-align: center;
+  border-bottom: 3px solid #489788;
+  display: inline-block;
   cursor: pointer;
 }
 
@@ -248,7 +261,7 @@ th {
   justify-content: space-between;
 }
 
-.SearchButton {
+.searchButton {
   background-color: #489788;
   border: none;
   border-radius: 5px;
@@ -307,7 +320,7 @@ th {
   color: #777777;
 }
 
-.transaction-table {
+.transactionTable {
   margin-top: 5px;
   margin-bottom: 20px;
   width: 100%;
