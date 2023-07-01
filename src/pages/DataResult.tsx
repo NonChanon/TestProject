@@ -16,19 +16,19 @@ interface lotModel {
   totalPayment: number;
 }
 
-// interface stateModel {
-//   content: object[];
-//   sumStatus: {
-//     approved: number;
-//     pending: number;
-//     invalidData: number;
-//     denied: number;
-//   }
-// }
+interface stateModel {
+  content: lotModel[];
+  sumStatus: {
+    approved: number;
+    pending: number;
+    invalidData: number;
+    denied: number;
+  }
+}
 
 export default function DataResult() {
-  const [datas, setDatas] = useState<any>({
-    content: [{}],
+  const [datas, setDatas] = useState<stateModel>({
+    content: [],
     sumStatus: {
       approved: 0,
       pending: 0,
@@ -49,7 +49,7 @@ export default function DataResult() {
   let grouped = datas.content;
 
   const loadDatas = async () => {
-    const dataRes = await axios.get(`http://localhost:8080/api${path}`);
+    const dataRes = await axios.get(`http://localhost:8080/api/lots/all`);
     setDatas(dataRes.data);
     console.log("getData is : " + dataRes.data);
   };
@@ -99,7 +99,7 @@ export default function DataResult() {
     loadDatas();
   }, [useLocation().key]);
 
-  const overviewTable = batchDate.map((data) => {
+  const overviewTable = batchDate.map((data: string) => {
     let sumDoc = 0,
       sumTotalDuty = 0,
       sumTotalDubDutyAmount = 0,
@@ -146,10 +146,7 @@ export default function DataResult() {
                   <td width="11%">{lot.totalDubDutyAmount}</td>
                   <td width="11%">{lot.totalPayment}</td>
                   <td width="5%">
-                    {/* <Routes>
-                      <Route path={`/${lot.name}`} element={<DetailCollection />} />
-                    </Routes> */}
-                    <Link to={`/${lot.name}?page=0`} state={{ lot: lot }}>
+                    <Link to={`/batchdataresult/${lot.name}`} state={{ lot: lot }}>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="21"

@@ -1,9 +1,20 @@
-import { MouseEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import style from "./DetailCollection.module.css";
 import axios from "axios";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
-export interface customerModel {
+interface lotModel {
+  name: string;
+  totalDoc: number;
+  batchDate: string;
+  approvalStatus: string;
+  approvedBy: string;
+  totalDuty: number;
+  totalDubDutyAmount: number;
+  totalPayment: number;
+}
+
+interface customerModel {
   title: string;
   firstname: string;
   lastname: string;
@@ -18,7 +29,7 @@ export interface customerModel {
   contract: contractModel;
 }
 
-export interface addressModel {
+interface addressModel {
   village: string;
   addressNo: string;
   floor: string;
@@ -31,7 +42,7 @@ export interface addressModel {
   postalCode: string;
 }
 
-export interface contractModel {
+interface contractModel {
   number: string;
   startDate: string;
   endDate: string;
@@ -41,13 +52,33 @@ export interface contractModel {
   relatedStatus: string;
 }
 
+interface dataModel {
+  totalItems: number;
+    totalPages: number;
+    currentPage: number;
+    content: customerModel[];
+    lot: lotModel;
+}
+
 export default function DetailCollection() {
-  const [datas, setDatas] = useState<any>({
-    totalItems: Number,
-    totalPages: Number,
-    currentPage: Number,
+  const [datas, setDatas] = useState<dataModel>({
+    totalItems: 0,
+    totalPages: 0,
+    currentPage: 0,
     content: [],
+    lot: {
+      name: "",
+      totalDoc: 0,
+      batchDate: "",
+      approvalStatus: "",
+      approvedBy: "",
+      totalDuty: 0,
+      totalDubDutyAmount: 0,
+      totalPayment: 0
+    }
   });
+
+  const [pageNo, setPageNo] = useState("0");
 
   const path = useLocation().pathname;
   const searchPath = useLocation().search;
@@ -59,20 +90,28 @@ export default function DetailCollection() {
   console.log("batchdate = " + state.lot.batchDate);
   const navigate = useNavigate();
 
-  const onApprove = async (e: MouseEvent, status: object) => {
+  const onApprove = async (e: React.MouseEvent, status: object) => {
     e.preventDefault();
-    await axios.put(`http://localhost:8080/api${path}`, status);
-    navigate("/lots/all");
+    await axios.put(`http://localhost:8080/api/${state.lot.name}`, status);
+    navigate("/batchdataresult");
     console.log("change status!");
   };
 
   const loadDatas = async () => {
     const dataRes = await axios.get(
-      `http://localhost:8080/api${path}${searchPath}`
+      `http://localhost:8080/api/${state.lot.name}`
     );
     setDatas(dataRes.data);
     console.log("loaddata = " + dataRes.data);
   };
+
+  const loadPageDatas = async (page: string) => {
+    const dataRes = await axios.get(
+      `http://localhost:8080/api/${state.lot.name}?page=${page}`
+    );
+    setDatas(dataRes.data);
+    console.log("currentPage = " + dataRes.data.currentPage);
+  }
 
   useEffect(() => {
     console.log("detail trigger");
@@ -83,7 +122,12 @@ export default function DetailCollection() {
     const list = [];
     if (datas.totalPages > 1) {
       list.push(
-        <Link to={`${path}?page=${datas.currentPage == 0 ? 0 : datas.currentPage - 1}`} state={{ lot: state.lot }}>
+        <button
+          onClick={() => {
+            setPageNo(`${datas.currentPage == 0 ? 0 : datas.currentPage - 1}`);
+            loadPageDatas(`${datas.currentPage == 0 ? 0 : datas.currentPage - 1}`);
+          }}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
@@ -99,25 +143,28 @@ export default function DetailCollection() {
               />
             </g>
           </svg>
-        </Link>
+        </button>
       );
       for (let i = 0; i < datas.totalPages; i++) {
-        const pagePath = `${path}?page=${i}`;
-        const isActive = path + searchPath === pagePath;
-        console.log("pagePath = " + pagePath);
-        console.log("isActive = " + isActive);
         list.push(
-          <Link
-            to={pagePath}
-            className={isActive ? `${style.active}` : undefined}
-            state={{ lot: state.lot }}
+          <button
+            onClick={() => {
+              setPageNo(`${i}`);
+              loadPageDatas(`${i}`);
+            }}
+            className={pageNo == `${i}` ? `${style.active}` : undefined}
           >
             {i + 1}
-          </Link>
+          </button>
         );
       }
       list.push(
-        <Link to={`${path}?page=${datas.currentPage == datas.totalPages - 1 ? datas.totalPages - 1 : datas.currentPage + 1}` } state={{ lot: state.lot }}>
+        <button
+          onClick={() => {
+            setPageNo(`${datas.currentPage == datas.totalPages - 1 ? datas.totalPages - 1 : datas.currentPage + 1}`);
+            loadPageDatas(`${datas.currentPage == datas.totalPages - 1 ? datas.totalPages - 1 : datas.currentPage + 1}`);
+          }}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
@@ -131,10 +178,10 @@ export default function DetailCollection() {
               d="m9 6l6 6l-6 6"
             />
           </svg>
-        </Link>
+        </button>
       );
     }
-    return <label>{list}</label>;
+    return <div>{list}</div>;
   }
 
   return (
@@ -163,42 +210,42 @@ export default function DetailCollection() {
               >
                 <div className={`${style.row}`}>
                   <p style={{ position: "absolute", left: "30px" }}>
-                    Batch Date : {state.lot.batchDate}
+                    Batch Date : {datas.lot.batchDate}
                   </p>
                   <div
                     className={`${style.line3}`}
                     style={{ position: "absolute", left: "210px" }}
                   ></div>
                   <p style={{ position: "absolute", left: "235px" }}>
-                    Lot Name : {state.lot.name}
+                    Lot Name : {datas.lot.name}
                   </p>
                 </div>
                 <p className={`${style.row}`}>
                   Status :
                   <div className={style[state.lot.approvalStatus]}>
                     <p style={{ marginTop: "10px", marginBottom: "10px" }}>
-                      {state.lot.approvalStatus}
+                      {datas.lot.approvalStatus}
                     </p>
                   </div>
                 </p>
               </div>
               <div className={`${style.row}`} style={{ marginBottom: "15px" }}>
                 <p style={{ position: "absolute", left: "30px" }}>
-                  Total Duty : {state.lot.totalDuty}
+                  Total Duty : {datas.lot.totalDuty}
                 </p>
                 <div
                   className={`${style.line3}`}
                   style={{ position: "absolute", left: "210px" }}
                 ></div>
                 <p style={{ position: "absolute", left: "235px" }}>
-                  Total Dub Duty Amount : {state.lot.totalDubDutyAmount}
+                  Total Dub Duty Amount : {datas.lot.totalDubDutyAmount}
                 </p>
                 <div
                   className={`${style.line3}`}
                   style={{ position: "absolute", left: "480px" }}
                 ></div>
                 <p style={{ position: "absolute", left: "505px" }}>
-                  Total Payment : {state.lot.totalPayment}
+                  Total Payment : {datas.lot.totalPayment}
                 </p>
               </div>
             </div>
@@ -230,7 +277,7 @@ export default function DetailCollection() {
                         <td width="15%">{customer.totalPayment}</td>
                         <td style={{ cursor: "pointer" }} width="5%">
                           <Link
-                            to={`/${state.lot.name}/${customer.taxPayerId}/edit`}
+                            to={`/batchdataresult/${state.lot.name}/${customer.taxPayerId}/edit`}
                             state={{ lot: state.lot, customer: customer }}
                           >
                             <svg

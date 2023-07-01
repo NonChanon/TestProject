@@ -170,23 +170,25 @@
     display: inline-block;
   }
   
-  .pagination a {
+  .pagination button {
+    background-color: unset;
     color: black;
     border: 1px #489788;
   
     float: left;
     padding: 8px 16px;
-    text-decoration: none;
-  }
+
+    font-size: 16px;
+  } 
   
-  .pagination a.active {
+  .pagination button.active {
     background-color: #489788;
     color: white;
     border-radius: 5px;
   }
   
-  .pagination a:hover:not(.active) {
-    background-color: #ddd;
+  .pagination button:hover:not(.active) {
+    background-color: #dddddd;
     border-radius: 5px;
   }
   

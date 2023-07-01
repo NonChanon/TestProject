@@ -13,6 +13,10 @@ export default function EditDetail() {
   const [startDate, setStartDate] = useState<Date | null>();
   const [endDate, setEndDate] = useState<Date | null>();
   const [finalPaymentDate, setFinalPaymentDate] = useState<Date | null>();
+  const [totalPayment, setTotalPayment] = useState({
+    paymentAmount: states.customer.totalDuty + states.customer.totalDubDutyAmount
+  });
+  console.log(states);
   const navigate = useNavigate();
   const path = useLocation().pathname;
 
@@ -54,7 +58,7 @@ export default function EditDetail() {
       },
     });
   };
-  
+
   return (
     <div className={`${style.ttspace}`}>
       <div className={`${style.title}`}>
@@ -84,7 +88,7 @@ export default function EditDetail() {
                 <div className={`${style.inputDiv}`}>
                   <div>
                     <DatePicker
-                    wrapperClassName={`${style.test}`}
+                      wrapperClassName={`${style.test}`}
                       name="startDate"
                       dateFormat="dd/MM/yyy"
                       selected={startDate}
@@ -225,7 +229,7 @@ export default function EditDetail() {
                     type="text"
                     className={`${style.txt}`}
                     defaultValue={states.customer.contract.relatedStatus}
-                    onChange={(e) => updateContract(e)}
+                    onChange={(e) => updateContract(e)}             
                   />
                 </div>
               </div>
@@ -286,7 +290,14 @@ export default function EditDetail() {
                     type="text"
                     className={`${style.txt}`}
                     defaultValue={states.customer.totalDuty}
-                    onChange={(e) => updateCustomer(e)}
+                    onChange={(e) => {
+                      updateCustomer(e);
+                      console.log(states);
+                    }}
+                    onBlur={() => {
+                      console.log(states.customer.totalDuty + states.customer.totalDubDutyAmount);
+                      setTotalPayment({...totalPayment, paymentAmount:Number(states.customer.totalDuty) + Number(states.customer.totalDubDutyAmount)});                    
+                    }}
                   />
                 </div>
               </div>
@@ -298,20 +309,28 @@ export default function EditDetail() {
                     type="text"
                     className={`${style.txt}`}
                     defaultValue={states.customer.totalDubDutyAmount}
-                    onChange={(e) => updateCustomer(e)}
+                    onChange={(e) => {
+                      updateCustomer(e);
+                    }}
+                    onBlur={() => {
+                      setTotalPayment({...totalPayment, paymentAmount:Number(states.customer.totalDuty) + Number(states.customer.totalDubDutyAmount)});                    
+                      console.log(states);
+                    }}
                   />
                 </div>
               </div>
               <div className={`${style.item}`}>
                 <p className={`${style.txtblk}`}>Total Amount</p>
                 <div className={`${style.inputDiv}`}>
-                  <input
-                    name="totalPayment"
-                    type="text"
+                  <div
+                    // name="totalPayment"
+                    // type="text"
                     className={`${style.txt}`}
-                    defaultValue={states.customer.totalPayment}
-                    onChange={(e) => updateCustomer(e)}
-                  />
+                  // defaultValue={states.customer.totalPayment}
+                  // onChange={(e) => updateCustomer(e)}
+                  >
+                    {totalPayment.paymentAmount}
+                  </div>
                 </div>
               </div>
             </div>
