@@ -146,7 +146,7 @@ export default function DataResult() {
                   <td width="11%">{lot.totalDubDutyAmount}</td>
                   <td width="11%">{lot.totalPayment}</td>
                   <td width="5%">
-                    <Link to={`/batchdataresult/${lot.name}`} state={{ lot: lot }}>
+                    <Link to={`/batchdataresult/${lot.name}`}>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="21"

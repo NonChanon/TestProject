@@ -85,21 +85,13 @@ export default function DetailCollection() {
   console.log("path = " + path);
   console.log("search path = " + searchPath);
   console.log(useLocation());
+  console.log("lotname : " + path.split('/')[path.split('/').length - 1]);
 
-  const { state } = useLocation();
-  console.log("batchdate = " + state.lot.batchDate);
   const navigate = useNavigate();
-
-  const onApprove = async (e: React.MouseEvent, status: object) => {
-    e.preventDefault();
-    await axios.put(`http://localhost:8080/api/${state.lot.name}`, status);
-    navigate("/batchdataresult");
-    console.log("change status!");
-  };
 
   const loadDatas = async () => {
     const dataRes = await axios.get(
-      `http://localhost:8080/api/${state.lot.name}`
+      `http://localhost:8080/api/${path.split('/')[path.split('/').length - 1]}`
     );
     setDatas(dataRes.data);
     console.log("loaddata = " + dataRes.data);
@@ -107,11 +99,18 @@ export default function DetailCollection() {
 
   const loadPageDatas = async (page: string) => {
     const dataRes = await axios.get(
-      `http://localhost:8080/api/${state.lot.name}?page=${page}`
+      `http://localhost:8080/api/${path.split('/')[path.split('/').length - 1]}?page=${page}`
     );
     setDatas(dataRes.data);
     console.log("currentPage = " + dataRes.data.currentPage);
   }
+
+  const onApprove = async (e: React.MouseEvent, status: object) => {
+    e.preventDefault();
+    await axios.put(`http://localhost:8080/api/${datas.lot.name}`, status);
+    navigate("/batchdataresult");
+    console.log("change status!");
+  };
 
   useEffect(() => {
     console.log("detail trigger");
@@ -222,7 +221,7 @@ export default function DetailCollection() {
                 </div>
                 <p className={`${style.row}`}>
                   Status :
-                  <div className={style[state.lot.approvalStatus]}>
+                  <div className={style[datas.lot.approvalStatus]}>
                     <p style={{ marginTop: "10px", marginBottom: "10px" }}>
                       {datas.lot.approvalStatus}
                     </p>
@@ -277,8 +276,8 @@ export default function DetailCollection() {
                         <td width="15%">{customer.totalPayment}</td>
                         <td style={{ cursor: "pointer" }} width="5%">
                           <Link
-                            to={`/batchdataresult/${state.lot.name}/${customer.taxPayerId}/edit`}
-                            state={{ lot: state.lot, customer: customer }}
+                            to={`/batchdataresult/${datas.lot.name}/${customer.taxPayerId}/edit`}
+                            state={{ lot: datas.lot, customer: customer }}
                           >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
