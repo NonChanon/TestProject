@@ -1,11 +1,9 @@
-import "./DataResult.css";
-import { MouseEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import { Link, useLocation, NavLink } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import DatePicker from "react-datepicker";
-
-// import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
+import style from "./DataResult.module.css"
 
 interface lotModel {
   name: string;
@@ -18,6 +16,16 @@ interface lotModel {
   totalPayment: number;
 }
 
+// interface stateModel {
+//   content: lotModel[];
+//   sumStatus: {
+//     approved: number;
+//     pending: number;
+//     invalidData: number;
+//     denied: number;
+//   }
+// }
+
 export default function DataResult() {
   const [datas, setDatas] = useState<any>({
     content: [],
@@ -28,24 +36,31 @@ export default function DataResult() {
       denied: 0
     }
   });
-  const [startDate, setStartDate] = useState<Date | null>();
+  const [startDate = null, setStartDate] = useState<null | Date>();
   const [lotName, setLotName] = useState({
     lotNameInput: "",
   });
+  const [tab, setTab] = useState("all");
 
   const path = useLocation().pathname;
   console.log("path = " + path);
   console.log(useLocation());
 
-  let grouped = datas;
+  let grouped = datas.content;
 
   const loadDatas = async () => {
-    const dataRes = await axios.get(`http://localhost:8080/api${path}`);
+    const dataRes = await axios.get(`http://localhost:8080/api/lots/all`);
     setDatas(dataRes.data);
     console.log("getData is : " + dataRes.data);
   };
 
-  const onSearch = async (e: MouseEvent, request: object) => {
+  const loadFilterDatas = async (filter: string) => {
+    const dataRes = await axios.get(`http://localhost:8080/api${filter}`);
+    setDatas(dataRes.data);
+    console.log("getData is : " + dataRes.data);
+  };
+
+  const onSearch = async (e: React.MouseEvent, request: object) => {
     e.preventDefault();
     moment
     const dataRes = await axios.post(`http://localhost:8080/api/lots/search/dataresult`, request);
@@ -53,7 +68,7 @@ export default function DataResult() {
     console.log("search data is " + dataRes.data);
   };
 
-  const updateLotNameInput = (e: { target: { name: any; value: any } }) => {
+  const updateLotNameInput = (e: { target: { name: string; value: string } }) => {
     console.log(e.target.name);
     setLotName({
       ...lotName,
@@ -62,7 +77,7 @@ export default function DataResult() {
     console.log(lotName.lotNameInput);
   };
 
-console.log(grouped);
+  console.log(grouped);
 
   if (datas.content != null) {
     grouped = datas.content.reduce((acc: any, obj: lotModel) => {
@@ -84,7 +99,7 @@ console.log(grouped);
     loadDatas();
   }, [useLocation().key]);
 
-  const overviewTable = batchDate.map((data) => {
+  const overviewTable = batchDate.map((data: string) => {
     let sumDoc = 0,
       sumTotalDuty = 0,
       sumTotalDubDutyAmount = 0,
@@ -92,12 +107,10 @@ console.log(grouped);
 
     return (
       <div>
-        <div className="Batch shadow row space4 ">
-          <p className="tab">Batch Date : {data}</p>
-          {/* <div className="tab line3"></div>
-          <p className="tab">Batch Time : {data.batchTime}</p> */}
+        <div className={`Batch shadow ${style.row} ${style.space4}`}>
+          <p className={`${style.tab}`}>Batch Date : {data}</p>
         </div>
-        <table className="transaction-table">
+        <table className={`${style.transactionTable}`}>
           <thead>
             <tr>
               <th>No.</th>
@@ -126,17 +139,14 @@ console.log(grouped);
                   <td width="8%">{lot.totalDoc}</td>
                   <td width="12%">{lot.batchDate}</td>
                   <td width="12%">
-                    <p className={lot.approvalStatus}>{lot.approvalStatus}</p>
+                    <p className={`${style[lot.approvalStatus]}`}>{lot.approvalStatus}</p>
                   </td>
                   <td width="15%">{lot.approvedBy}</td>
                   <td width="11%">{lot.totalDuty}</td>
                   <td width="11%">{lot.totalDubDutyAmount}</td>
                   <td width="11%">{lot.totalPayment}</td>
-                  <td width="5%" className="action">
-                    {/* <Routes>
-                      <Route path={`/${lot.name}`} element={<DetailCollection />} />
-                    </Routes> */}
-                    <NavLink to={`/${lot.name}?page=0`} end state={{ lot: lot }}>
+                  <td width="5%">
+                    <Link to={`/batchdataresult/${lot.name}`}>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="21"
@@ -148,7 +158,7 @@ console.log(grouped);
                           d="M688 312v-48c0-4.4-3.6-8-8-8H296c-4.4 0-8 3.6-8 8v48c0 4.4 3.6 8 8 8h384c4.4 0 8-3.6 8-8zm-392 88c-4.4 0-8 3.6-8 8v48c0 4.4 3.6 8 8 8h184c4.4 0 8-3.6 8-8v-48c0-4.4-3.6-8-8-8H296zm376 116c-119.3 0-216 96.7-216 216s96.7 216 216 216s216-96.7 216-216s-96.7-216-216-216zm107.5 323.5C750.8 868.2 712.6 884 672 884s-78.8-15.8-107.5-44.5C535.8 810.8 520 772.6 520 732s15.8-78.8 44.5-107.5C593.2 595.8 631.4 580 672 580s78.8 15.8 107.5 44.5C808.2 653.2 824 691.4 824 732s-15.8 78.8-44.5 107.5zM761 656h-44.3c-2.6 0-5 1.2-6.5 3.3l-63.5 87.8l-23.1-31.9a7.92 7.92 0 0 0-6.5-3.3H573c-6.5 0-10.3 7.4-6.5 12.7l73.8 102.1c3.2 4.4 9.7 4.4 12.9 0l114.2-158c3.9-5.3.1-12.7-6.4-12.7zM440 852H208V148h560v344c0 4.4 3.6 8 8 8h56c4.4 0 8-3.6 8-8V108c0-17.7-14.3-32-32-32H168c-17.7 0-32 14.3-32 32v784c0 17.7 14.3 32 32 32h272c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8z"
                         />
                       </svg>
-                    </NavLink>
+                    </Link>
                   </td>
                 </tr>
               </tbody>
@@ -156,16 +166,16 @@ console.log(grouped);
           })}
           <tfoot>
             <tr>
-              <th className="ltb">Total</th>
-              <th className="ltb"></th>
-              <th className="ltb">{sumDoc}</th>
-              <th className="ltb"></th>
-              <th className="ltb"></th>
-              <th className="ltb"></th>
-              <th className="ltb">{sumTotalDuty}</th>
-              <th className="ltb">{sumTotalDubDutyAmount}</th>
-              <th className="ltb">{sumTotalPayment}</th>
-              <th className="ltb"></th>
+              <th className={`${style.ltb}`}>Total</th>
+              <th className={`${style.ltb}`}></th>
+              <th className={`${style.ltb}`}>{sumDoc}</th>
+              <th className={`${style.ltb}`}></th>
+              <th className={`${style.ltb}`}></th>
+              <th className={`${style.ltb}`}></th>
+              <th className={`${style.ltb}`}>{sumTotalDuty}</th>
+              <th className={`${style.ltb}`}>{sumTotalDubDutyAmount}</th>
+              <th className={`${style.ltb}`}>{sumTotalPayment}</th>
+              <th className={`${style.ltb}`}></th>
             </tr>
           </tfoot>
         </table>
@@ -173,16 +183,16 @@ console.log(grouped);
     );
   });
   return (
-    <div className="space2">
-      <div className="title spaceTitle">
-        <div className="line"></div>
+    <div className={`${style.space2}`}>
+      <div className={`${style.title} ${style.spaceTitle}`}>
+        <div className={`${style.line}`}></div>
         <div>Data Result Correction</div>
       </div>
 
-      <div className="shadow row btw spaceTitle">
+      <div className={`shadow ${style.row} ${style.btw} ${style.spaceTitle}`}>
         <div>
-          <button className="BatchDate button1">
-            <div className="row">
+          <button className={`BatchDate ${style.button1}`}>
+            <div className={`${style.row}`}>
               <DatePicker
                 id="batchDate"
                 dateFormat="dd/MM/yyy"
@@ -193,7 +203,7 @@ console.log(grouped);
                 }}
                 isClearable
                 placeholderText="Batch Date"
-                className="calendarDate"
+                className={`${style.calendarDate}`}
               />
               <svg
                 style={{ margin: "0px" }}
@@ -208,14 +218,13 @@ console.log(grouped);
                 />
               </svg>
             </div>
-            <div className="line2"></div>
+            <div className={`${style.line2}`}></div>
           </button>
 
-          <button className="LotName button1">
-            <div className="row ">
+          <button className={`LotName ${style.button1}`}>
+            <div className={`${style.row}`}>
               <input
                 name="lotNameInput"
-                className="form-control"
                 style={{
                   height: "100%",
                   border: "0",
@@ -229,15 +238,15 @@ console.log(grouped);
                 onChange={(e) => updateLotNameInput(e)}
               />
             </div>
-            <div className="line2"></div>
+            <div className={`${style.line2}`}></div>
           </button>
         </div>
 
         <button
-          className="SearchButton"
+          className={`${style.searchButton}`}
           onClick={(e) => onSearch(e, { batchDate: startDate === null ? "" : moment(startDate).format('DD/MM/yyyy').toString(), lotName: lotName.lotNameInput })}
         >
-          <div className="row ">
+          <div className={`${style.row}`}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="22"
@@ -255,51 +264,64 @@ console.log(grouped);
                 <path d="M17.571 17.5L12 12" />
               </g>
             </svg>
-            <div className="space5">Search</div>
+            <div className={`${style.space5}`}>Search</div>
           </div>
         </button>
       </div>
 
-      <div className="Transaction">
-        <div className="BatchBar shadow ">
-          <div className="space3 ">
-            <div className="filter spaceTitle2">
-              <Link className={(path === "/lots/all") ? `button button:hover active` : `button button:hover`} to="/lots/all">
-                All
-              </Link>
-              <Link className={(path === "/lots/approved") ? 'button button:hover active' : 'button button:hover'} to="/lots/approved">
-                <p className="row ">
+      <div className={`Transaction`}>
+        <div className={`BatchBar shadow`}>
+          <div className={`${style.space3}`}>
+            <div className={`${style.filter} ${style.spaceTitle2}`}>
+              <button onClick={() => {
+                setTab("all");
+                loadFilterDatas("/lots/all");
+              }}
+                className={(tab === "all") ? `${style.filterButtonActive}` : `${style.filterButton}`}>
+                  <p style={{padding:"3px 8px 3px 8px"}}>
+                  All
+                </p>
+              </button>
+              <button onClick={() => {
+                setTab("approved");
+                loadFilterDatas("/lots/approved");
+              }}
+                className={(tab === "approved") ? `${style.filterButtonActive}` : `${style.filterButton}`}>
+                <p className={`${style.row}`}>
                   Approved
-                  <p className="green">{datas.sumStatus.approved}</p>
+                  <p className={`${style.green}`}>{datas.sumStatus.approved}</p>
                 </p>
-              </Link>
-              {/* <button className="button button:hover black">
-                  <p className="row ">
-                    Approved
-                    <p className="green">{sumApproved}</p>
-                  </p>
-                </button> */}
-              <Link className={(path === "/lots/pending") ? 'button button:hover active' : 'button button:hover'} to="/lots/pending">
-                <p className="row">
+              </button>
+              <button onClick={() => {
+                setTab("pending");
+                loadFilterDatas("/lots/pending");
+              }}
+              className={(tab === "pending") ? `${style.filterButtonActive}` : `${style.filterButton}`}>
+                <p className={`${style.row}`}>
                   Pending
-                  <p className="yellow">{datas.sumStatus.pending}</p>
+                  <p className={`${style.yellow}`}>{datas.sumStatus.pending}</p>
                 </p>
-              </Link>
-              <Link
-                className={(path === "/lots/invaliddata") ? 'button button:hover active' : 'button button:hover'}
-                to="/lots/invaliddata"
-              >
-                <p className="row">
+              </button>
+              <button onClick={() => {
+                setTab("invaliddata");
+                loadFilterDatas("/lots/invaliddata");
+              }}
+              className={(tab === "invaliddata") ? `${style.filterButtonActive}` : `${style.filterButton}`}>
+                <p className={`${style.row}`}>
                   Invalid Data
-                  <p className="red">{datas.sumStatus.invalidData}</p>
+                  <p className={`${style.red}`}>{datas.sumStatus.invalidData}</p>
                 </p>
-              </Link>
-              <Link className={(path === "/lots/denied") ? 'button button:hover active' : 'button button:hover'} to="/lots/denied">
-                <p className="row ">
+              </button>
+              <button onClick={() => {
+                setTab("denied");
+                loadFilterDatas("/lots/denied");
+              }} 
+              className={(tab === "denied") ? `${style.filterButtonActive}` : `${style.filterButton}`}>
+                <p className={`${style.row}`}>
                   Denied
-                  <p className="gray">{datas.sumStatus.denied}</p>
+                  <p className={`${style.gray}`}>{datas.sumStatus.denied}</p>
                 </p>
-              </Link>
+              </button>
             </div>
             {overviewTable}
           </div>

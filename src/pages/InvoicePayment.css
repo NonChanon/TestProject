@@ -75,7 +75,6 @@
     display: inline-block;
     font-size: 15px;
     cursor: pointer;
-    transition: 0s;
   }
   
   .button2:hover {

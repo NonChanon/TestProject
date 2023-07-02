@@ -1,7 +1,7 @@
 import style from "./RDTransaction.module.css";
-import { MouseEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import { useLocation, Link, NavLink } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import DatePicker from "react-datepicker";
 
 // import "react-datepicker/dist/react-datepicker.css";
@@ -18,6 +18,14 @@ interface lotModel {
   totalPayment: number;
 }
 
+// interface stateModel {
+//   content: lotModel[];
+//   sumRdStatus: {
+//     success: number;
+//     fail: number;
+//   }
+// }
+
 export default function RDTransaction() {
   const [datas, setDatas] = useState<any>({
     content: [],
@@ -27,8 +35,8 @@ export default function RDTransaction() {
     }
   });
 
-  const [startDate, setStartDate] = useState<Date | null>();
-
+  const [startDate = null, setStartDate] = useState<Date | null>();
+  const [tab, setTab] = useState("all");
   const [lotName, setLotName] = useState({
     lotNameInput: "",
   });
@@ -43,7 +51,13 @@ export default function RDTransaction() {
     console.log("loadDatas : " + dataRes.data);
   };
 
-  const onSearch = async (e: MouseEvent, request: object) => {
+  const loadFilterDatas = async (filter: string) => {
+    const dataRes = await axios.get(`http://localhost:8080/api${filter}`);
+    setDatas(dataRes.data);
+    console.log("getData is : " + dataRes.data);
+  };
+
+  const onSearch = async (e: React.MouseEvent, request: object) => {
     e.preventDefault();
     moment
     const dataRes = await axios.post(`http://localhost:8080/api/lots/search/rd`, request);
@@ -98,7 +112,7 @@ export default function RDTransaction() {
                 }}
                 isClearable
                 placeholderText="Batch Date"
-                className="calendarDate"
+                className={`${style.calendarDate}`}
               />
                 <svg
                 style={{ margin: "0px" }}
@@ -120,7 +134,7 @@ export default function RDTransaction() {
             <div className={style.row}>
               <input
                 name="lotNameInput"
-                className="form-control"
+                className={`form-control`}
                 style={{
                   height: "100%",
                   border: "0",
@@ -139,7 +153,7 @@ export default function RDTransaction() {
         </div>
 
         <button 
-        className={style.SearchButton}
+        className={`${style.SearchButton}`}
         onClick={(e) => onSearch(e, { batchDate: startDate === null ? "" : moment(startDate).format('DD/MM/yyyy').toString(), lotName: lotName.lotNameInput })}
         >
           <div className={style.row}>
@@ -166,33 +180,44 @@ export default function RDTransaction() {
       </div> 
 
       <div className={style.Transection}>
-        <div className={`${style.BatchBar} shadow`}>
+        <div className={`BatchBar shadow`}>
           <div className={style.space3}>
-            <div className={`filter ${style.spaceTitle2}`}>
-              <Link
-                className={`${style.button} ${style.button}:hover ${style.black} ${style.active}`}
-                to="/rd/all"
+            <div className={`${style.filter} ${style.spaceTitle2}`}>
+              <button
+                className={tab === 'all' ? `${style.filterButtonActive}` : `${style.filterButton}`}
+                onClick={() => {
+                  setTab("all");
+                  loadFilterDatas("/rd/all");
+                }}
               >
-                <p className={`${style.row} ${style.fontSize}`}>All</p>
-              </Link>
-              <Link
-                className={`${style.button} ${style.button}:hover ${style.black}`}
-                to="/rd/success"
+                <p style={{padding:"3px 8px 3px 8px"}}>
+                All
+                </p>
+              </button>
+              <button
+                className={tab === 'success' ? `${style.filterButtonActive}` : `${style.filterButton}`}
+                onClick={() => {
+                  setTab("success");
+                  loadFilterDatas("/rd/success");
+                }}
               >
-                <p className={`${style.row} ${style.fontSize}`}>
+                <p className={`${style.row}`}>
                   Success
                   <p className={style.green}>{datas.sumRdStatus.success}</p>
                 </p>
-              </Link>
-              <Link
-                className={`${style.button} ${style.button}:hover ${style.black}`}
-                to="/rd/fail"
+              </button>
+              <button
+                className={tab === 'fail' ? `${style.filterButtonActive}` : `${style.filterButton}`}
+                onClick={() => {
+                  setTab("fail");
+                  loadFilterDatas("/rd/fail");
+                }}
               >
-                <p className={`${style.row} ${style.fontSize}`}>
+                <p className={`${style.row}`}>
                   Fail
                   <p className={style.red}>{datas.sumRdStatus.fail}</p>
                 </p>
-              </Link>
+              </button>
             </div>
 
             {batchDate.map((data: string) => {
@@ -239,7 +264,7 @@ export default function RDTransaction() {
                         return (
                           <tr>
                             <td width="5%">{i + 1}</td>
-                            <td width="10%"><Link to={`/${lot.name}`} state={{ lot: lot }}>{lot.name}</Link></td>
+                            <td width="10%"><Link to={`/batchdataresult/${lot.name}`} state={{ lot: lot }}>{lot.name}</Link></td>
                             <td width="8%">{lot.batchDate}</td>
                             <td width="10%">{lot.batchTime}</td>
                             <td width="15%">{lot.sendRdDate}</td>
