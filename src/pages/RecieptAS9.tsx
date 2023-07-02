@@ -1,4 +1,3 @@
-import React from "react";
 import "./RecieptAS9.css";
 
 export default function RecieptAS9() {

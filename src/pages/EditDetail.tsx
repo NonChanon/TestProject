@@ -4,7 +4,6 @@ import { useState } from "react";
 import axios from "axios";
 
 export default function EditDetail() {
-
   const { state } = useLocation();
   console.log(state);
   const [states, setStates] = useState(state);
@@ -341,7 +340,10 @@ export default function EditDetail() {
         <button
           onClick={async (e) => {
             e.preventDefault();
-            await axios.put(`http://localhost:8080/api${path}`, states.customer);
+            await axios.put(
+              `http://localhost:8080/api${path}`,
+              states.customer
+            );
             navigate(-1);
           }}
           type="submit"

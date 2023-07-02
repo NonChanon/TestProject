@@ -2,6 +2,7 @@ import "./DataResult.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useLocation } from "react-router-dom";
+import UseAuth from "../services/UseAuth";
 
 interface lotModel {
   name: string;
@@ -16,27 +17,25 @@ interface lotModel {
 
 export default function DataResult() {
   const [datas, setDatas] = useState([]);
+  const {isAuthen} = UseAuth()
+  console.log(isAuthen)
 
   const path = useLocation().pathname;
-  console.log("path = " + path);
-  console.log(useLocation());
 
   let sumApproved = 0,
-    sumPending = 0,
-    sumInvalidData = 0,
-    sumDenied = 0;
+      sumPending = 0,
+      sumInvalidData = 0,
+      sumDenied = 0;
 
   let grouped = datas;
 
   const loadDatas = async () => {
     const dataRes = await axios.get(`http://localhost:8080/api${path}`);
     setDatas(dataRes.data);
-    console.log(dataRes.data);
   };
 
   if (datas.length > 0) {
     grouped = datas.reduce((acc: any, obj: lotModel) => {
-      console.log("Acc ======>", acc);
       const key: string = obj.batchDate;
       acc[key] = acc[key] || [];
       acc[key].push(obj);
@@ -48,7 +47,6 @@ export default function DataResult() {
   console.log(Object.keys(grouped));
 
   useEffect(() => {
-    console.log("Trigger use Effect");
     loadDatas();
   }, [useLocation().key]);
 
@@ -62,8 +60,6 @@ export default function DataResult() {
       <div>
         <div className="Batch shadow row space4 ">
           <p className="tab">Batch Date : {data}</p>
-          {/* <div className="tab line3"></div>
-          <p className="tab">Batch Time : {data.batchTime}</p> */}
         </div>
         <table className="transaction-table">
           <thead>
@@ -114,9 +110,6 @@ export default function DataResult() {
                   <td>{lot.totalDubDutyAmount}</td>
                   <td>{lot.totalPayment}</td>
                   <td className="action">
-                    {/* <Routes>
-                      <Route path={`/${lot.name}`} element={<DetailCollection />} />
-                    </Routes> */}
                     <Link to={`/${lot.name}`} state={{ lot: lot }}>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -236,12 +229,6 @@ export default function DataResult() {
                   <p className="green">{sumApproved}</p>
                 </p>
               </Link>
-              {/* <button className="button button:hover black">
-                  <p className="row ">
-                    Approved
-                    <p className="green">{sumApproved}</p>
-                  </p>
-                </button> */}
               <Link className="button button:hover black" to="/lots/pending">
                 <p className="row">
                   Pending

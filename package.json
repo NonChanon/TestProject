@@ -10,14 +10,16 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@phntms/use-local-state": "^0.1.4",
     "@types/react-router-dom": "^5.3.3",
+    "@uidotdev/usehooks": "^2.0.1-experimental.1",
     "ax": "^0.2.2",
     "axios": "^1.4.0",
     "hooks": "^0.3.2",
     "install": "^0.13.0",
-    "react": "^18.2.0",
+    "react": "0.0.0-experimental-d1c8cdae3-20230619",
     "react-auth-hook": "^1.1.0",
-    "react-dom": "^18.2.0",
+    "react-dom": "0.0.0-experimental-d1c8cdae3-20230619",
     "react-router-dom": "^6.13.0"
   },
   "devDependencies": {
