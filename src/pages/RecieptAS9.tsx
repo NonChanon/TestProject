@@ -1,6 +1,214 @@
+import React, { MouseEvent, useEffect, useState } from "react";
+import { Link, useLocation, useNavigate, NavLink } from "react-router-dom";
 import "./RecieptAS9.css";
+import axios from "axios";
+import moment from "moment";
+import DatePicker from "react-datepicker";
+// import "react-datepicker/dist/react-datepicker.css";
+
+interface lotModel {
+  name: string;
+  totalDoc: number;
+  batchDate: string;
+  approvalStatus: string;
+  approvedBy: string;
+  totalDuty: number;
+  totalDubDutyAmount: number;
+  totalPayment: number;
+  ref1: string;
+  ref2: string;
+}
 
 export default function RecieptAS9() {
+  const [datas, setDatas] = useState<any>({
+    content: [],
+    sumStatus: {
+      approved: 0,
+      pending: 0,
+      invalidData: 0,
+      denied: 0,
+    },
+  });
+  const [startDate, setStartDate] = useState<Date | null>();
+  const [lotName, setLotName] = useState({
+    lotNameInput: "",
+  });
+
+  const path = useLocation().pathname;
+  console.log("path = " + path);
+  console.log(useLocation());
+
+  let grouped = datas;
+
+  const loadDatas = async () => {
+    const dataRes = await axios.get(`http://localhost:8080/api${path}`);
+    setDatas(dataRes.data);
+    console.log("getData is : " + dataRes.data);
+  };
+
+  const onSearch = async (e: MouseEvent, request: object) => {
+    e.preventDefault();
+    moment;
+    const dataRes = await axios.post(
+      `http://localhost:8080/api/lots/search/dataresult`,
+      request
+    );
+    setDatas(dataRes.data);
+    console.log("search data is " + dataRes.data);
+  };
+
+  const updateLotNameInput = (e: { target: { name: any; value: any } }) => {
+    console.log(e.target.name);
+    setLotName({
+      ...lotName,
+      [e.target.name]: e.target.value,
+    });
+    console.log(lotName.lotNameInput);
+  };
+
+  console.log(grouped);
+
+  if (datas.content != null) {
+    grouped = datas.content.reduce((acc: any, obj: lotModel) => {
+      console.log("Acc ======>", acc);
+      const key: string = obj.batchDate;
+      acc[key] = acc[key] || [];
+      acc[key].push(obj);
+      return acc;
+    }, {});
+  }
+
+  console.log(grouped);
+
+  const batchDate = Object.keys(grouped);
+  console.log("batchDate is : " + Object.keys(grouped));
+
+  useEffect(() => {
+    console.log("Trigger use Effect");
+    loadDatas();
+  }, [useLocation().key]);
+
+  const dataRecAS9Table = batchDate.map((data) => {
+    let sumDoc = 0,
+      sumTotalDuty = 0,
+      sumTotalDubDutyAmount = 0,
+      sumTotalPayment = 0;
+
+    return (
+      <div>
+        <div className="Batch shadow row space4 ">
+          <p className="tab">Batch Date : {data}</p>
+        </div>
+        <table className="transaction-table">
+          <thead>
+            <tr>
+              <th>No.</th>
+              <th>Lot Name</th>
+              <th>Total Doc</th>
+              <th>Batch Date</th>
+              <th>Batch Time</th>
+              <th>InstInfo ID</th>
+              <th>TaxPayer ID</th>
+              <th>Total Payment</th>
+              <th>AS9</th>
+              <th>Receipt</th>
+            </tr>
+          </thead>
+          {grouped[data].map((lot: lotModel, i: number) => {
+            console.log(lot);
+            sumDoc += lot.totalDoc;
+            sumTotalDuty += lot.totalDuty;
+            sumTotalDubDutyAmount += lot.totalDubDutyAmount;
+            sumTotalPayment += lot.totalPayment;
+
+            return (
+              <tbody>
+                <tr>
+                  <td>{i + 1}</td>
+                  <td>{lot.name}</td>
+                  <td>{lot.totalDoc}</td>
+                  <td>{lot.batchDate}</td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td>{lot.totalPayment}</td>
+                  <td className="action">
+                    {/* <Routes>
+                      <Route path={`/${lot.name}`} element={<DetailCollection />} />
+                    </Routes> */}
+                    <NavLink
+                      to={`/${lot.name}?page=0`}
+                      end
+                      state={{ lot: lot }}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="21"
+                        height="21"
+                        viewBox="0 0 24 24"
+                      >
+                        <g
+                          fill="none"
+                          stroke="#489788"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                        >
+                          <path d="M14 3v4a1 1 0 0 0 1 1h4" />
+                          <path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2zM9 7h1m-1 6h6m-2 4h2" />
+                        </g>
+                      </svg>
+                    </NavLink>
+                  </td>
+                  <td className="action">
+                    {/* <Routes>
+                      <Route path={`/${lot.name}`} element={<DetailCollection />} />
+                    </Routes> */}
+                    <NavLink
+                      to={`/${lot.name}?page=0`}
+                      end
+                      state={{ lot: lot }}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="21"
+                        height="21"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          fill="#489788"
+                          d="M21 11h-3V4a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v14c0 1.654 1.346 3 3 3h14c1.654 0 3-1.346 3-3v-6a1 1 0 0 0-1-1zM5 19a1 1 0 0 1-1-1V5h12v13c0 .351.061.688.171 1H5zm15-1a1 1 0 0 1-2 0v-5h2v5z"
+                        />
+                        <path
+                          fill="#489788"
+                          d="M6 7h8v2H6zm0 4h8v2H6zm5 4h3v2h-3z"
+                        />
+                      </svg>
+                    </NavLink>
+                  </td>
+                </tr>
+              </tbody>
+            );
+          })}
+          <tfoot>
+            <tr>
+              <th className="ltb">Total</th>
+              <th className="ltb"></th>
+              <th className="ltb">{sumDoc}</th>
+              <th className="ltb"></th>
+              <th className="ltb"></th>
+              <th className="ltb"></th>
+              <th className="ltb"></th>
+              <th className="ltb">{sumTotalPayment}</th>
+              <th className="ltb"></th>
+              <th className="ltb"></th>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    );
+  });
+
   return (
     <div className="space2">
       <div className="title spaceTitle">
@@ -11,9 +219,21 @@ export default function RecieptAS9() {
       <div className="SearchBar shadow  row btw spaceTitle">
         <div className="FilterButon">
           <button className="BatchDate button1">
-            <div className="row ">
-              <div className="space">Batch Date</div>
+            <div className="row">
+              <DatePicker
+                id="batchDate"
+                dateFormat="dd/MM/yyy"
+                selected={startDate}
+                onChange={(date: Date) => {
+                  setStartDate(date);
+                  console.log("Selected date is : " + date.toLocaleString());
+                }}
+                isClearable
+                placeholderText="Batch Date"
+                className="calendarDate"
+              />
               <svg
+                style={{ margin: "0px" }}
                 xmlns="http://www.w3.org/2000/svg"
                 width="20"
                 height="20"
@@ -30,24 +250,38 @@ export default function RecieptAS9() {
 
           <button className="LotName button1">
             <div className="row ">
-              <div className="space">Lot Name</div>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  fill="none"
-                  d="M8 14q-.425 0-.713-.288T7 13q0-.425.288-.713T8 12q.425 0 .713.288T9 13q0 .425-.288.713T8 14Zm4 0q-.425 0-.713-.288T11 13q0-.425.288-.713T12 12q.425 0 .713.288T13 13q0 .425-.288.713T12 14Zm4 0q-.425 0-.713-.288T15 13q0-.425.288-.713T16 12q.425 0 .713.288T17 13q0 .425-.288.713T16 14ZM5 22q-.825 0-1.413-.588T3 20V6q0-.825.588-1.413T5 4h1V2h2v2h8V2h2v2h1q.825 0 1.413.588T21 6v14q0 .825-.588 1.413T19 22H5Zm0-2h14V10H5v10ZM5 8h14V6H5v2Zm0 0V6v2Z"
-                />
-              </svg>
+              <input
+                name="lotNameInput"
+                className="form-control"
+                style={{
+                  height: "100%",
+                  border: "0",
+                  fontSize: "14px",
+                  fontFamily: "'Rubik', sans-serif",
+                  margin: "0",
+                  padding: "5px",
+                  boxSizing: "border-box",
+                }}
+                placeholder="Lot Name"
+                onChange={(e) => updateLotNameInput(e)}
+              />
             </div>
             <div className="line2"></div>
           </button>
         </div>
 
-        <button className="SearchButton">
+        <button
+          className="SearchButton"
+          onClick={(e) =>
+            onSearch(e, {
+              batchDate:
+                startDate === null
+                  ? ""
+                  : moment(startDate).format("DD/MM/yyyy").toString(),
+              lotName: lotName.lotNameInput,
+            })
+          }
+        >
           <div className="row ">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -73,219 +307,28 @@ export default function RecieptAS9() {
 
       <div className="Transection">
         <div className="BatchBar shadow ">
-          <div className=" ">
-            <div className="Table top">
-              <table>
-                <tr>
-                  <th>No.</th>
-                  <th>Lot Name</th>
-                  <th>Total Doc</th>
-                  <th>Batch Date</th>
-                  <th>Batch Time</th>
-                  <th>InstInfo ID</th>
-                  <th>TaxPayer ID</th>
+          <div className="space3 ">
+            <div className="filter spaceTitle2">
+              <Link className="button button:hover black active" to="/reciept">
+                All
+              </Link>
+              <Link className="button button:hover black" to="/lots/approved">
+                <p className="row ">
+                  Approved
+                  <p className="green">{datas.sumStatus.approved}</p>
+                </p>
+              </Link>
 
-                  <th>Total Payment</th>
-                  <th>AS9</th>
-                  <th>Receipt</th>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td>lot_14</td>
-                  <td>20</td>
-                  <td>31/10/2022</td>
-                  <td>12:00</td>
-                  <td>2562/10</td>
-                  <td>1102918928918</td>
-                  <td>2,000</td>
-                  <td>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="21"
-                      height="21"
-                      viewBox="0 0 24 24"
-                    >
-                      <g
-                        fill="none"
-                        stroke="#489788"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                      >
-                        <path d="M14 3v4a1 1 0 0 0 1 1h4" />
-                        <path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2zM9 7h1m-1 6h6m-2 4h2" />
-                      </g>
-                    </svg>
-                  </td>
-                  <td>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="21"
-                      height="21"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        fill="#489788"
-                        d="M21 11h-3V4a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v14c0 1.654 1.346 3 3 3h14c1.654 0 3-1.346 3-3v-6a1 1 0 0 0-1-1zM5 19a1 1 0 0 1-1-1V5h12v13c0 .351.061.688.171 1H5zm15-1a1 1 0 0 1-2 0v-5h2v5z"
-                      />
-                      <path
-                        fill="#489788"
-                        d="M6 7h8v2H6zm0 4h8v2H6zm5 4h3v2h-3z"
-                      />
-                    </svg>
-                  </td>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td>lot_14</td>
-                  <td>20</td>
-                  <td>31/10/2022</td>
-                  <td>12:00</td>
-                  <td>2562/10</td>
-                  <td>1102918928918</td>
-                  <td>2,000</td>
-                  <td>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="21"
-                      height="21"
-                      viewBox="0 0 24 24"
-                    >
-                      <g
-                        fill="none"
-                        stroke="#489788"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                      >
-                        <path d="M14 3v4a1 1 0 0 0 1 1h4" />
-                        <path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2zM9 7h1m-1 6h6m-2 4h2" />
-                      </g>
-                    </svg>
-                  </td>
-                  <td>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="21"
-                      height="21"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        fill="#489788"
-                        d="M21 11h-3V4a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v14c0 1.654 1.346 3 3 3h14c1.654 0 3-1.346 3-3v-6a1 1 0 0 0-1-1zM5 19a1 1 0 0 1-1-1V5h12v13c0 .351.061.688.171 1H5zm15-1a1 1 0 0 1-2 0v-5h2v5z"
-                      />
-                      <path
-                        fill="#489788"
-                        d="M6 7h8v2H6zm0 4h8v2H6zm5 4h3v2h-3z"
-                      />
-                    </svg>
-                  </td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>lot_14</td>
-                  <td>20</td>
-                  <td>31/10/2022</td>
-                  <td>12:00</td>
-                  <td>2562/10</td>
-                  <td>1102918928918</td>
-                  <td>2,000</td>
-                  <td>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="21"
-                      height="21"
-                      viewBox="0 0 24 24"
-                    >
-                      <g
-                        fill="none"
-                        stroke="#489788"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                      >
-                        <path d="M14 3v4a1 1 0 0 0 1 1h4" />
-                        <path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2zM9 7h1m-1 6h6m-2 4h2" />
-                      </g>
-                    </svg>
-                  </td>
-                  <td>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="21"
-                      height="21"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        fill="#489788"
-                        d="M21 11h-3V4a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v14c0 1.654 1.346 3 3 3h14c1.654 0 3-1.346 3-3v-6a1 1 0 0 0-1-1zM5 19a1 1 0 0 1-1-1V5h12v13c0 .351.061.688.171 1H5zm15-1a1 1 0 0 1-2 0v-5h2v5z"
-                      />
-                      <path
-                        fill="#489788"
-                        d="M6 7h8v2H6zm0 4h8v2H6zm5 4h3v2h-3z"
-                      />
-                    </svg>
-                  </td>
-                </tr>
-                <tr>
-                  <td>3</td>
-                  <td>lot_14</td>
-                  <td>20</td>
-                  <td>31/10/2022</td>
-                  <td>12:00</td>
-                  <td>2562/10</td>
-                  <td>1102918928918</td>
-                  <td>2,000</td>
-                  <td>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="21"
-                      height="21"
-                      viewBox="0 0 24 24"
-                    >
-                      <g
-                        fill="none"
-                        stroke="#489788"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                      >
-                        <path d="M14 3v4a1 1 0 0 0 1 1h4" />
-                        <path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2zM9 7h1m-1 6h6m-2 4h2" />
-                      </g>
-                    </svg>
-                  </td>
-                  <td>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="21"
-                      height="21"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        fill="#489788"
-                        d="M21 11h-3V4a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v14c0 1.654 1.346 3 3 3h14c1.654 0 3-1.346 3-3v-6a1 1 0 0 0-1-1zM5 19a1 1 0 0 1-1-1V5h12v13c0 .351.061.688.171 1H5zm15-1a1 1 0 0 1-2 0v-5h2v5z"
-                      />
-                      <path
-                        fill="#489788"
-                        d="M6 7h8v2H6zm0 4h8v2H6zm5 4h3v2h-3z"
-                      />
-                    </svg>
-                  </td>
-                </tr>
-                <tr>
-                  <td className="ltb">Total</td>
-                  <td className="ltb"></td>
-                  <td className="ltb"></td>
-                  <td className="ltb"></td>
-                  <td className="ltb"></td>
-                  <td className="ltb"></td>
-                  <td className="ltb"></td>
-                  <td className="ltb">6,000</td>
-                  <td className="ltb"></td>
-                  <td className="ltb"></td>
-                </tr>
-              </table>
+              <Link className="button button:hover black" to="/lots/pending">
+                <p className="row">
+                  Pending
+                  <p className="yellow">{datas.sumStatus.pending}</p>
+                </p>
+              </Link>
+            </div>
+
+            <div>
+              <table>{dataRecAS9Table}</table>
             </div>
           </div>
         </div>

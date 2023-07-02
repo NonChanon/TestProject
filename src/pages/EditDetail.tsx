@@ -1,12 +1,23 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import "./EditDetail.css";
+import style from "./EditDetail.module.css";
 import { useState } from "react";
 import axios from "axios";
+import DatePicker from "react-datepicker";
+
+import moment from "moment";
 
 export default function EditDetail() {
   const { state } = useLocation();
   console.log(state);
   const [states, setStates] = useState(state);
+  const [startDate, setStartDate] = useState<Date | null>();
+  const [endDate, setEndDate] = useState<Date | null>();
+  const [finalPaymentDate, setFinalPaymentDate] = useState<Date | null>();
+  const [totalPayment, setTotalPayment] = useState({
+    paymentAmount:
+      states.customer.totalDuty + states.customer.totalDubDutyAmount,
+  });
+  console.log(states);
   const navigate = useNavigate();
   const path = useLocation().pathname;
 
@@ -50,294 +61,461 @@ export default function EditDetail() {
   };
 
   return (
-    <div className="ttspace">
-      <div className="title">
-        <div className="ttline"></div>
+    <div className={`${style.ttspace}`}>
+      <div className={`${style.title}`}>
+        <div className={`${style.ttline}`}></div>
         <div>Edit Detail</div>
       </div>
 
-      <form className="content">
+      <form className={`${style.content}`}>
         <div>
           <div className="Contract Information">
-            <p className="tt">Contract Information</p>
-            <div className="grid-container">
-              <div className="item">
-                <p className="txtblk">Contract Number</p>
-                <input
-                  name="number"
-                  type="text"
-                  className="txt"
-                  defaultValue={states.customer.contract.number}
-                  onChange={(e) => updateContract(e)}
-                />
-              </div>
-              <div className="item">
-                <p className="txtblk">Contract Start Date</p>
-
-                <div className="con ">
+            <p className={`${style.tt}`}>Contract Information</p>
+            <div className={`${style.gridContainer}`}>
+              <div className={`${style.item}`}>
+                <p className={`${style.txtblk}`}>Contract Number</p>
+                <div className={`${style.inputDiv}`}>
                   <input
-                    name="startDate"
+                    name="number"
                     type="text"
-                    className="txt"
-                    defaultValue={states.customer.contract.startDate}
+                    className={`${style.txt}`}
+                    defaultValue={states.customer.contract.number}
                     onChange={(e) => updateContract(e)}
                   />
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="21"
-                    height="21"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      fill="#535353"
-                      d="M8 14q-.425 0-.713-.288T7 13q0-.425.288-.713T8 12q.425 0 .713.288T9 13q0 .425-.288.713T8 14Zm4 0q-.425 0-.713-.288T11 13q0-.425.288-.713T12 12q.425 0 .713.288T13 13q0 .425-.288.713T12 14Zm4 0q-.425 0-.713-.288T15 13q0-.425.288-.713T16 12q.425 0 .713.288T17 13q0 .425-.288.713T16 14ZM5 22q-.825 0-1.413-.588T3 20V6q0-.825.588-1.413T5 4h1V2h2v2h8V2h2v2h1q.825 0 1.413.588T21 6v14q0 .825-.588 1.413T19 22H5Zm0-2h14V10H5v10ZM5 8h14V6H5v2Zm0 0V6v2Z"
-                    />
-                  </svg>
                 </div>
               </div>
-              <div className="item">
-                <p className="txtblk">Contract End Date</p>
-                <input
-                  name="endDate"
-                  type="text"
-                  className="txt"
-                  defaultValue={states.customer.contract.endDate}
-                  onChange={(e) => updateContract(e)}
-                />
+              <div className={`${style.item}`}>
+                <p className={`${style.txtblk}`}>Contract Start Date</p>
+                <div className={`${style.inputDiv}`}>
+                  <div>
+                    <DatePicker
+                      wrapperClassName={`${style.test}`}
+                      name="startDate"
+                      dateFormat="dd/MM/yyy"
+                      selected={startDate}
+                      onChange={(date: Date) => {
+                        setStartDate(date);
+                        setStates({
+                          ...states,
+                          customer: {
+                            ...states.customer,
+                            contract: {
+                              ...states.customer.contract,
+                              ["startDate"]: moment(date)
+                                .format("DD/MM/yyyy")
+                                .toString(),
+                            },
+                          },
+                        });
+                        console.log(
+                          "Selected date is : " + date.toLocaleString()
+                        );
+                      }}
+                      isClearable
+                      placeholderText="Select Date"
+                    />
+                  </div>
+                  <div>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="18"
+                      height="18"
+                      viewBox="0 0 20 22"
+                    >
+                      <path
+                        fill="#535353"
+                        d="M8 14q-.425 0-.713-.288T7 13q0-.425.288-.713T8 12q.425 0 .713.288T9 13q0 .425-.288.713T8 14Zm4 0q-.425 0-.713-.288T11 13q0-.425.288-.713T12 12q.425 0 .713.288T13 13q0 .425-.288.713T12 14Zm4 0q-.425 0-.713-.288T15 13q0-.425.288-.713T16 12q.425 0 .713.288T17 13q0 .425-.288.713T16 14ZM5 22q-.825 0-1.413-.588T3 20V6q0-.825.588-1.413T5 4h1V2h2v2h8V2h2v2h1q.825 0 1.413.588T21 6v14q0 .825-.588 1.413T19 22H5Zm0-2h14V10H5v10ZM5 8h14V6H5v2Zm0 0V6v2Z"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              <div className={`${style.item}`}>
+                <p className={`${style.txtblk}`}>Contract End Date</p>
+                <div className={`${style.inputDiv}`}>
+                  <div>
+                    <DatePicker
+                      name="endDate"
+                      wrapperClassName={`${style.test}`}
+                      dateFormat="dd/MM/yyy"
+                      selected={endDate}
+                      onChange={(date: Date) => {
+                        setEndDate(date);
+                        setStates({
+                          ...states,
+                          customer: {
+                            ...states.customer,
+                            contract: {
+                              ...states.customer.contract,
+                              ["endDate"]: moment(date)
+                                .format("DD/MM/yyyy")
+                                .toString(),
+                            },
+                          },
+                        });
+                        console.log(
+                          "Selected date is : " + date.toLocaleString()
+                        );
+                      }}
+                      isClearable
+                      placeholderText="Select Date"
+                      className="calendarDate"
+                    />
+                  </div>
+                  <div>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="18"
+                      height="18"
+                      viewBox="0 0 20 22"
+                    >
+                      <path
+                        fill="#535353"
+                        d="M8 14q-.425 0-.713-.288T7 13q0-.425.288-.713T8 12q.425 0 .713.288T9 13q0 .425-.288.713T8 14Zm4 0q-.425 0-.713-.288T11 13q0-.425.288-.713T12 12q.425 0 .713.288T13 13q0 .425-.288.713T12 14Zm4 0q-.425 0-.713-.288T15 13q0-.425.288-.713T16 12q.425 0 .713.288T17 13q0 .425-.288.713T16 14ZM5 22q-.825 0-1.413-.588T3 20V6q0-.825.588-1.413T5 4h1V2h2v2h8V2h2v2h1q.825 0 1.413.588T21 6v14q0 .825-.588 1.413T19 22H5Zm0-2h14V10H5v10ZM5 8h14V6H5v2Zm0 0V6v2Z"
+                      />
+                    </svg>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
           <div className="Information of the applicant">
-            <p className="tt">Information of the applicant for stamp duty</p>
-            <div className="grid-container">
-              <div className="item">
-                <p className="txtblk">
+            <p className={`${style.tt}`}>
+              Information of the applicant for stamp duty
+            </p>
+            <div className={`${style.gridContainer}`}>
+              <div className={`${style.item}`}>
+                <p className={`${style.txtblk}`}>
                   Identification number of the applicant for stamp duty
                 </p>
-                <input
-                  name="applicantId"
-                  type="text"
-                  className="txt"
-                  defaultValue={states.customer.contract.applicantId}
-                  onChange={(e) => updateContract(e)}
-                />
+                <div className={`${style.inputDiv}`}>
+                  <input
+                    name="applicantId"
+                    type="text"
+                    className={`${style.txt}`}
+                    defaultValue={states.customer.contract.applicantId}
+                    onChange={(e) => updateContract(e)}
+                  />
+                </div>
               </div>
-              <div className="item">
-                <p className="txtblk">Branch Number</p>
-                <input
-                  name="branchNumber"
-                  type="text"
-                  className="txt"
-                  defaultValue={states.customer.contract.branchNumber}
-                  onChange={(e) => updateContract(e)}
-                />
+              <div className={`${style.item}`}>
+                <p className={`${style.txtblk}`}>Branch Number</p>
+                <div className={`${style.inputDiv}`}>
+                  <input
+                    name="branchNumber"
+                    type="text"
+                    className={`${style.txt}`}
+                    defaultValue={states.customer.contract.branchNumber}
+                    onChange={(e) => updateContract(e)}
+                  />
+                </div>
               </div>
-              <div className="item">
-                <p className="txtblk">Branch Type</p>
-                <input
-                  name="branchType"
-                  type="text"
-                  className="txt"
-                  defaultValue={states.customer.contract.branchType}
-                  onChange={(e) => updateContract(e)}
-                />
+              <div className={`${style.item}`}>
+                <p className={`${style.txtblk}`}>Branch Type</p>
+                <div className={`${style.inputDiv}`}>
+                  <input
+                    name="branchType"
+                    type="text"
+                    className={`${style.txt}`}
+                    defaultValue={states.customer.contract.branchType}
+                    onChange={(e) => updateContract(e)}
+                  />
+                </div>
               </div>
-              <div className="item">
-                <p className="txtblk">Contract related Status</p>
-                <input
-                  name="relatedStatus"
-                  type="text"
-                  className="txt"
-                  defaultValue={states.customer.contract.relatedStatus}
-                  onChange={(e) => updateContract(e)}
-                />
+              <div className={`${style.item}`}>
+                <p className={`${style.txtblk}`}>Contract related Status</p>
+                <div className={`${style.inputDiv}`}>
+                  <input
+                    name="relatedStatus"
+                    type="text"
+                    className={`${style.txt}`}
+                    defaultValue={states.customer.contract.relatedStatus}
+                    onChange={(e) => updateContract(e)}
+                  />
+                </div>
               </div>
             </div>
           </div>
           <div className="Payment Details">
-            <p className="tt">Payment Details</p>
-            <div className="grid-container">
-              <div className="item">
-                <p className="txtblk">Final Payment Date</p>
-                <input
-                  name="finalPaymentDate"
-                  type="text"
-                  className="txt"
-                  defaultValue={states.customer.finalPaymentDate}
-                  onChange={(e) => updateCustomer(e)}
-                />
+            <p className={`${style.tt}`}>Payment Details</p>
+            <div className={`${style.gridContainer}`}>
+              <div className={`${style.item}`}>
+                <p className={`${style.txtblk}`}>Final Payment Date</p>
+                <div className={`${style.inputDiv}`}>
+                  <div>
+                    <DatePicker
+                      name="finalPaymentDate"
+                      wrapperClassName={`${style.test}`}
+                      dateFormat="dd/MM/yyy"
+                      selected={finalPaymentDate}
+                      onChange={(date: Date) => {
+                        setFinalPaymentDate(date);
+                        setStates({
+                          ...states,
+                          customer: {
+                            ...states.customer,
+                            ["finalPaymentDate"]: moment(date)
+                              .format("DD/MM/yyyy")
+                              .toString(),
+                          },
+                        });
+                        console.log(
+                          "Selected date is : " + date.toLocaleString()
+                        );
+                      }}
+                      isClearable
+                      placeholderText="Select Date"
+                      className={`${style.calendarDate}`}
+                    />
+                  </div>
+                  <div>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="18"
+                      height="18"
+                      viewBox="0 0 20 22"
+                    >
+                      <path
+                        fill="#535353"
+                        d="M8 14q-.425 0-.713-.288T7 13q0-.425.288-.713T8 12q.425 0 .713.288T9 13q0 .425-.288.713T8 14Zm4 0q-.425 0-.713-.288T11 13q0-.425.288-.713T12 12q.425 0 .713.288T13 13q0 .425-.288.713T12 14Zm4 0q-.425 0-.713-.288T15 13q0-.425.288-.713T16 12q.425 0 .713.288T17 13q0 .425-.288.713T16 14ZM5 22q-.825 0-1.413-.588T3 20V6q0-.825.588-1.413T5 4h1V2h2v2h8V2h2v2h1q.825 0 1.413.588T21 6v14q0 .825-.588 1.413T19 22H5Zm0-2h14V10H5v10ZM5 8h14V6H5v2Zm0 0V6v2Z"
+                      />
+                    </svg>
+                  </div>
+                </div>
               </div>
-              <div className="item">
-                <p className="txtblk">Duty Amount</p>
-                <input
-                  name="totalDuty"
-                  type="text"
-                  className="txt"
-                  defaultValue={states.customer.totalDuty}
-                  onChange={(e) => updateCustomer(e)}
-                />
+              <div className={`${style.item}`}>
+                <p className={`${style.txtblk}`}>Duty Amount</p>
+                <div className={`${style.inputDiv}`}>
+                  <input
+                    name="totalDuty"
+                    type="text"
+                    className={`${style.txt}`}
+                    defaultValue={states.customer.totalDuty}
+                    onChange={(e) => {
+                      updateCustomer(e);
+                      console.log(states);
+                    }}
+                    onBlur={() => {
+                      console.log(
+                        states.customer.totalDuty +
+                          states.customer.totalDubDutyAmount
+                      );
+                      setTotalPayment({
+                        ...totalPayment,
+                        paymentAmount:
+                          Number(states.customer.totalDuty) +
+                          Number(states.customer.totalDubDutyAmount),
+                      });
+                    }}
+                  />
+                </div>
               </div>
-              <div className="item">
-                <p className="txtblk">Dub Duty Amount</p>
-                <input
-                  name="totalDubDutyAmount"
-                  type="text"
-                  className="txt"
-                  defaultValue={states.customer.totalDubDutyAmount}
-                  onChange={(e) => updateCustomer(e)}
-                />
+              <div className={`${style.item}`}>
+                <p className={`${style.txtblk}`}>Dub Duty Amount</p>
+                <div className={`${style.inputDiv}`}>
+                  <input
+                    name="totalDubDutyAmount"
+                    type="text"
+                    className={`${style.txt}`}
+                    defaultValue={states.customer.totalDubDutyAmount}
+                    onChange={(e) => {
+                      updateCustomer(e);
+                    }}
+                    onBlur={() => {
+                      setTotalPayment({
+                        ...totalPayment,
+                        paymentAmount:
+                          Number(states.customer.totalDuty) +
+                          Number(states.customer.totalDubDutyAmount),
+                      });
+                      console.log(states);
+                    }}
+                  />
+                </div>
               </div>
-              <div className="item">
-                <p className="txtblk">Total Amount</p>
-                <input
-                  name="totalPayment"
-                  type="text"
-                  className="txt"
-                  defaultValue={states.customer.totalPayment}
-                  onChange={(e) => updateCustomer(e)}
-                />
+              <div className={`${style.item}`}>
+                <p className={`${style.txtblk}`}>Total Amount</p>
+                <div className={`${style.inputDiv}`}>
+                  <div
+                    // name="totalPayment"
+                    // type="text"
+                    className={`${style.txt}`}
+                    // defaultValue={states.customer.totalPayment}
+                    // onChange={(e) => updateCustomer(e)}
+                  >
+                    {totalPayment.paymentAmount}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
           <div className="Contract Party Details">
-            <p className="tt">Contract Party Details</p>
-            <div className="grid-container">
-              <div className="item">
-                <p className="txtblk">Title</p>
-                <input
-                  name="title"
-                  type="text"
-                  className="txt"
-                  defaultValue={states.customer.title}
-                  onChange={(e) => updateCustomer(e)}
-                />
-              </div>
-              <div className="item">
-                <p className="txtblk">Firstname</p>
-                <input
-                  name="firstname"
-                  type="text"
-                  className="txt"
-                  defaultValue={states.customer.firstname}
-                  onChange={(e) => updateCustomer(e)}
-                />
-              </div>
-              <div className="item">
-                <p className="txtblk">Lastname</p>
-                <input
-                  name="lastname"
-                  type="text"
-                  className="txt"
-                  defaultValue={states.customer.lastname}
-                  onChange={(e) => updateCustomer(e)}
-                />
-              </div>
-              <div className="item">
-                <p className="txtblk">Village / Building</p>
-                <input
-                  name="village"
-                  type="text"
-                  className="txt"
-                  defaultValue={states.customer.address.village}
-                  onChange={(e) => updateAddress(e)}
-                />
-              </div>
-              <div className="minigrid">
-                <div className="item">
-                  <p className="minitxtblk">Address Number</p>
+            <p className={`${style.tt}`}>Contract Party Details</p>
+            <div className={`${style.gridContainer}`}>
+              <div className={`${style.item}`}>
+                <p className={`${style.txtblk}`}>Title</p>
+                <div className={`${style.inputDiv}`}>
                   <input
-                    name="addressNo"
-                    type=""
-                    className="minitxt"
-                    defaultValue={states.customer.address.addressNo}
-                    onChange={(e) => updateAddress(e)}
+                    name="title"
+                    type="text"
+                    className={`${style.txt}`}
+                    defaultValue={states.customer.title}
+                    onChange={(e) => updateCustomer(e)}
                   />
                 </div>
-                <div className="item">
-                  <p className="minitxtblk">Floor</p>
+              </div>
+              <div className={`${style.item}`}>
+                <p className={`${style.txtblk}`}>Firstname</p>
+                <div className={`${style.inputDiv}`}>
                   <input
-                    name="floor"
-                    type=""
-                    className="minitxt"
-                    defaultValue={states.customer.address.floor}
+                    name="firstname"
+                    type="text"
+                    className={`${style.txt}`}
+                    defaultValue={states.customer.firstname}
+                    onChange={(e) => updateCustomer(e)}
+                  />
+                </div>
+              </div>
+              <div className={`${style.item}`}>
+                <p className={`${style.txtblk}`}>Lastname</p>
+                <div className={`${style.inputDiv}`}>
+                  <input
+                    name="lastname"
+                    type="text"
+                    className={`${style.txt}`}
+                    defaultValue={states.customer.lastname}
+                    onChange={(e) => updateCustomer(e)}
+                  />
+                </div>
+              </div>
+              <div className={`${style.item}`}>
+                <p className={`${style.txtblk}`}>Village / Building</p>
+                <div className={`${style.inputDiv}`}>
+                  <input
+                    name="village"
+                    type="text"
+                    className={`${style.txt}`}
+                    defaultValue={states.customer.address.village}
                     onChange={(e) => updateAddress(e)}
                   />
                 </div>
               </div>
-              <div className="item">
-                <p className="txtblk">Village Number</p>
-                <input
-                  name="villageNo"
-                  type="text"
-                  className="txt"
-                  defaultValue={states.customer.address.villageNo}
-                  onChange={(e) => updateAddress(e)}
-                />
+              <div className={`${style.item}`}>
+                <div className={`${style.minigrid}`}>
+                  <p className={`${style.minitxtblk}`}>Address Number</p>
+                  <div className={``}>
+                    <input
+                      name="addressNo"
+                      type="text"
+                      className={`${style.minitxt}`}
+                      defaultValue={states.customer.address.addressNo}
+                      onChange={(e) => updateAddress(e)}
+                    />
+                  </div>
+                </div>
+                <div className={`${style.minigrid}`}>
+                  <p className={`${style.minitxtblk}`}>Floor</p>
+                  <div className={``}>
+                    <input
+                      name="floor"
+                      type="text"
+                      className={`${style.minitxt}`}
+                      defaultValue={states.customer.address.floor}
+                      onChange={(e) => updateAddress(e)}
+                    />
+                  </div>
+                </div>
               </div>
-              <div className="item">
-                <p className="txtblk">Alley / Section</p>
-                <input
-                  name="alley"
-                  type="text"
-                  className="txt"
-                  defaultValue={states.customer.address.alley}
-                  onChange={(e) => updateAddress(e)}
-                />
+              <div className={`${style.item}`}>
+                <p className={`${style.txtblk}`}>Village Number</p>
+                <div className={`${style.inputDiv}`}>
+                  <input
+                    name="villageNo"
+                    type="text"
+                    className={`${style.txt}`}
+                    defaultValue={states.customer.address.villageNo}
+                    onChange={(e) => updateAddress(e)}
+                  />
+                </div>
               </div>
-              <div className="item">
-                <p className="txtblk">Street</p>
-                <input
-                  name="street"
-                  type="text"
-                  className="txt"
-                  defaultValue={states.customer.address.street}
-                  onChange={(e) => updateAddress(e)}
-                />
+              <div className={`${style.item}`}>
+                <p className={`${style.txtblk}`}>Alley / Section</p>
+                <div className={`${style.inputDiv}`}>
+                  <input
+                    name="alley"
+                    type="text"
+                    className={`${style.txt}`}
+                    defaultValue={states.customer.address.alley}
+                    onChange={(e) => updateAddress(e)}
+                  />
+                </div>
               </div>
-              <div className="item">
-                <p className="txtblk">Subdistrict</p>
-                <input
-                  name="subDistrict"
-                  type="text"
-                  className="txt"
-                  defaultValue={states.customer.address.subDistrict}
-                  onChange={(e) => updateAddress(e)}
-                />
+              <div className={`${style.item}`}>
+                <p className={`${style.txtblk}`}>Street</p>
+                <div className={`${style.inputDiv}`}>
+                  <input
+                    name="street"
+                    type="text"
+                    className={`${style.txt}`}
+                    defaultValue={states.customer.address.street}
+                    onChange={(e) => updateAddress(e)}
+                  />
+                </div>
               </div>
-              <div className="item">
-                <p className="txtblk">District</p>
-                <input
-                  name="district"
-                  type="text"
-                  className="txt"
-                  defaultValue={states.customer.address.district}
-                  onChange={(e) => updateAddress(e)}
-                />
+              <div className={`${style.item}`}>
+                <p className={`${style.txtblk}`}>Subdistrict</p>
+                <div className={`${style.inputDiv}`}>
+                  <input
+                    name="subDistrict"
+                    type="text"
+                    className={`${style.txt}`}
+                    defaultValue={states.customer.address.subDistrict}
+                    onChange={(e) => updateAddress(e)}
+                  />
+                </div>
               </div>
-              <div className="item">
-                <p className="txtblk">Province</p>
-                <input
-                  name="province"
-                  type="text"
-                  className="txt"
-                  defaultValue={states.customer.address.province}
-                  onChange={(e) => updateAddress(e)}
-                />
+              <div className={`${style.item}`}>
+                <p className={`${style.txtblk}`}>District</p>
+                <div className={`${style.inputDiv}`}>
+                  <input
+                    name="district"
+                    type="text"
+                    className={`${style.txt}`}
+                    defaultValue={states.customer.address.district}
+                    onChange={(e) => updateAddress(e)}
+                  />
+                </div>
               </div>
-              <div className="item">
-                <p className="txtblk">Postal Code</p>
-                <input
-                  name="postalCode"
-                  type="text"
-                  className="txt"
-                  defaultValue={states.customer.address.postalCode}
-                  onChange={(e) => updateAddress(e)}
-                />
+              <div className={`${style.item}`}>
+                <p className={`${style.txtblk}`}>Province</p>
+                <div className={`${style.inputDiv}`}>
+                  <input
+                    name="province"
+                    type="text"
+                    className={`${style.txt}`}
+                    defaultValue={states.customer.address.province}
+                    onChange={(e) => updateAddress(e)}
+                  />
+                </div>
+              </div>
+              <div className={`${style.item}`}>
+                <p className={`${style.txtblk}`}>Postal Code</p>
+                <div className={`${style.inputDiv}`}>
+                  <input
+                    name="postalCode"
+                    type="text"
+                    className={`${style.txt}`}
+                    defaultValue={states.customer.address.postalCode}
+                    onChange={(e) => updateAddress(e)}
+                  />
+                </div>
               </div>
             </div>
           </div>
         </div>
         <button
+          className={`${style.submitButton}`}
+          style={{ marginRight: "5px" }}
           onClick={async (e) => {
             e.preventDefault();
             await axios.put(
@@ -351,6 +529,7 @@ export default function EditDetail() {
           Submit
         </button>
         <button
+          className={`${style.cancelButton}`}
           onClick={(e) => {
             e.preventDefault();
             navigate(-1);

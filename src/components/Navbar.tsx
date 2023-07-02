@@ -76,111 +76,93 @@ export default function Navbar() {
     <div className="container">
       <nav className="vnavbar">
         <div className="menu">
-          <span className="topic">MENU</span>
-          <ul className="menulist">
-            <li>
-              <NavLink
-                to="/lots/all"
-                className={({ isActive }) =>
-                  isActive ? activeClassName : undefined
-                }
+        <span className="topic">MENU
+        </span>
+        <ul className="menulist">
+          <li>
+            <NavLink to ='/lots/all' className={({ isActive }) => isActive ? activeClassName : undefined}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 32 32"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 32 32"
-                >
-                  <path
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2.5"
-                    d="M24 15h1a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h1m6 4h4m-2-4V3m0 12l4-4m-4 4l-4-4"
-                  />
-                </svg>
-                Batch Data Result
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/rd/all"
-                className={({ isActive }) =>
-                  isActive ? activeClassName : undefined
-                }
+                <path
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2.5"
+                  d="M24 15h1a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h1m6 4h4m-2-4V3m0 12l4-4m-4 4l-4-4"
+                />
+              </svg>
+              Batch Data Result
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to ='/rd/all' className={({ isActive }) => isActive ? activeClassName : undefined}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 48 48"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 48 48"
+                <g
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="4"
                 >
-                  <g
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="4"
-                  >
-                    <path d="M39 6H9a3 3 0 0 0-3 3v30a3 3 0 0 0 3 3h30a3 3 0 0 0 3-3V9a3 3 0 0 0-3-3Z" />
-                    <path d="m21 31l5 4l8-10M14 15h20m-20 8h8" />
-                  </g>
-                </svg>
-                RD Transaction
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/invoice"
-                className={({ isActive }) =>
-                  isActive ? activeClassName : undefined
-                }
+                  <path d="M39 6H9a3 3 0 0 0-3 3v30a3 3 0 0 0 3 3h30a3 3 0 0 0 3-3V9a3 3 0 0 0-3-3Z" />
+                  <path d="m21 31l5 4l8-10M14 15h20m-20 8h8" />
+                </g>
+              </svg>
+              RD Transaction
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to ='/invoice' className={({ isActive }) => isActive ? activeClassName : undefined}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
+                <g
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
                 >
-                  <g
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                  >
-                    <path d="M14 3v4a1 1 0 0 0 1 1h4" />
-                    <path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2zM9 7h1m-1 6h6m-2 4h2" />
-                  </g>
-                </svg>
-                Invoice Payment
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/reciept"
-                className={({ isActive }) =>
-                  isActive ? activeClassName : undefined
-                }
+                  <path d="M14 3v4a1 1 0 0 0 1 1h4" />
+                  <path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2zM9 7h1m-1 6h6m-2 4h2" />
+                </g>
+              </svg>
+              Invoice Payment
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to ='/reciept' className={({ isActive }) => isActive ? activeClassName : undefined}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-width="2"
-                    fill="currentColor"
-                    d="M13 19c0-.34.04-.67.09-1H4V8l8 5l8-5v5.09c.72.12 1.39.37 2 .72V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h9.09c-.05-.33-.09-.66-.09-1m7-13l-8 5l-8-5h16m-2 10v2h4v2h-4v2l-3-3l3-3Z"
-                  />
-                </svg>
-                Reciept & AS9
-              </NavLink>
-            </li>
-            {adminPage()}
-          </ul>
+                <path
+                  stroke-width="2"
+                  fill="currentColor"
+                  d="M13 19c0-.34.04-.67.09-1H4V8l8 5l8-5v5.09c.72.12 1.39.37 2 .72V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h9.09c-.05-.33-.09-.66-.09-1m7-13l-8 5l-8-5h16m-2 10v2h4v2h-4v2l-3-3l3-3Z"
+                />
+              </svg>
+              Reciept & AS9
+            </NavLink>
+          </li>
+      
+          {adminPage()}
+        </ul>
         </div>
         <ul className="logout">
           <form>

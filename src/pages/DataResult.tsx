@@ -1,8 +1,9 @@
-import "./DataResult.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useLocation } from "react-router-dom";
-import UseAuth from "../services/UseAuth";
+import DatePicker from "react-datepicker";
+import moment from "moment";
+import style from "./DataResult.module.css";
 
 interface lotModel {
   name: string;
@@ -15,27 +16,77 @@ interface lotModel {
   totalPayment: number;
 }
 
+// interface stateModel {
+//   content: lotModel[];
+//   sumStatus: {
+//     approved: number;
+//     pending: number;
+//     invalidData: number;
+//     denied: number;
+//   }
+// }
+
 export default function DataResult() {
-  const [datas, setDatas] = useState([]);
-  const {isAuthen} = UseAuth()
-  console.log(isAuthen)
+  const [datas, setDatas] = useState<any>({
+    content: [],
+    sumStatus: {
+      approved: 0,
+      pending: 0,
+      invalidData: 0,
+      denied: 0,
+    },
+  });
+  const [startDate = null, setStartDate] = useState<null | Date>();
+  const [lotName, setLotName] = useState({
+    lotNameInput: "",
+  });
+  const [tab, setTab] = useState("all");
 
   const path = useLocation().pathname;
+  console.log("path = " + path);
+  console.log(useLocation());
 
-  let sumApproved = 0,
-      sumPending = 0,
-      sumInvalidData = 0,
-      sumDenied = 0;
-
-  let grouped = datas;
+  let grouped = datas.content;
 
   const loadDatas = async () => {
-    const dataRes = await axios.get(`http://localhost:8080/api${path}`);
+    const dataRes = await axios.get(`http://localhost:8080/api/lots/all`);
     setDatas(dataRes.data);
+    console.log("getData is : " + dataRes.data);
   };
 
-  if (datas.length > 0) {
-    grouped = datas.reduce((acc: any, obj: lotModel) => {
+  const loadFilterDatas = async (filter: string) => {
+    const dataRes = await axios.get(`http://localhost:8080/api${filter}`);
+    setDatas(dataRes.data);
+    console.log("getData is : " + dataRes.data);
+  };
+
+  const onSearch = async (e: React.MouseEvent, request: object) => {
+    e.preventDefault();
+    moment;
+    const dataRes = await axios.post(
+      `http://localhost:8080/api/lots/search/dataresult`,
+      request
+    );
+    setDatas(dataRes.data);
+    console.log("search data is " + dataRes.data);
+  };
+
+  const updateLotNameInput = (e: {
+    target: { name: string; value: string };
+  }) => {
+    console.log(e.target.name);
+    setLotName({
+      ...lotName,
+      [e.target.name]: e.target.value,
+    });
+    console.log(lotName.lotNameInput);
+  };
+
+  console.log(grouped);
+
+  if (datas.content != null) {
+    grouped = datas.content.reduce((acc: any, obj: lotModel) => {
+      console.log("Acc ======>", acc);
       const key: string = obj.batchDate;
       acc[key] = acc[key] || [];
       acc[key].push(obj);
@@ -43,14 +94,17 @@ export default function DataResult() {
     }, {});
   }
 
+  console.log(grouped);
+
   const batchDate = Object.keys(grouped);
-  console.log(Object.keys(grouped));
+  console.log("batchDate is : " + Object.keys(grouped));
 
   useEffect(() => {
+    console.log("Trigger use Effect");
     loadDatas();
   }, [useLocation().key]);
 
-  const overviewTable = batchDate.map((data) => {
+  const overviewTable = batchDate.map((data: string) => {
     let sumDoc = 0,
       sumTotalDuty = 0,
       sumTotalDubDutyAmount = 0,
@@ -58,10 +112,10 @@ export default function DataResult() {
 
     return (
       <div>
-        <div className="Batch shadow row space4 ">
-          <p className="tab">Batch Date : {data}</p>
+        <div className={`Batch shadow ${style.row} ${style.space4}`}>
+          <p className={`${style.tab}`}>Batch Date : {data}</p>
         </div>
-        <table className="transaction-table">
+        <table className={`${style.transactionTable}`}>
           <thead>
             <tr>
               <th>No.</th>
@@ -78,39 +132,28 @@ export default function DataResult() {
           </thead>
           {grouped[data].map((lot: lotModel, i: number) => {
             console.log(lot);
+            sumDoc += lot.totalDoc;
             sumTotalDuty += lot.totalDuty;
             sumTotalDubDutyAmount += lot.totalDubDutyAmount;
             sumTotalPayment += lot.totalPayment;
-            switch (lot.approvalStatus) {
-              case "Approved":
-                sumApproved += 1;
-                break;
-              case "Pending":
-                sumPending += 1;
-                break;
-              case "Invalid Data":
-                sumInvalidData += 1;
-                break;
-              case "Denied":
-                sumDenied += 1;
-                break;
-            }
             return (
               <tbody>
                 <tr>
-                  <td>{i + 1}</td>
-                  <td>{lot.name}</td>
-                  <td>{lot.totalDoc}</td>
-                  <td>{lot.batchDate}</td>
-                  <td>
-                    <p className={lot.approvalStatus}>{lot.approvalStatus}</p>
+                  <td width="5%">{i + 1}</td>
+                  <td width="10%">{lot.name}</td>
+                  <td width="8%">{lot.totalDoc}</td>
+                  <td width="12%">{lot.batchDate}</td>
+                  <td width="12%">
+                    <p className={`${style[lot.approvalStatus]}`}>
+                      {lot.approvalStatus}
+                    </p>
                   </td>
-                  <td>{lot.approvedBy}</td>
-                  <td>{lot.totalDuty}</td>
-                  <td>{lot.totalDubDutyAmount}</td>
-                  <td>{lot.totalPayment}</td>
-                  <td className="action">
-                    <Link to={`/${lot.name}`} state={{ lot: lot }}>
+                  <td width="15%">{lot.approvedBy}</td>
+                  <td width="11%">{lot.totalDuty}</td>
+                  <td width="11%">{lot.totalDubDutyAmount}</td>
+                  <td width="11%">{lot.totalPayment}</td>
+                  <td width="5%">
+                    <Link to={`/batchdataresult/${lot.name}`}>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="21"
@@ -130,16 +173,16 @@ export default function DataResult() {
           })}
           <tfoot>
             <tr>
-              <th className="ltb">Total</th>
-              <th className="ltb"></th>
-              <th className="ltb">{sumDoc}</th>
-              <th className="ltb"></th>
-              <th className="ltb"></th>
-              <th className="ltb"></th>
-              <th className="ltb">{sumTotalDuty}</th>
-              <th className="ltb">{sumTotalDubDutyAmount}</th>
-              <th className="ltb">{sumTotalPayment}</th>
-              <th className="ltb"></th>
+              <th className={`${style.ltb}`}>Total</th>
+              <th className={`${style.ltb}`}></th>
+              <th className={`${style.ltb}`}>{sumDoc}</th>
+              <th className={`${style.ltb}`}></th>
+              <th className={`${style.ltb}`}></th>
+              <th className={`${style.ltb}`}></th>
+              <th className={`${style.ltb}`}>{sumTotalDuty}</th>
+              <th className={`${style.ltb}`}>{sumTotalDubDutyAmount}</th>
+              <th className={`${style.ltb}`}>{sumTotalPayment}</th>
+              <th className={`${style.ltb}`}></th>
             </tr>
           </tfoot>
         </table>
@@ -147,18 +190,30 @@ export default function DataResult() {
     );
   });
   return (
-    <div className="space2">
-      <div className="title spaceTitle">
-        <div className="line"></div>
+    <div className={`${style.space2}`}>
+      <div className={`${style.title} ${style.spaceTitle}`}>
+        <div className={`${style.line}`}></div>
         <div>Data Result Correction</div>
       </div>
 
-      <div className="shadow row btw spaceTitle">
+      <div className={`shadow ${style.row} ${style.btw} ${style.spaceTitle}`}>
         <div>
-          <button className="BatchDate button1">
-            <div className="row">
-              <div className="space">Batch Date</div>
+          <button className={`BatchDate ${style.button1}`}>
+            <div className={`${style.row}`}>
+              <DatePicker
+                id="batchDate"
+                dateFormat="dd/MM/yyy"
+                selected={startDate}
+                onChange={(date: Date) => {
+                  setStartDate(date);
+                  console.log("Selected date is : " + date.toLocaleString());
+                }}
+                isClearable
+                placeholderText="Batch Date"
+                className={`${style.calendarDate}`}
+              />
               <svg
+                style={{ margin: "0px" }}
                 xmlns="http://www.w3.org/2000/svg"
                 width="20"
                 height="20"
@@ -170,30 +225,43 @@ export default function DataResult() {
                 />
               </svg>
             </div>
-            <div className="line2"></div>
+            <div className={`${style.line2}`}></div>
           </button>
 
-          <button className="LotName button1">
-            <div className="row ">
-              <div className="space">Lot Name</div>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  fill="none"
-                  d="M8 14q-.425 0-.713-.288T7 13q0-.425.288-.713T8 12q.425 0 .713.288T9 13q0 .425-.288.713T8 14Zm4 0q-.425 0-.713-.288T11 13q0-.425.288-.713T12 12q.425 0 .713.288T13 13q0 .425-.288.713T12 14Zm4 0q-.425 0-.713-.288T15 13q0-.425.288-.713T16 12q.425 0 .713.288T17 13q0 .425-.288.713T16 14ZM5 22q-.825 0-1.413-.588T3 20V6q0-.825.588-1.413T5 4h1V2h2v2h8V2h2v2h1q.825 0 1.413.588T21 6v14q0 .825-.588 1.413T19 22H5Zm0-2h14V10H5v10ZM5 8h14V6H5v2Zm0 0V6v2Z"
-                />
-              </svg>
+          <button className={`LotName ${style.button1}`}>
+            <div className={`${style.row}`}>
+              <input
+                name="lotNameInput"
+                style={{
+                  height: "100%",
+                  border: "0",
+                  fontSize: "14px",
+                  fontFamily: "'Rubik', sans-serif",
+                  margin: "0",
+                  padding: "5px",
+                  boxSizing: "border-box",
+                }}
+                placeholder="Lot Name"
+                onChange={(e) => updateLotNameInput(e)}
+              />
             </div>
-            <div className="line2"></div>
+            <div className={`${style.line2}`}></div>
           </button>
         </div>
 
-        <button className="SearchButton">
-          <div className="row ">
+        <button
+          className={`${style.searchButton}`}
+          onClick={(e) =>
+            onSearch(e, {
+              batchDate:
+                startDate === null
+                  ? ""
+                  : moment(startDate).format("DD/MM/yyyy").toString(),
+              lotName: lotName.lotNameInput,
+            })
+          }
+        >
+          <div className={`${style.row}`}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="22"
@@ -211,45 +279,94 @@ export default function DataResult() {
                 <path d="M17.571 17.5L12 12" />
               </g>
             </svg>
-            <div className="space5">Search</div>
+            <div className={`${style.space5}`}>Search</div>
           </div>
         </button>
       </div>
 
-      <div className="Transaction">
-        <div className="BatchBar shadow ">
-          <div className="space3 ">
-            <div className="filter spaceTitle2">
-              <Link className="button button:hover black active" to="/lots/all">
-                All
-              </Link>
-              <Link className="button button:hover black" to="/lots/approved">
-                <p className="row ">
-                  Approved
-                  <p className="green">{sumApproved}</p>
-                </p>
-              </Link>
-              <Link className="button button:hover black" to="/lots/pending">
-                <p className="row">
-                  Pending
-                  <p className="yellow">{sumPending}</p>
-                </p>
-              </Link>
-              <Link
-                className="button button:hover black"
-                to="/lots/invaliddata"
+      <div className={`Transaction`}>
+        <div className={`BatchBar shadow`}>
+          <div className={`${style.space3}`}>
+            <div className={`${style.filter} ${style.spaceTitle2}`}>
+              <button
+                onClick={() => {
+                  setTab("all");
+                  loadFilterDatas("/lots/all");
+                }}
+                className={
+                  tab === "all"
+                    ? `${style.filterButtonActive}`
+                    : `${style.filterButton}`
+                }
               >
-                <p className="row">
+                <p style={{ padding: "3px 8px 3px 8px" }}>All</p>
+              </button>
+              <button
+                onClick={() => {
+                  setTab("approved");
+                  loadFilterDatas("/lots/approved");
+                }}
+                className={
+                  tab === "approved"
+                    ? `${style.filterButtonActive}`
+                    : `${style.filterButton}`
+                }
+              >
+                <p className={`${style.row}`}>
+                  Approved
+                  <p className={`${style.green}`}>{datas.sumStatus.approved}</p>
+                </p>
+              </button>
+              <button
+                onClick={() => {
+                  setTab("pending");
+                  loadFilterDatas("/lots/pending");
+                }}
+                className={
+                  tab === "pending"
+                    ? `${style.filterButtonActive}`
+                    : `${style.filterButton}`
+                }
+              >
+                <p className={`${style.row}`}>
+                  Pending
+                  <p className={`${style.yellow}`}>{datas.sumStatus.pending}</p>
+                </p>
+              </button>
+              <button
+                onClick={() => {
+                  setTab("invaliddata");
+                  loadFilterDatas("/lots/invaliddata");
+                }}
+                className={
+                  tab === "invaliddata"
+                    ? `${style.filterButtonActive}`
+                    : `${style.filterButton}`
+                }
+              >
+                <p className={`${style.row}`}>
                   Invalid Data
-                  <p className="red">{sumInvalidData}</p>
+                  <p className={`${style.red}`}>
+                    {datas.sumStatus.invalidData}
+                  </p>
                 </p>
-              </Link>
-              <Link className="button button:hover black" to="/lots/denied">
-                <p className="row ">
+              </button>
+              <button
+                onClick={() => {
+                  setTab("denied");
+                  loadFilterDatas("/lots/denied");
+                }}
+                className={
+                  tab === "denied"
+                    ? `${style.filterButtonActive}`
+                    : `${style.filterButton}`
+                }
+              >
+                <p className={`${style.row}`}>
                   Denied
-                  <p className="gray">{sumDenied}</p>
+                  <p className={`${style.gray}`}>{datas.sumStatus.denied}</p>
                 </p>
-              </Link>
+              </button>
             </div>
             {overviewTable}
           </div>
