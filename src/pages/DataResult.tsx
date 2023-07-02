@@ -16,18 +16,18 @@ interface lotModel {
   totalPayment: number;
 }
 
-interface stateModel {
-  content: lotModel[];
-  sumStatus: {
-    approved: number;
-    pending: number;
-    invalidData: number;
-    denied: number;
-  }
-}
+// interface stateModel {
+//   content: lotModel[];
+//   sumStatus: {
+//     approved: number;
+//     pending: number;
+//     invalidData: number;
+//     denied: number;
+//   }
+// }
 
 export default function DataResult() {
-  const [datas, setDatas] = useState<stateModel>({
+  const [datas, setDatas] = useState<any>({
     content: [],
     sumStatus: {
       approved: 0,

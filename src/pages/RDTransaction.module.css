@@ -27,7 +27,7 @@
   color: #393939;
 }
 
-.button {
+.filterButton {
   background-color: #ffffff;
   border: none;
   color: #535353;
@@ -37,9 +37,10 @@
   display: inline-block;
   font-weight: lighter;
   cursor: pointer;
+  transition-duration: 0.4s;
 }
 
-.button:hover {
+.filterButton:hover {
   background-color: #f5f5f5;
   border: none;
   color: #535353;
@@ -47,12 +48,11 @@
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 15px;
 
   cursor: pointer;
 }
 
-.button.active {
+.filterButtonActive {
   background-color: #ffffff;
   border: none;
   color: #535353;
@@ -60,7 +60,6 @@
   text-align: center;
   border-bottom: 3px solid #489788;
   display: inline-block;
-  font-size: 15px;
   cursor: pointer;
 }
 
@@ -246,4 +245,14 @@
 
   background-color: #FAFAFA;
   font-size: 14px;
+}
+
+.calendarDate {
+  height: 100%;
+  border: 0;
+  font-size: 14px;
+  font-family: 'Rubik', sans-serif;
+  margin: 0;
+  padding: 5px;
+  box-sizing: border-box;
 }
