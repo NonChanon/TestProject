@@ -3,8 +3,13 @@ import React, { MouseEvent, useEffect, useState } from "react";
 import { Link, useLocation, useNavigate, NavLink } from "react-router-dom";
 import moment from "moment";
 import DatePicker from "react-datepicker";
+<<<<<<< HEAD
+import "react-datepicker/dist/react-datepicker.css";
+import PopupButt from "../components/PopupButt";
+=======
 // import "react-datepicker/dist/react-datepicker.css";
 
+>>>>>>> d21783272b5a54eb2ef23587637fc8eea6181668
 
 
 interface lotModel {
@@ -21,6 +26,9 @@ interface lotModel {
 }
 
 export default function InvoicePayment() {
+
+
+
   const [datas, setDatas] = useState<any>({
     content: [],
     sumStatus: {
@@ -139,63 +147,18 @@ export default function InvoicePayment() {
                   <td>
                     <p className={lot.approvalStatus}>{lot.approvalStatus}</p>
                   </td>
+                  <td >
+                    <PopupButt />
+                  </td>
+                  <td >
+                    <PopupButt />
+                  </td>
                   <td className="action">
                     {/* <Routes>
                       <Route path={`/${lot.name}`} element={<DetailCollection />} />
                     </Routes> */}
                     <NavLink to={`/${lot.name}?page=0`} end state={{ lot: lot }}>
                       <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="20"
-                        height="20"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          fill="#489788"
-                          d="M2 1h8a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zm1 2v6h6V3H3z"
-                        />
-                        <path fill="#489788" fill-rule="evenodd" d="M5 5h2v2H5z" />
-                        <path
-                          fill="#489788"
-                          d="M14 1h8a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1h-8a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zm1 2v6h6V3h-6z"
-                        />
-                        <path fill="#489788" fill-rule="evenodd" d="M17 5h2v2h-2z" />
-                        <path
-                          fill="#489788"
-                          d="M2 13h8a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1v-8a1 1 0 0 1 1-1zm1 2v6h6v-6H3z"
-                        />
-                        <path fill="#489788" fill-rule="evenodd" d="M5 17h2v2H5z" />
-                        <path
-                          fill="#489788"
-                          d="M23 19h-4v4h-5a1 1 0 0 1-1-1v-8v5h2v2h2v-6h-2v-2h-1h3v2h2v2h2v-4h1a1 1 0 0 1 1 1v5zm0 2v1a1 1 0 0 1-1 1h-1v-2h2z"
-                        />
-                      </svg>
-                    </NavLink>
-                  </td>
-                  <td className="action">
-                    {/* <Routes>
-                      <Route path={`/${lot.name}`} element={<DetailCollection />} />
-                    </Routes> */}
-                    <NavLink to={`/${lot.name}?page=0`} end state={{ lot: lot }}>
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="22"
-                        height="22"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          fill="#489788"
-                          d="M13 16H7a1 1 0 0 0 0 2h6a1 1 0 0 0 0-2Zm-4-6h2a1 1 0 0 0 0-2H9a1 1 0 0 0 0 2Zm12 2h-3V3a1 1 0 0 0-.5-.87a1 1 0 0 0-1 0l-3 1.72l-3-1.72a1 1 0 0 0-1 0l-3 1.72l-3-1.72a1 1 0 0 0-1 0A1 1 0 0 0 2 3v16a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-6a1 1 0 0 0-1-1ZM5 20a1 1 0 0 1-1-1V4.73l2 1.14a1.08 1.08 0 0 0 1 0l3-1.72l3 1.72a1.08 1.08 0 0 0 1 0l2-1.14V19a3 3 0 0 0 .18 1Zm15-1a1 1 0 0 1-2 0v-5h2Zm-7-7H7a1 1 0 0 0 0 2h6a1 1 0 0 0 0-2Z"
-                        />
-                      </svg>
-                    </NavLink>
-                  </td>
-                  <td className="action">
-                    {/* <Routes>
-                      <Route path={`/${lot.name}`} element={<DetailCollection />} />
-                    </Routes> */}
-                    <NavLink to={`/${lot.name}?page=0`} end state={{ lot: lot }}>
-                    <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="21"
                         height="21"
