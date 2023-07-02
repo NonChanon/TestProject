@@ -3,13 +3,8 @@ import React, { MouseEvent, useEffect, useState } from "react";
 import { Link, useLocation, useNavigate, NavLink } from "react-router-dom";
 import moment from "moment";
 import DatePicker from "react-datepicker";
-<<<<<<< HEAD
 import "react-datepicker/dist/react-datepicker.css";
 import PopupButt from "../components/PopupButt";
-=======
-// import "react-datepicker/dist/react-datepicker.css";
-
->>>>>>> d21783272b5a54eb2ef23587637fc8eea6181668
 
 
 interface lotModel {
