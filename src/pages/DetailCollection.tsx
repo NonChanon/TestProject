@@ -4,7 +4,6 @@ import axios from "axios";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
 export interface customerModel {
-
   title: string;
   firstname: string;
   lastname: string;
@@ -65,10 +64,12 @@ export default function DetailCollection() {
     await axios.put(`http://localhost:8080/api${path}`, status);
     navigate("/lots/all");
     console.log("change status!");
-  }
+  };
 
   const loadDatas = async () => {
-    const dataRes = await axios.get(`http://localhost:8080/api${path}${searchPath}`);
+    const dataRes = await axios.get(
+      `http://localhost:8080/api${path}${searchPath}`
+    );
     setDatas(dataRes.data);
     console.log("loaddata = " + dataRes.data);
   };
@@ -79,17 +80,61 @@ export default function DetailCollection() {
   }, [useLocation().key]);
 
   function renderPageNumber() {
-    const list = []
-    for (let i = 0; i < datas.totalPages; i++) {
-      const pagePath = `${path}?page=${i}`;
-      const isActive = path + searchPath === pagePath;
-      console.log("pagePath = " + pagePath);
-      console.log("isActive = " + isActive);
-      list.push(<Link to={pagePath} className={isActive ? `${style.active}` : undefined} state={{ lot: state.lot }}>{i + 1}</Link>);
+    const list = [];
+    if (datas.totalPages > 1) {
+      list.push(
+        <Link to={`${path}?page=${datas.currentPage == 0 ? 0 : datas.currentPage - 1}`} state={{ lot: state.lot }}>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 2 16 16"
+          >
+            <g transform="translate(24 0) scale(-1 1)">
+              <path
+                fill="none"
+                stroke="#489788"
+                stroke-width="2"
+                d="m9 6l6 6l-6 6"
+              />
+            </g>
+          </svg>
+        </Link>
+      );
+      for (let i = 0; i < datas.totalPages; i++) {
+        const pagePath = `${path}?page=${i}`;
+        const isActive = path + searchPath === pagePath;
+        console.log("pagePath = " + pagePath);
+        console.log("isActive = " + isActive);
+        list.push(
+          <Link
+            to={pagePath}
+            className={isActive ? `${style.active}` : undefined}
+            state={{ lot: state.lot }}
+          >
+            {i + 1}
+          </Link>
+        );
+      }
+      list.push(
+        <Link to={`${path}?page=${datas.currentPage == datas.totalPages - 1 ? datas.totalPages - 1 : datas.currentPage + 1}` } state={{ lot: state.lot }}>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 2 16 16"
+          >
+            <path
+              fill="none"
+              stroke="#489788"
+              stroke-width="2"
+              d="m9 6l6 6l-6 6"
+            />
+          </svg>
+        </Link>
+      );
     }
-    return (
-      <label>{list}</label>
-    );
+    return <label>{list}</label>;
   }
 
   return (
@@ -102,28 +147,59 @@ export default function DetailCollection() {
       <div className="Transection">
         <div className="BatchBar shadow">
           <div className={`${style.space3}`}>
-            <div className="Batch shadow" style={{ position: "relative", padding: "15px 20px 15px 30px", color: "#535353", fontWeight: "600", fontSize: "14px" }}>
-              <div className={`${style.row} ${style.btw}`} style={{marginBottom:"25px"}}>
+            <div
+              className="Batch shadow"
+              style={{
+                position: "relative",
+                padding: "15px 20px 15px 30px",
+                color: "#535353",
+                fontWeight: "600",
+                fontSize: "14px",
+              }}
+            >
+              <div
+                className={`${style.row} ${style.btw}`}
+                style={{ marginBottom: "25px" }}
+              >
                 <div className={`${style.row}`}>
-                  <p style={{ position: "absolute", left: "30px" }}>Batch Date : {state.lot.batchDate}</p>
-                  <div className={`${style.line3}`} style={{ position: "absolute", left: "210px" }}></div>
-                  <p style={{ position: "absolute", left: "235px" }}>Lot Name : {state.lot.name}</p>
+                  <p style={{ position: "absolute", left: "30px" }}>
+                    Batch Date : {state.lot.batchDate}
+                  </p>
+                  <div
+                    className={`${style.line3}`}
+                    style={{ position: "absolute", left: "210px" }}
+                  ></div>
+                  <p style={{ position: "absolute", left: "235px" }}>
+                    Lot Name : {state.lot.name}
+                  </p>
                 </div>
                 <p className={`${style.row}`}>
                   Status :
                   <div className={style[state.lot.approvalStatus]}>
-                   <p style={{marginTop:"10px", marginBottom:"10px"}}>{state.lot.approvalStatus}</p>
+                    <p style={{ marginTop: "10px", marginBottom: "10px" }}>
+                      {state.lot.approvalStatus}
+                    </p>
                   </div>
                 </p>
               </div>
-              <div className={`${style.row}`} style={{marginBottom:"15px"}}>
-                <p style={{ position: "absolute", left: "30px" }}>Total Duty : {state.lot.totalDuty}</p>
-                <div className={`${style.line3}`} style={{ position: "absolute", left: "210px" }}></div>
+              <div className={`${style.row}`} style={{ marginBottom: "15px" }}>
+                <p style={{ position: "absolute", left: "30px" }}>
+                  Total Duty : {state.lot.totalDuty}
+                </p>
+                <div
+                  className={`${style.line3}`}
+                  style={{ position: "absolute", left: "210px" }}
+                ></div>
                 <p style={{ position: "absolute", left: "235px" }}>
                   Total Dub Duty Amount : {state.lot.totalDubDutyAmount}
                 </p>
-                <div className={`${style.line3}`} style={{ position: "absolute", left: "480px" }}></div>
-                <p style={{ position: "absolute", left: "505px" }}>Total Payment : {state.lot.totalPayment}</p>
+                <div
+                  className={`${style.line3}`}
+                  style={{ position: "absolute", left: "480px" }}
+                ></div>
+                <p style={{ position: "absolute", left: "505px" }}>
+                  Total Payment : {state.lot.totalPayment}
+                </p>
               </div>
             </div>
 
@@ -153,7 +229,10 @@ export default function DetailCollection() {
                         <td width="15%">{customer.totalDubDutyAmount}</td>
                         <td width="15%">{customer.totalPayment}</td>
                         <td style={{ cursor: "pointer" }} width="5%">
-                          <Link to={`/${state.lot.name}/${customer.taxPayerId}/edit`} state={{ lot: state.lot, customer: customer }}>
+                          <Link
+                            to={`/${state.lot.name}/${customer.taxPayerId}/edit`}
+                            state={{ lot: state.lot, customer: customer }}
+                          >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
                               width="21"
@@ -170,7 +249,6 @@ export default function DetailCollection() {
                               />
                             </svg>
                           </Link>
-
                         </td>
                       </tr>
                     </tbody>
@@ -179,49 +257,23 @@ export default function DetailCollection() {
               </table>
             </div>
 
-            <div className= {`page&butt ${style.row} ${style.top2}`}>
+            <div className={`page&butt ${style.row} ${style.top2}`}>
               <div className={`${style.pagination} ${style.end}`}>
-                <a href="#">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    viewBox="0 2 16 16"
-                  >
-                    <g transform="translate(24 0) scale(-1 1)">
-                      <path
-                        fill="none"
-                        stroke="#489788"
-                        stroke-width="2"
-                        d="m9 6l6 6l-6 6"
-                      />
-                    </g>
-                  </svg>
-                </a>
-
-                {
-                  renderPageNumber()
-                }
-
-                <a href="#">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    viewBox="0 2 16 16"
-                  >
-                    <path
-                      fill="none"
-                      stroke="#489788"
-                      stroke-width="2"
-                      d="m9 6l6 6l-6 6"
-                    />
-                  </svg>
-                </a>
+                {renderPageNumber()}
               </div>
               <div className={`${style.ButtonAction}`}>
-                <button onClick={(e) => onApprove(e, { approvalStatus: "Approved" })} className={`${style.apbutt} ${style.tab2}`}>Approve</button>
-                <button onClick={(e) => onApprove(e, { approvalStatus: "Denied" })} className={`${style.dnbutt}`}>Denied</button>
+                <button
+                  onClick={(e) => onApprove(e, { approvalStatus: "Approved" })}
+                  className={`${style.apbutt} ${style.tab2}`}
+                >
+                  Approve
+                </button>
+                <button
+                  onClick={(e) => onApprove(e, { approvalStatus: "Denied" })}
+                  className={`${style.dnbutt}`}
+                >
+                  Denied
+                </button>
               </div>
             </div>
           </div>
