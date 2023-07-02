@@ -9,6 +9,7 @@ import RecieptAS9 from './pages/RecieptAS9.tsx'
 import UserManagement from "./pages/UserManagement.tsx"
 import RoleManagement from "./pages/RoleManagement.tsx"
 import EditDetail from "./pages/EditDetail.tsx"
+import PopupButt from "./components/PopupButt.tsx"
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
         <Route path="/:lotname" element={<DetailCollection />} />
       </Routes>
     </>
+    // <PopupButt />
   )
 }
 
