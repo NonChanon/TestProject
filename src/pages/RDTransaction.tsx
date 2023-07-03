@@ -41,8 +41,6 @@ export default function RDTransaction() {
     lotNameInput: "",
   });
 
-  let grouped = datas;
-
   //load data by api to backend
   const loadDatas = async () => {
     const dataRes = await axios.get(`http://localhost:8080/api/rd/all`);
@@ -73,26 +71,14 @@ export default function RDTransaction() {
     console.log(lotName.lotNameInput);
   };
 
-  if (datas.content != null) {
-    grouped = datas.content.reduce((acc: {[key: string]:lotModel[]}, obj: lotModel) => {
-      console.log("Acc ======>", acc);
-      const key: string = obj.batchDate;
-      acc[key] = acc[key] || [];
-      acc[key].push(obj);
-      return acc;
-    }, {});
-  }
-
-  const batchDate = Object.keys(grouped);
-
   useEffect(() => {
     console.log("trigger useEffect");
     loadDatas();
   }, [useLocation().key]);
 
   let sumTotalDuty = 0,
-                  sumTotalDubDutyAmount = 0,
-                  sumTotalPayment = 0;
+    sumTotalDubDutyAmount = 0,
+    sumTotalPayment = 0;
 
   return (
     <div className={style.space2}>
@@ -101,7 +87,7 @@ export default function RDTransaction() {
         <div>RD Transaction</div>
       </div>
 
-      <div className={`shadow ${style.row} ${style.btw} ${style.spaceTitle}`}>
+      <div className={`SearchBar shadow ${style.row} ${style.btw} ${style.spaceTitle}`}>
         <div>
           <button className={`BatchDate ${style.button1}`}>
             <div className={style.row}>
@@ -117,7 +103,7 @@ export default function RDTransaction() {
                 placeholderText="Batch Date"
                 className={`${style.calendarDate}`}
               />
-                <svg
+              <svg
                 style={{ margin: "0px" }}
                 xmlns="http://www.w3.org/2000/svg"
                 width="20"
@@ -155,9 +141,9 @@ export default function RDTransaction() {
           </button>
         </div>
 
-        <button 
-        className={`${style.SearchButton}`}
-        onClick={(e) => onSearch(e, { batchDate: startDate === null ? "" : moment(startDate).format('DD/MM/yyyy').toString(), lotName: lotName.lotNameInput })}
+        <button
+          className={`${style.SearchButton}`}
+          onClick={(e) => onSearch(e, { batchDate: startDate === null ? "" : moment(startDate).format('DD/MM/yyyy').toString(), lotName: lotName.lotNameInput })}
         >
           <div className={style.row}>
             <svg
@@ -180,9 +166,9 @@ export default function RDTransaction() {
             <div className={style.space5}>Search</div>
           </div>
         </button>
-      </div> 
+      </div>
 
-      <div className={style.Transection}>
+      <div className={`${style.Transection}`}>
         <div className={`BatchBar shadow`}>
           <div className={style.space3}>
             <div className={`${style.filter} ${style.spaceTitle2}`}>
@@ -193,8 +179,8 @@ export default function RDTransaction() {
                   loadFilterDatas("/rd/all");
                 }}
               >
-                <p style={{padding:"3px 8px 3px 8px"}}>
-                All
+                <p style={{ padding: "3px 8px 3px 8px" }}>
+                  All
                 </p>
               </button>
               <button
@@ -222,8 +208,7 @@ export default function RDTransaction() {
                 </p>
               </button>
             </div>
-
-            {datas.content.length > 0 ?           
+            {datas.content.length > 0 ?
               (
                 <div>
                   {/* <div
@@ -245,7 +230,7 @@ export default function RDTransaction() {
                         <th>Total Payment</th>
                         <th>Payment Status</th>
                       </tr>
-                      {datas.content.map((lot: lotModel, i:number) => {
+                      {datas.content.map((lot: lotModel, i: number) => {
                         sumTotalDuty += lot.totalDuty;
                         sumTotalDubDutyAmount += lot.totalDubDutyAmount;
                         sumTotalPayment += lot.totalPayment;
@@ -304,7 +289,7 @@ export default function RDTransaction() {
                   </div>
                 </div>
               )
-             : undefined}
+              : undefined}
           </div>
         </div>
       </div>

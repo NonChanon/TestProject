@@ -120,7 +120,8 @@
 }
 
 .space2 {
-  margin: 20px 20px 20px 220px;
+  margin: 10px 10px 0 210px;
+  height: 100%;
 }
 
 .space3 {
@@ -134,9 +135,27 @@
   font-size: 14px;
 }
 
+.yellow {
+  margin-left: 10px;
+  background-color: #ecbf21;
+  color: #ffffff;
+  font-size: 13px;
+  padding: 3px 8px 3px 8px;
+  border-radius: 5px;
+}
+
 .space5 {
   margin-left: 5px;
   margin-right: 10px;
+}
+
+.gray {
+  margin-left: 10px;
+  background-color: #b1b1b1;
+  color: #ffffff;
+  font-size: 13px;
+  padding: 3px 8px 3px 8px;
+  border-radius: 5px;
 }
 
 .green {
@@ -239,4 +258,52 @@
   align-items: center;
   justify-content: space-between;
   margin-bottom: 20px;
+}
+
+.searchButton {
+  background-color: #489788;
+  border: none;
+  border-radius: 5px;
+  color: #ffffff;
+  padding: 5px;
+  margin-right: 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.calendarDate {
+  height: 100%;
+  border: 0;
+  font-size: 14px;
+  font-family: "Rubik", sans-serif;
+  margin: 0;
+  padding: 5px;
+  box-sizing: border-box;
+}
+
+.filterButtonActive {
+  background-color: #ffffff;
+  border: none;
+  color: #535353;
+  padding: 15px 32px;
+  text-align: center;
+  border-bottom: 3px solid #489788;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.filterButton {
+  background-color: #ffffff;
+  border: none;
+  color: #535353;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-weight: lighter;
+  cursor: pointer;
+  transition-duration: 0.4s;
 }

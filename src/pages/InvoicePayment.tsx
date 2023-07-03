@@ -1,16 +1,17 @@
 import axios from "axios";
-import React, { MouseEvent, useEffect, useState } from "react";
-import { Link, useLocation, useNavigate, NavLink } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useLocation, NavLink } from "react-router-dom";
 import moment from "moment";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import PopupButt from "../components/PopupButt";
-
+import style from "./InvoicePayment.module.css";
 
 interface lotModel {
   name: string;
   totalDoc: number;
   batchDate: string;
+  batchTime: string;
   approvalStatus: string;
   approvedBy: string;
   totalDuty: number;
@@ -18,25 +19,22 @@ interface lotModel {
   totalPayment: number;
   ref1: string;
   ref2: string;
+  paymentStatus: string;
 }
 
 export default function InvoicePayment() {
-
-
-
   const [datas, setDatas] = useState<any>({
     content: [],
-    sumStatus: {
+    sumIVStatus: {
       approved: 0,
       pending: 0,
-      invalidData: 0,
-      denied: 0
     }
   });
-  const [startDate, setStartDate] = useState<Date | null>();
+  const [startDate = null, setStartDate] = useState<Date | null>();
   const [lotName, setLotName] = useState({
     lotNameInput: "",
   });
+  const [tab, setTab] = useState("all");
 
   const path = useLocation().pathname;
   console.log("path = " + path);
@@ -45,15 +43,21 @@ export default function InvoicePayment() {
   let grouped = datas;
 
   const loadDatas = async () => {
-    const dataRes = await axios.get(`http://localhost:8080/api${path}`);
+    const dataRes = await axios.get(`http://localhost:8080/api/invoice/all`);
     setDatas(dataRes.data);
     console.log("getData is : " + dataRes.data);
   };
 
-  const onSearch = async (e: MouseEvent, request: object) => {
+  const loadFilterDatas = async (filter: string) => {
+    const dataRes = await axios.get(`http://localhost:8080/api${filter}`);
+    setDatas(dataRes.data);
+    console.log("getData is : " + dataRes.data);
+  };
+
+  const onSearch = async (e: React.MouseEvent, request: object) => {
     e.preventDefault();
     moment
-    const dataRes = await axios.post(`http://localhost:8080/api/lots/search/dataresult`, request);
+    const dataRes = await axios.post(`http://localhost:8080/api/lots/search/iv`, request);
     setDatas(dataRes.data);
     console.log("search data is " + dataRes.data);
   };
@@ -89,126 +93,22 @@ export default function InvoicePayment() {
     loadDatas();
   }, [useLocation().key]);
 
-  const dataInvoiceTable = batchDate.map((data) => {
-    let sumDoc = 0,
+  let sumDoc = 0,
       sumTotalDuty = 0,
       sumTotalDubDutyAmount = 0,
       sumTotalPayment = 0;
 
-    return (
-      <div>
-        <div className="Batch shadow row space4 ">
-          <p className="tab">Batch Date : {data}</p>
-        </div>
-        <table className="transaction-table">
-          <thead>
-            <tr>
-              <th>No.</th>
-              <th>Lot Name</th>
-              <th>Batch Date</th>
-              <th>Batch Time</th>
-              <th>Total Doc</th>
-              <th>Total Duty</th>
-              <th>TotalDubDutyAmount</th>
-              <th>Total Payment</th>
-              <th>Ref 1</th>
-              <th>Ref 2</th>
-              <th>Payment Status</th>
-              <th>QR Payment</th>
-              <th>Pay in slip</th>
-              <th>e-Payment</th>
-            </tr>
-          </thead>
-          {grouped[data].map((lot: lotModel, i: number) => {
-            console.log(lot);
-            sumDoc += lot.totalDoc;
-            sumTotalDuty += lot.totalDuty;
-            sumTotalDubDutyAmount += lot.totalDubDutyAmount;
-            sumTotalPayment += lot.totalPayment;
-
-            return (
-              <tbody>
-                <tr>
-                  <td >{i + 1}</td>
-                  <td>{lot.name}</td>
-                  <td>{lot.batchDate}</td>
-                  <td>{lot.totalDoc}</td>
-                  <td></td>
-                  <td>{lot.totalDuty}</td>
-                  <td>{lot.totalDubDutyAmount}</td>
-                  <td>{lot.totalPayment}</td>
-                  <td>{lot.ref1}</td>
-                  <td>{lot.ref2}</td>
-                  <td>
-                    <p className={lot.approvalStatus}>{lot.approvalStatus}</p>
-                  </td>
-                  <td >
-                    <PopupButt />
-                  </td>
-                  <td >
-                    <PopupButt />
-                  </td>
-                  <td className="action">
-                    {/* <Routes>
-                      <Route path={`/${lot.name}`} element={<DetailCollection />} />
-                    </Routes> */}
-                    <NavLink to={`/${lot.name}?page=0`} end state={{ lot: lot }}>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="21"
-                        height="21"
-                        viewBox="0 0 14 14"
-                      >
-                        <g
-                          fill="none"
-                          stroke="#489788"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        >
-                          <path d="M12 7.5v-2a1 1 0 0 0-1-1H1.5a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1H11a1 1 0 0 0 1-1V10M3.84 2L9.51.52a.49.49 0 0 1 .61.36L10.4 2" />
-                          <rect width="3.5" height="2.5" x="10" y="7.5" rx=".5" />
-                        </g>
-                      </svg>
-                    </NavLink>
-                  </td>
-                </tr>
-              </tbody>
-            );
-          })}
-          <tfoot>
-            <tr>
-              <th className="ltb">Total</th>
-              <th className="ltb"></th>
-              <th className="ltb"></th>
-              <th className="ltb"></th>
-              <th className="ltb">{sumDoc}</th>
-              <th className="ltb">{sumTotalDuty}</th>
-              <th className="ltb">{sumTotalDubDutyAmount}</th>
-              <th className="ltb">{sumTotalPayment}</th>
-              <th className="ltb"></th>
-              <th className="ltb"></th>
-              <th className="ltb"></th>
-              <th className="ltb"></th>
-              <th className="ltb"></th>
-              <th className="ltb"></th>
-            </tr>
-          </tfoot>
-        </table>
-      </div>
-    );
-  });
-
   return (
-    <div className="space2">
-      <div className="title spaceTitle">
-        <div className="line"></div>
+    <div className={`${style.space2}`}>
+      <div className={`${style.title} ${style.spaceTitle}`}>
+        <div className={`${style.line}`}></div>
         <div>Invoice Payment</div>
       </div>
 
-      <div className="SearchBar shadow  row btw spaceTitle">
-        <div className="FilterButon">
-          <button className="BatchDate button1">
-            <div className="row">
+      <div className={`SearchBar shadow ${style.row} ${style.btw} ${style.spaceTitle}`}>
+        <div className={`${style.FilterButon}`}>
+          <button className={`BatchDate ${style.button1}`}>
+            <div className={`${style.row}`}>
               <DatePicker
                 id="batchDate"
                 dateFormat="dd/MM/yyy"
@@ -219,7 +119,7 @@ export default function InvoicePayment() {
                 }}
                 isClearable
                 placeholderText="Batch Date"
-                className="calendarDate"
+                className={`${style.calendarDate}`}
               />
               <svg
                 style={{ margin: "0px" }}
@@ -234,11 +134,11 @@ export default function InvoicePayment() {
                 />
               </svg>
             </div>
-            <div className="line2"></div>
+            <div className={`${style.line2}`}></div>
           </button>
 
-          <button className="LotName button1">
-            <div className="row ">
+          <button className={`LotName ${style.button1}`}>
+            <div className={`${style.row}`}>
               <input
                 name="lotNameInput"
                 className="form-control"
@@ -255,15 +155,15 @@ export default function InvoicePayment() {
                 onChange={(e) => updateLotNameInput(e)}
               />
             </div>
-            <div className="line2"></div>
+            <div className={`${style.line2}`}></div>
           </button>
         </div>
 
         <button
-          className="SearchButton"
+          className={`${style.SearchButton}`}
           onClick={(e) => onSearch(e, { batchDate: startDate === null ? "" : moment(startDate).format('DD/MM/yyyy').toString(), lotName: lotName.lotNameInput })}
         >
-          <div className="row ">
+          <div className={`${style.row}`}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="22"
@@ -281,35 +181,153 @@ export default function InvoicePayment() {
                 <path d="M17.571 17.5L12 12" />
               </g>
             </svg>
-            <div className="space5">Search</div>
+            <div className={`${style.space5}`}>Search</div>
           </div>
         </button>
       </div>
 
-      <div className="Transection">
-        <div className="BatchBar shadow ">
-          <div className="space3 ">
-            <div className="filter spaceTitle2">
-              <Link className="button button:hover black active" to="/invoice/all">
-                All
-              </Link>
-              <Link className="button button:hover black" to="/lots/approved">
-                <p className="row ">
+      <div className={`Transaction`}>
+        <div className={`BatchBar shadow`}>
+          <div className={`${style.space3}`}>
+            <div className={`${style.filter} ${style.spaceTitle2}`}>
+              <button
+              className={tab === 'all' ? `${style.filterButtonActive}` : `${style.filterButton}`}
+              onClick={() => {
+                setTab("all");
+                loadFilterDatas("/invoice/all");
+              }}>
+                <p style={{ padding: "3px 8px 3px 8px" }}>
+                  All
+                </p>
+              </button>
+              <button
+              className={tab === 'approved' ? `${style.filterButtonActive}` : `${style.filterButton}`}
+              onClick={() => {
+                setTab("approved");
+                loadFilterDatas("/invoice/approved");
+              }}
+              >
+                <p className={`${style.row}`}>
                   Approved
-                  <p className="green">{datas.sumStatus.approved}</p>
+                  <p className={`${style.green}`}>{datas.sumIVStatus.approved}</p>
                 </p>
-              </Link>
+              </button>
 
-              <Link className="button button:hover black" to="/lots/pending">
-                <p className="row">
+              <button
+              className={tab === 'pending' ? `${style.filterButtonActive}` : `${style.filterButton}`}
+              onClick={() => {
+                setTab("pending");
+                loadFilterDatas("/invoice/pending");
+              }}
+              >
+                <p className={`${style.row}`}>
                   Pending
-                  <p className="yellow">{datas.sumStatus.pending}</p>
+                  <p className={`${style.yellow}`}>{datas.sumIVStatus.pending}</p>
                 </p>
-              </Link>
+              </button>
             </div>
-            <div >
-              <table>{dataInvoiceTable}</table>
+            {datas.content.length > 0 ? (
+              <div>
+              <div className={`${style.Table} ${style.top}`}>
+              <table className={`${style.transactionTable}`}>
+            <thead>
+              <tr>
+                <th>No.</th>
+                <th>Lot Name</th>
+                <th>Batch Date</th>
+                <th>Batch Time</th>
+                <th>Total Doc</th>
+                <th>Total Duty</th>
+                <th>TotalDubDutyAmount</th>
+                <th>Total Payment</th>
+                <th>Ref 1</th>
+                <th>Ref 2</th>
+                <th>Payment Status</th>
+                <th>QR Payment</th>
+                <th>Pay in slip</th>
+                <th>e-Payment</th>
+              </tr>
+            </thead>       
+              {datas.content.map((lot: lotModel, i: number) => {
+              console.log(lot);
+              sumDoc += lot.totalDoc;
+              sumTotalDuty += lot.totalDuty;
+              sumTotalDubDutyAmount += lot.totalDubDutyAmount;
+              sumTotalPayment += lot.totalPayment;
+  
+              return (
+                <tbody>
+                  <tr>
+                    <td >{i + 1}</td>
+                    <td>{lot.name}</td>
+                    <td>{lot.batchDate}</td>
+                    <td>{lot.batchTime}</td>
+                    <td>{lot.totalDoc}</td>
+                    <td>{lot.totalDuty}</td>
+                    <td>{lot.totalDubDutyAmount}</td>
+                    <td>{lot.totalPayment}</td>
+                    <td>{lot.ref1}</td>
+                    <td>{lot.ref2}</td>
+                    <td>
+                      <p className={lot.paymentStatus}>{lot.paymentStatus}</p>
+                    </td>
+                    <td >
+                      <PopupButt />
+                    </td>
+                    <td >
+                      <PopupButt />
+                    </td>
+                    <td className="action">
+                      {/* <Routes>
+                        <Route path={`/${lot.name}`} element={<DetailCollection />} />
+                      </Routes> */}
+                      <NavLink to={`/${lot.name}?page=0`} end state={{ lot: lot }}>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="21"
+                          height="21"
+                          viewBox="0 0 14 14"
+                        >
+                          <g
+                            fill="none"
+                            stroke="#489788"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          >
+                            <path d="M12 7.5v-2a1 1 0 0 0-1-1H1.5a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1H11a1 1 0 0 0 1-1V10M3.84 2L9.51.52a.49.49 0 0 1 .61.36L10.4 2" />
+                            <rect width="3.5" height="2.5" x="10" y="7.5" rx=".5" />
+                          </g>
+                        </svg>
+                      </NavLink>
+                    </td>
+                  </tr>
+                </tbody>
+              );
+            })}
+            <tfoot>
+              <tr>
+                <th className={`${style.ltb}`}>Total</th>
+                <th className={`${style.ltb}`}></th>
+                <th className={`${style.ltb}`}></th>
+                <th className={`${style.ltb}`}></th>
+                <th className={`${style.ltb}`}>{sumDoc}</th>
+                <th className={`${style.ltb}`}>{sumTotalDuty}</th>
+                <th className={`${style.ltb}`}>{sumTotalDubDutyAmount}</th>
+                <th className={`${style.ltb}`}>{sumTotalPayment}</th>
+                <th className={`${style.ltb}`}></th>
+                <th className={`${style.ltb}`}></th>
+                <th className={`${style.ltb}`}></th>
+                <th className={`${style.ltb}`}></th>
+                <th className={`${style.ltb}`}></th>
+                <th className={`${style.ltb}`}></th>
+              </tr>
+            </tfoot>
+            </table>
             </div>
+            </div>
+            ) : undefined}
+            
+              {/* <table>{dataInvoiceTable}</table> */}
           </div>
         </div>
       </div>

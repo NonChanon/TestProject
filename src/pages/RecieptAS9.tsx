@@ -20,6 +20,7 @@ interface lotModel {
 }
 
 export default function RecieptAS9() {
+  const [tab, setTab] = useState("all");
   const [datas, setDatas] = useState<any>({
     content: [],
     sumStatus: {
@@ -94,11 +95,10 @@ export default function RecieptAS9() {
       sumTotalDubDutyAmount = 0,
       sumTotalPayment = 0;
 
+
     return (
       <div>
-        <div className={`${style.Batch}`}>
-          <p className={`${style.tab}`}>Batch Date : {data}</p>
-        </div>
+
         <table className="transaction-table">
           <thead>
             <tr>
@@ -209,6 +209,12 @@ export default function RecieptAS9() {
     );
   });
 
+  const loadFilterDatas = async (filter: string) => {
+    const dataRes = await axios.get(`http://localhost:8080/api${filter}`);
+    setDatas(dataRes.data);
+    console.log("getData is : " + dataRes.data);
+  };
+
   return (
     <div className={`${style.space2}`}>
       <div className={`${style.title} ${style.spaceTitle}`}>
@@ -216,10 +222,10 @@ export default function RecieptAS9() {
         <div>Reciept & AS9</div>
       </div>
 
-      <div className={`${style.SearchBar} `}>
+      <div className={`shadow ${style.row} ${style.btw} ${style.spaceTitle}`}>
         <div className="FilterButon">
-          <button className="BatchDate button1">
-            <div className="row">
+          <button className={`${style.button1} `}>
+            <div className={`${style.row}`}>
               <DatePicker
                 id="batchDate"
                 dateFormat="dd/MM/yyy"
@@ -230,7 +236,7 @@ export default function RecieptAS9() {
                 }}
                 isClearable
                 placeholderText="Batch Date"
-                className="calendarDate"
+                className={`${style.calendarDate}`}
               />
               <svg
                 style={{ margin: "0px" }}
@@ -245,11 +251,11 @@ export default function RecieptAS9() {
                 />
               </svg>
             </div>
-            <div className="line2"></div>
+            <div className={`${style.line2}`}></div>
           </button>
 
-          <button className="LotName button1">
-            <div className="row ">
+          <button className={`LotName ${style.button1}`}>
+            <div className={`${style.row}`}>
               <input
                 name="lotNameInput"
                 className="form-control"
@@ -266,12 +272,12 @@ export default function RecieptAS9() {
                 onChange={(e) => updateLotNameInput(e)}
               />
             </div>
-            <div className="line2"></div>
+            <div className={`${style.line2}`}></div>
           </button>
         </div>
 
         <button
-          className="SearchButton"
+          className={`${style.searchButton}`}
           onClick={(e) =>
             onSearch(e, {
               batchDate:
@@ -282,7 +288,7 @@ export default function RecieptAS9() {
             })
           }
         >
-          <div className="row ">
+          <div className={`${style.row}`}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="22"
@@ -300,31 +306,94 @@ export default function RecieptAS9() {
                 <path d="M17.571 17.5L12 12" />
               </g>
             </svg>
-            <div className="space5">Search</div>
+            <div className={`${style.space5}`}>Search</div>
           </div>
         </button>
       </div>
 
       <div className="Transection">
         <div className="BatchBar shadow ">
-          <div className="space3 ">
-            <div className="filter spaceTitle2">
-              <Link className="button button:hover black active" to="/reciept">
-                All
-              </Link>
-              <Link className="button button:hover black" to="/lots/approved">
-                <p className="row ">
+          <div className={`${style.space3}`}>
+            <div className={`${style.filter} ${style.spaceTitle2}`}>
+              <button
+                onClick={() => {
+                  setTab("all");
+                  loadFilterDatas("/lots/all");
+                }}
+                className={
+                  tab === "all"
+                    ? `${style.filterButtonActive}`
+                    : `${style.filterButton}`
+                }
+              >
+                <p style={{ padding: "3px 8px 3px 8px" }}>All</p>
+              </button>
+              <button
+                onClick={() => {
+                  setTab("approved");
+                  loadFilterDatas("/lots/approved");
+                }}
+                className={
+                  tab === "approved"
+                    ? `${style.filterButtonActive}`
+                    : `${style.filterButton}`
+                }
+              >
+                <p className={`${style.row}`}>
                   Approved
-                  <p className="green">{datas.sumStatus.approved}</p>
+                  <p className={`${style.green}`}>{datas.sumStatus.approved}</p>
                 </p>
-              </Link>
-
-              <Link className="button button:hover black" to="/lots/pending">
-                <p className="row">
+              </button>
+              <button
+                onClick={() => {
+                  setTab("pending");
+                  loadFilterDatas("/lots/pending");
+                }}
+                className={
+                  tab === "pending"
+                    ? `${style.filterButtonActive}`
+                    : `${style.filterButton}`
+                }
+              >
+                <p className={`${style.row}`}>
                   Pending
-                  <p className="yellow">{datas.sumStatus.pending}</p>
+                  <p className={`${style.yellow}`}>{datas.sumStatus.pending}</p>
                 </p>
-              </Link>
+              </button>
+              <button
+                onClick={() => {
+                  setTab("invaliddata");
+                  loadFilterDatas("/lots/invaliddata");
+                }}
+                className={
+                  tab === "invaliddata"
+                    ? `${style.filterButtonActive}`
+                    : `${style.filterButton}`
+                }
+              >
+                <p className={`${style.row}`}>
+                  Invalid Data
+                  <p className={`${style.red}`}>
+                    {datas.sumStatus.invalidData}
+                  </p>
+                </p>
+              </button>
+              <button
+                onClick={() => {
+                  setTab("denied");
+                  loadFilterDatas("/lots/denied");
+                }}
+                className={
+                  tab === "denied"
+                    ? `${style.filterButtonActive}`
+                    : `${style.filterButton}`
+                }
+              >
+                <p className={`${style.row}`}>
+                  Denied
+                  <p className={`${style.gray}`}>{datas.sumStatus.denied}</p>
+                </p>
+              </button>
             </div>
 
             <div>
