@@ -13,6 +13,13 @@ export default function EditUser() {
     role: "",
   });
 
+  const editUser = {
+    firstname: user.firstname,
+    lastname: user.lastname,
+    email: user.email,
+    role: user.role,
+  };
+
   useEffect(() => {
     loadUsers();
   }, []);
@@ -26,12 +33,7 @@ export default function EditUser() {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     console.log(`http://localhost:8080/api/v1/admin/users/${id}`);
-    await axios.put(`http://localhost:8080/api/v1/admin/users/${id}`, {
-      firstname: "a",
-      lastname: "a",
-      email: "a",
-      role: "USER",
-    });
+    await axios.put(`http://localhost:8080/api/v1/admin/users/${id}`, editUser);
     console.log("aaaa");
     navigate("/usermanagement");
   };
