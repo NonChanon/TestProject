@@ -1,6 +1,6 @@
 import React, { MouseEvent, useEffect, useState } from "react";
 import { Link, useLocation, useNavigate, NavLink } from "react-router-dom";
-import "./RecieptAS9.css";
+import style from "../pages/RecieptAS9.module.css";
 import axios from "axios";
 import moment from "moment";
 import DatePicker from "react-datepicker";
@@ -93,8 +93,8 @@ export default function RecieptAS9() {
 
     return (
       <div>
-        <div className="Batch shadow row space4 ">
-          <p className="tab">Batch Date : {data}</p>
+        <div className={`${style.Batch}`}>
+          <p className={`${style.tab}`}>Batch Date : {data}</p>
         </div>
         <table className="transaction-table">
           <thead>
@@ -181,16 +181,16 @@ export default function RecieptAS9() {
           })}
           <tfoot>
             <tr>
-              <th className="ltb">Total</th>
-              <th className="ltb"></th>
-              <th className="ltb">{sumDoc}</th>
-              <th className="ltb"></th>
-              <th className="ltb"></th>
-              <th className="ltb"></th>
-              <th className="ltb"></th>
-              <th className="ltb">{sumTotalPayment}</th>
-              <th className="ltb"></th>
-              <th className="ltb"></th>
+              <th className={`${style.ltb}`}>Total</th>
+              <th className={`${style.ltb}`}></th>
+              <th className={`${style.ltb}`}>{sumDoc}</th>
+              <th className={`${style.ltb}`}></th>
+              <th className={`${style.ltb}`}></th>
+              <th className={`${style.ltb}`}></th>
+              <th className={`${style.ltb}`}></th>
+              <th className={`${style.ltb}`}>{sumTotalPayment}</th>
+              <th className={`${style.ltb}`}></th>
+              <th className={`${style.ltb}`}></th>
             </tr>
           </tfoot>
         </table>
@@ -199,13 +199,13 @@ export default function RecieptAS9() {
   });
 
   return (
-    <div className="space2">
-      <div className="title spaceTitle">
-        <div className="line"></div>
+    <div className={`${style.space2}`}>
+      <div className={`${style.title} ${style.spaceTitle}`}>
+        <div className={`${style.line}`}></div>
         <div>Reciept & AS9</div>
       </div>
 
-      <div className="SearchBar shadow  row btw spaceTitle">
+      <div className={`${style.SearchBar} `}>
         <div className="FilterButon">
           <button className="BatchDate button1">
             <div className="row">
