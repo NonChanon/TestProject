@@ -63,7 +63,8 @@ export default function EditDetail() {
   const [endDate, setEndDate] = useState<Date | null>();
   const [finalPaymentDate, setFinalPaymentDate] = useState<Date | null>();
   const [totalPayment, setTotalPayment] = useState({
-    paymentAmount: states.customer.totalDuty + states.customer.totalDubDutyAmount
+    paymentAmount:
+      states.customer.totalDuty + states.customer.totalDubDutyAmount,
   });
   const navigate = useNavigate();
   const path = useLocation().pathname;
@@ -289,7 +290,11 @@ export default function EditDetail() {
                     name="relatedStatus"
                     type="text"
                     className={`${style.txt}`}
+<<<<<<< HEAD
                     defaultValue={datas.contract.relatedStatus}
+=======
+                    defaultValue={states.customer.contract.relatedStatus}
+>>>>>>> 2fe5344b983542b6a2095f4a13a8297a81ecddca
                     onChange={(e) => updateContract(e)}
                   />
                 </div>
@@ -356,8 +361,21 @@ export default function EditDetail() {
                       console.log(states);
                     }}
                     onBlur={() => {
+<<<<<<< HEAD
                       console.log(states.customer.totalDuty + states.customer.totalDubDutyAmount);
                       setTotalPayment({ ...totalPayment, paymentAmount: Number(states.customer.totalDuty) + Number(states.customer.totalDubDutyAmount) });
+=======
+                      console.log(
+                        states.customer.totalDuty +
+                          states.customer.totalDubDutyAmount
+                      );
+                      setTotalPayment({
+                        ...totalPayment,
+                        paymentAmount:
+                          Number(states.customer.totalDuty) +
+                          Number(states.customer.totalDubDutyAmount),
+                      });
+>>>>>>> 2fe5344b983542b6a2095f4a13a8297a81ecddca
                     }}
                   />
                 </div>
@@ -374,7 +392,16 @@ export default function EditDetail() {
                       updateCustomer(e);
                     }}
                     onBlur={() => {
+<<<<<<< HEAD
                       setTotalPayment({ ...totalPayment, paymentAmount: Number(states.customer.totalDuty) + Number(states.customer.totalDubDutyAmount) });
+=======
+                      setTotalPayment({
+                        ...totalPayment,
+                        paymentAmount:
+                          Number(states.customer.totalDuty) +
+                          Number(states.customer.totalDubDutyAmount),
+                      });
+>>>>>>> 2fe5344b983542b6a2095f4a13a8297a81ecddca
                       console.log(states);
                     }}
                   />
@@ -385,6 +412,11 @@ export default function EditDetail() {
                 <div className={`${style.inputDiv}`}>
                   <div
                     className={`${style.txt}`}
+<<<<<<< HEAD
+=======
+                    // defaultValue={states.customer.totalPayment}
+                    // onChange={(e) => updateCustomer(e)}
+>>>>>>> 2fe5344b983542b6a2095f4a13a8297a81ecddca
                   >
                     {totalPayment.paymentAmount}
                   </div>

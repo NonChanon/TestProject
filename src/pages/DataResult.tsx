@@ -3,7 +3,7 @@ import axios from "axios";
 import { Link, useLocation } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import moment from "moment";
-import style from "./DataResult.module.css"
+import style from "./DataResult.module.css";
 
 interface lotModel {
   name: string;
@@ -16,16 +16,6 @@ interface lotModel {
   totalPayment: number;
 }
 
-// interface stateModel {
-//   content: lotModel[];
-//   sumStatus: {
-//     approved: number;
-//     pending: number;
-//     invalidData: number;
-//     denied: number;
-//   }
-// }
-
 export default function DataResult() {
   const [datas, setDatas] = useState<any>({
     content: [],
@@ -33,8 +23,8 @@ export default function DataResult() {
       approved: 0,
       pending: 0,
       invalidData: 0,
-      denied: 0
-    }
+      denied: 0,
+    },
   });
   const [startDate = null, setStartDate] = useState<null | Date>();
   const [lotName, setLotName] = useState({
@@ -62,13 +52,18 @@ export default function DataResult() {
 
   const onSearch = async (e: React.MouseEvent, request: object) => {
     e.preventDefault();
-    moment
-    const dataRes = await axios.post(`http://localhost:8080/api/lots/search/dataresult`, request);
+    moment;
+    const dataRes = await axios.post(
+      `http://localhost:8080/api/lots/search/dataresult`,
+      request
+    );
     setDatas(dataRes.data);
     console.log("search data is " + dataRes.data);
   };
 
-  const updateLotNameInput = (e: { target: { name: string; value: string } }) => {
+  const updateLotNameInput = (e: {
+    target: { name: string; value: string };
+  }) => {
     console.log(e.target.name);
     setLotName({
       ...lotName,
@@ -139,7 +134,9 @@ export default function DataResult() {
                   <td width="8%">{lot.totalDoc}</td>
                   <td width="12%">{lot.batchDate}</td>
                   <td width="12%">
-                    <p className={`${style[lot.approvalStatus]}`}>{lot.approvalStatus}</p>
+                    <p className={`${style[lot.approvalStatus]}`}>
+                      {lot.approvalStatus}
+                    </p>
                   </td>
                   <td width="15%">{lot.approvedBy}</td>
                   <td width="11%">{lot.totalDuty}</td>
@@ -244,7 +241,15 @@ export default function DataResult() {
 
         <button
           className={`${style.searchButton}`}
-          onClick={(e) => onSearch(e, { batchDate: startDate === null ? "" : moment(startDate).format('DD/MM/yyyy').toString(), lotName: lotName.lotNameInput })}
+          onClick={(e) =>
+            onSearch(e, {
+              batchDate:
+                startDate === null
+                  ? ""
+                  : moment(startDate).format("DD/MM/yyyy").toString(),
+              lotName: lotName.lotNameInput,
+            })
+          }
         >
           <div className={`${style.row}`}>
             <svg
@@ -273,50 +278,80 @@ export default function DataResult() {
         <div className={`BatchBar shadow`}>
           <div className={`${style.space3}`}>
             <div className={`${style.filter} ${style.spaceTitle2}`}>
-              <button onClick={() => {
-                setTab("all");
-                loadFilterDatas("/lots/all");
-              }}
-                className={(tab === "all") ? `${style.filterButtonActive}` : `${style.filterButton}`}>
-                  <p style={{padding:"3px 8px 3px 8px"}}>
-                  All
-                </p>
+              <button
+                onClick={() => {
+                  setTab("all");
+                  loadFilterDatas("/lots/all");
+                }}
+                className={
+                  tab === "all"
+                    ? `${style.filterButtonActive}`
+                    : `${style.filterButton}`
+                }
+              >
+                <p style={{ padding: "3px 8px 3px 8px" }}>All</p>
               </button>
-              <button onClick={() => {
-                setTab("approved");
-                loadFilterDatas("/lots/approved");
-              }}
-                className={(tab === "approved") ? `${style.filterButtonActive}` : `${style.filterButton}`}>
+              <button
+                onClick={() => {
+                  setTab("approved");
+                  loadFilterDatas("/lots/approved");
+                }}
+                className={
+                  tab === "approved"
+                    ? `${style.filterButtonActive}`
+                    : `${style.filterButton}`
+                }
+              >
                 <p className={`${style.row}`}>
                   Approved
                   <p className={`${style.green}`}>{datas.sumStatus.approved}</p>
                 </p>
               </button>
-              <button onClick={() => {
-                setTab("pending");
-                loadFilterDatas("/lots/pending");
-              }}
-              className={(tab === "pending") ? `${style.filterButtonActive}` : `${style.filterButton}`}>
+              <button
+                onClick={() => {
+                  setTab("pending");
+                  loadFilterDatas("/lots/pending");
+                }}
+                className={
+                  tab === "pending"
+                    ? `${style.filterButtonActive}`
+                    : `${style.filterButton}`
+                }
+              >
                 <p className={`${style.row}`}>
                   Pending
                   <p className={`${style.yellow}`}>{datas.sumStatus.pending}</p>
                 </p>
               </button>
-              <button onClick={() => {
-                setTab("invaliddata");
-                loadFilterDatas("/lots/invaliddata");
-              }}
-              className={(tab === "invaliddata") ? `${style.filterButtonActive}` : `${style.filterButton}`}>
+              <button
+                onClick={() => {
+                  setTab("invaliddata");
+                  loadFilterDatas("/lots/invaliddata");
+                }}
+                className={
+                  tab === "invaliddata"
+                    ? `${style.filterButtonActive}`
+                    : `${style.filterButton}`
+                }
+              >
                 <p className={`${style.row}`}>
                   Invalid Data
-                  <p className={`${style.red}`}>{datas.sumStatus.invalidData}</p>
+                  <p className={`${style.red}`}>
+                    {datas.sumStatus.invalidData}
+                  </p>
                 </p>
               </button>
-              <button onClick={() => {
-                setTab("denied");
-                loadFilterDatas("/lots/denied");
-              }} 
-              className={(tab === "denied") ? `${style.filterButtonActive}` : `${style.filterButton}`}>
+              <button
+                onClick={() => {
+                  setTab("denied");
+                  loadFilterDatas("/lots/denied");
+                }}
+                className={
+                  tab === "denied"
+                    ? `${style.filterButtonActive}`
+                    : `${style.filterButton}`
+                }
+              >
                 <p className={`${style.row}`}>
                   Denied
                   <p className={`${style.gray}`}>{datas.sumStatus.denied}</p>
