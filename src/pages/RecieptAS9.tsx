@@ -26,8 +26,8 @@ export default function RecieptAS9() {
       approved: 0,
       pending: 0,
       invalidData: 0,
-      denied: 0
-    }
+      denied: 0,
+    },
   });
   const [startDate, setStartDate] = useState<Date | null>();
   const [lotName, setLotName] = useState({
@@ -48,8 +48,11 @@ export default function RecieptAS9() {
 
   const onSearch = async (e: MouseEvent, request: object) => {
     e.preventDefault();
-    moment
-    const dataRes = await axios.post(`http://localhost:8080/api/lots/search/dataresult`, request);
+    moment;
+    const dataRes = await axios.post(
+      `http://localhost:8080/api/lots/search/dataresult`,
+      request
+    );
     setDatas(dataRes.data);
     console.log("search data is " + dataRes.data);
   };
@@ -133,7 +136,11 @@ export default function RecieptAS9() {
                     {/* <Routes>
                       <Route path={`/${lot.name}`} element={<DetailCollection />} />
                     </Routes> */}
-                    <NavLink to={`/${lot.name}?page=0`} end state={{ lot: lot }}>
+                    <NavLink
+                      to={`/${lot.name}?page=0`}
+                      end
+                      state={{ lot: lot }}
+                    >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="21"
@@ -157,7 +164,11 @@ export default function RecieptAS9() {
                     {/* <Routes>
                       <Route path={`/${lot.name}`} element={<DetailCollection />} />
                     </Routes> */}
-                    <NavLink to={`/${lot.name}?page=0`} end state={{ lot: lot }}>
+                    <NavLink
+                      to={`/${lot.name}?page=0`}
+                      end
+                      state={{ lot: lot }}
+                    >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="21"

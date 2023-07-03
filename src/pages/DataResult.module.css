@@ -3,7 +3,6 @@ td,
 th {
   border-bottom: 1px solid #b1b1b1;
   text-align: center;
-  background-color: #fafafa;
   padding: 15px;
 }
 
@@ -34,7 +33,7 @@ th {
   margin-top: 5px;
   height: 2px;
   width: auto;
-  background-color: #cecece;
+  background-color: #e6e5e5;
 }
 
 .line3 {

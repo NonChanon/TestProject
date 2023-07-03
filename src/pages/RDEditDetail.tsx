@@ -70,7 +70,7 @@ export default function EditDetail() {
   const path = useLocation().pathname;
 
   const loadDatas = async () => {
-    const dataRes = await axios.get(`http://localhost:8080/api${path.replace('/batchdataresult', '')}`);
+    const dataRes = await axios.get(`http://localhost:8080/api${path.replace('/rd', '')}`);
     setDatas(dataRes.data);
     console.log("getEditData is : " + dataRes.data);
   };
@@ -121,6 +121,8 @@ export default function EditDetail() {
     });
   };
 
+  console.log(datas.address.alley);
+
   return (
     <div className={`${style.ttspace}`}>
       <div className={`${style.title}`}>
@@ -135,7 +137,9 @@ export default function EditDetail() {
             <div className={`${style.gridContainer}`}>
               <div className={`${style.item}`}>
                 <p className={`${style.txtblk}`}>Contract Number</p>
-                <div className={`${style.inputDiv}`}>
+                <div 
+                className={`${style.inputDiv}`}
+                style={datas.contract.number === null || datas.contract.number === '' ? {'borderColor': '#CA0700'} : {'borderColor': '#CECECE'}}>
                   <input
                     name="number"
                     type="text"
@@ -147,7 +151,10 @@ export default function EditDetail() {
               </div>
               <div className={`${style.item}`}>
                 <p className={`${style.txtblk}`}>Contract Start Date</p>
-                <div className={`${style.inputDiv}`}>
+                <div 
+                className={`${style.inputDiv}`}
+                style={datas.contract.startDate === null || datas.contract.startDate === '' ? {'borderColor': '#CA0700'} : {'borderColor': '#CECECE'}}
+                >
                   <div>
                     <DatePicker
                       wrapperClassName={`${style.test}`}
@@ -193,7 +200,10 @@ export default function EditDetail() {
               </div>
               <div className={`${style.item}`}>
                 <p className={`${style.txtblk}`}>Contract End Date</p>
-                <div className={`${style.inputDiv}`}>
+                <div 
+                className={`${style.inputDiv}`}
+                style={datas.contract.endDate === null || datas.contract.endDate === '' ? {'borderColor': '#CA0700'} : {'borderColor': '#CECECE'}}
+                >
                   <div>
                     <DatePicker
                       name="endDate"
@@ -249,7 +259,10 @@ export default function EditDetail() {
                 <p className={`${style.txtblk}`}>
                   Identification number of the applicant for stamp duty
                 </p>
-                <div className={`${style.inputDiv}`}>
+                <div
+                className={`${style.inputDiv}`}
+                style={datas.contract.applicantId === null || datas.contract.applicantId === '' ? {'borderColor': '#CA0700'} : {'borderColor': '#CECECE'}}
+                >
                   <input
                     name="applicantId"
                     type="text"
@@ -261,7 +274,10 @@ export default function EditDetail() {
               </div>
               <div className={`${style.item}`}>
                 <p className={`${style.txtblk}`}>Branch Number</p>
-                <div className={`${style.inputDiv}`}>
+                <div
+                className={`${style.inputDiv}`}
+                style={datas.contract.branchNumber === null || datas.contract.branchNumber === '' ? {'borderColor': '#CA0700'} : {'borderColor': '#CECECE'}}
+                >
                   <input
                     name="branchNumber"
                     type="text"
@@ -273,7 +289,10 @@ export default function EditDetail() {
               </div>
               <div className={`${style.item}`}>
                 <p className={`${style.txtblk}`}>Branch Type</p>
-                <div className={`${style.inputDiv}`}>
+                <div
+                    className={`${style.inputDiv}`}
+                    style={datas.contract.branchType === null || datas.contract.branchType === '' ? {'borderColor': '#CA0700'} : {'borderColor': '#CECECE'}}
+                >
                   <input
                     name="branchType"
                     type="text"
@@ -285,7 +304,9 @@ export default function EditDetail() {
               </div>
               <div className={`${style.item}`}>
                 <p className={`${style.txtblk}`}>Contract related Status</p>
-                <div className={`${style.inputDiv}`}>
+                <div
+                    className={`${style.inputDiv}`}
+                    style={datas.contract.relatedStatus === null || datas.contract.relatedStatus === '' ? {'borderColor': '#CA0700'} : {'borderColor': '#CECECE'}}>
                   <input
                     name="relatedStatus"
                     type="text"
@@ -302,7 +323,10 @@ export default function EditDetail() {
             <div className={`${style.gridContainer}`}>
               <div className={`${style.item}`}>
                 <p className={`${style.txtblk}`}>Final Payment Date</p>
-                <div className={`${style.inputDiv}`}>
+                <div
+                className={`${style.inputDiv}`}
+                style={datas.finalPaymentDate === null || datas.finalPaymentDate === '' ? {'borderColor': '#CA0700'} : {'borderColor': '#CECECE'}}
+                >
                   <div>
                     <DatePicker
                       name="finalPaymentDate"
@@ -346,7 +370,10 @@ export default function EditDetail() {
               </div>
               <div className={`${style.item}`}>
                 <p className={`${style.txtblk}`}>Duty Amount</p>
-                <div className={`${style.inputDiv}`}>
+                <div
+                className={`${style.inputDiv}`}
+                style={datas.totalDuty === null ? {'borderColor': '#CA0700'} : {'borderColor': '#CECECE'}}
+                >
                   <input
                     name="totalDuty"
                     type="text"
@@ -373,7 +400,10 @@ export default function EditDetail() {
               </div>
               <div className={`${style.item}`}>
                 <p className={`${style.txtblk}`}>Dub Duty Amount</p>
-                <div className={`${style.inputDiv}`}>
+                <div
+                className={`${style.inputDiv}`}
+                style={datas.totalDubDutyAmount === null ? {'borderColor': '#CA0700'} : {'borderColor': '#CECECE'}}
+                >
                   <input
                     name="totalDubDutyAmount"
                     type="text"
@@ -396,7 +426,10 @@ export default function EditDetail() {
               </div>
               <div className={`${style.item}`}>
                 <p className={`${style.txtblk}`}>Total Amount</p>
-                <div className={`${style.inputDiv}`}>
+                <div
+                className={`${style.inputDiv}`}
+                style={datas.totalAmount === null ? {'borderColor': '#CA0700'} : {'borderColor': '#CECECE'}}
+                >
                   <div
                     className={`${style.txt}`}
                   >
@@ -411,7 +444,10 @@ export default function EditDetail() {
             <div className={`${style.gridContainer}`}>
               <div className={`${style.item}`}>
                 <p className={`${style.txtblk}`}>Title</p>
-                <div className={`${style.inputDiv}`}>
+                <div
+                className={`${style.inputDiv}`}
+                style={datas.title === null || datas.title === '' ? {'borderColor': '#CA0700'} : {'borderColor': '#CECECE'}}
+                >
                   <input
                     name="title"
                     type="text"
@@ -423,7 +459,10 @@ export default function EditDetail() {
               </div>
               <div className={`${style.item}`}>
                 <p className={`${style.txtblk}`}>Firstname</p>
-                <div className={`${style.inputDiv}`}>
+                <div
+                className={`${style.inputDiv}`}
+                style={datas.firstname === null || datas.firstname === '' ? {'borderColor': '#CA0700'} : {'borderColor': '#CECECE'}}
+                >
                   <input
                     name="firstname"
                     type="text"
@@ -435,7 +474,10 @@ export default function EditDetail() {
               </div>
               <div className={`${style.item}`}>
                 <p className={`${style.txtblk}`}>Lastname</p>
-                <div className={`${style.inputDiv}`}>
+                <div
+                className={`${style.inputDiv}`}
+                style={datas.lastname === null || datas.lastname === '' ? {'borderColor': '#CA0700'} : {'borderColor': '#CECECE'}}
+                >
                   <input
                     name="lastname"
                     type="text"
@@ -447,7 +489,10 @@ export default function EditDetail() {
               </div>
               <div className={`${style.item}`}>
                 <p className={`${style.txtblk}`}>Village / Building</p>
-                <div className={`${style.inputDiv}`}>
+                <div
+                className={`${style.inputDiv}`}
+                style={datas.village === null || datas.village === '' ? {'borderColor': '#CA0700'} : {'borderColor': '#CECECE'}}
+                >
                   <input
                     name="village"
                     type="text"
@@ -460,7 +505,9 @@ export default function EditDetail() {
               <div className={`${style.item}`}>
                 <div className={`${style.minigrid}`}>
                   <p className={`${style.minitxtblk}`}>Address Number</p>
-                  <div className={``}>
+                  <div
+                  style={datas.address.addressNo === null || datas.address.addressNo === '' ? {'borderColor': '#CA0700'} : {'borderColor': '#CECECE'}}
+                  >
                     <input
                       name="addressNo"
                       type="text"
@@ -472,7 +519,9 @@ export default function EditDetail() {
                 </div>
                 <div className={`${style.minigrid}`}>
                   <p className={`${style.minitxtblk}`}>Floor</p>
-                  <div className={``}>
+                  <div
+                  style={datas.address.floor === null || datas.address.floor === '' ? {'borderColor': '#CA0700'} : {'borderColor': '#CECECE'}}
+                  >
                     <input
                       name="floor"
                       type="text"
@@ -485,7 +534,10 @@ export default function EditDetail() {
               </div>
               <div className={`${style.item}`}>
                 <p className={`${style.txtblk}`}>Village Number</p>
-                <div className={`${style.inputDiv}`}>
+                <div
+                className={`${style.inputDiv}`}
+                style={datas.address.villageNo === null || datas.address.villageNo === '' ? {'borderColor': '#CA0700'} : {'borderColor': '#CECECE'}}
+                >
                   <input
                     name="villageNo"
                     type="text"
@@ -497,7 +549,10 @@ export default function EditDetail() {
               </div>
               <div className={`${style.item}`}>
                 <p className={`${style.txtblk}`}>Alley / Section</p>
-                <div className={`${style.inputDiv}`}>
+                <div
+                className={`${style.inputDiv}`}
+                style={datas.address.alley === null || datas.address.alley === '' ? {'borderColor': '#CA0700'} : {'borderColor': '#CECECE'}}
+                >
                   <input
                     name="alley"
                     type="text"
@@ -509,7 +564,10 @@ export default function EditDetail() {
               </div>
               <div className={`${style.item}`}>
                 <p className={`${style.txtblk}`}>Street</p>
-                <div className={`${style.inputDiv}`}>
+                <div
+                className={`${style.inputDiv}`}
+                style={datas.address.street === null || datas.address.street === '' ? {'borderColor': '#CA0700'} : {'borderColor': '#CECECE'}}
+                >
                   <input
                     name="street"
                     type="text"
@@ -521,7 +579,10 @@ export default function EditDetail() {
               </div>
               <div className={`${style.item}`}>
                 <p className={`${style.txtblk}`}>Subdistrict</p>
-                <div className={`${style.inputDiv}`}>
+                <div
+                className={`${style.inputDiv}`}
+                style={datas.address.subDistrict === null || datas.address.subDistrict === '' ? {'borderColor': '#CA0700'} : {'borderColor': '#CECECE'}}
+                >
                   <input
                     name="subDistrict"
                     type="text"
@@ -533,7 +594,10 @@ export default function EditDetail() {
               </div>
               <div className={`${style.item}`}>
                 <p className={`${style.txtblk}`}>District</p>
-                <div className={`${style.inputDiv}`}>
+                <div
+                className={`${style.inputDiv}`}
+                style={datas.address.district === null || datas.address.district === '' ? {'borderColor': '#CA0700'} : {'borderColor': '#CECECE'}}
+                >
                   <input
                     name="district"
                     type="text"
@@ -545,7 +609,10 @@ export default function EditDetail() {
               </div>
               <div className={`${style.item}`}>
                 <p className={`${style.txtblk}`}>Province</p>
-                <div className={`${style.inputDiv}`}>
+                <div
+                className={`${style.inputDiv}`}
+                style={datas.address.province === null || datas.address.province === '' ? {'borderColor': '#CA0700'} : {'borderColor': '#CECECE'}}
+                >
                   <input
                     name="province"
                     type="text"
@@ -557,7 +624,10 @@ export default function EditDetail() {
               </div>
               <div className={`${style.item}`}>
                 <p className={`${style.txtblk}`}>Postal Code</p>
-                <div className={`${style.inputDiv}`}>
+                <div
+                className={`${style.inputDiv}`}
+                style={datas.address.postalCode === null || datas.address.postalCode === '' ? {'borderColor': '#CA0700'} : {'borderColor': '#CECECE'}}
+                >
                   <input
                     name="postalCode"
                     type="text"
@@ -576,7 +646,7 @@ export default function EditDetail() {
           onClick={async (e) => {
             e.preventDefault();
             await axios.put(
-              `http://localhost:8080/api${path.replace('/batchdataresult', '')}`,
+              `http://localhost:8080/api${path.replace('/rd', '')}`,
               states.customer
             );
             navigate(-1);
