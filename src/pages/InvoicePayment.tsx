@@ -30,7 +30,7 @@ export default function InvoicePayment() {
       pending: 0,
     }
   });
-  const [startDate, setStartDate] = useState<Date | null>();
+  const [startDate = null, setStartDate] = useState<Date | null>();
   const [lotName, setLotName] = useState({
     lotNameInput: "",
   });
