@@ -1,7 +1,55 @@
-import "./UserManagement.css";
-import testData from "./testData.tsx"
+import style from "./UserManagement.css";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { Navigate, useParams } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function UserManagement() {
+  const [users, setUsers] = useState([]);
+  const { id } = useParams();
+
+  useEffect(() => {
+    loadUsers();
+  }, []);
+
+  const loadUsers = async () => {
+    const dataRes = await axios.post(
+      "http://localhost:8080/api/v1/admin/users"
+    );
+    console.log(dataRes.data);
+    setUsers(dataRes.data);
+  };
+
+  const deleteUser = async (id: Number) => {
+    await axios.delete(`http://localhost:8080/api/v1/admin/users/${id}`);
+    loadUsers();
+  };
+
+  const userRoleTable = users.map((data, i) => {
+    return (
+      <tbody>
+        <td>{i + 1}</td>
+        <td>{data.username}</td>
+        <td>{data.role}</td>
+        <td>{data.firstname}</td>
+        <td>{data.lastname}</td>
+        <td>{data.email}</td>
+        <td>{data.createdDate}</td>
+        <td>{data.createdUser}</td>
+        <td>{data.updatedDate}</td>
+        <td>{data.updatedUser}</td>
+        <td>{data.firstLogin}</td>
+        <td>{data.lastLogin}</td>
+        <td>{data.enabled}</td>
+        <td>
+          <NavLink to={`/usermanagement/edituser/${data.id}`}>Edit</NavLink>
+          <button onClick={() => deleteUser(data.id)}>delete</button>
+        </td>
+      </tbody>
+    );
+  });
+
   return (
     <>
       <div className="space2">
@@ -58,6 +106,14 @@ export default function UserManagement() {
             </button>
           </div>
         </div>
+        <div className="spaceTitle">
+          <NavLink
+            to="/usermanagement/adduser"
+            className="addButton buttonLayout"
+          >
+            Add
+          </NavLink>
+        </div>
         <table>
           <thead>
             <tr>
@@ -77,28 +133,7 @@ export default function UserManagement() {
               <th>Manage</th>
             </tr>
           </thead>
-          {
-            testData.map((data, i:number) => {
-              return (
-                <tbody>
-                  <td>{i+1}</td>
-                  <td>{data.username}</td>
-                  <td>{data.role}</td>
-                  <td>{data.firstname}</td>
-                  <td>{data.lastname}</td>
-                  <td>{data.email}</td>
-                  <td>{data.createdDate}</td>
-                  <td>{data.createdUser}</td>
-                  <td>{data.updatedDate}</td>
-                  <td>{data.updatedUser}</td>
-                  <td>{data.firstLogin}</td>
-                  <td>{data.lastLogin}</td>
-                  <td>{data.status}</td>
-                  <td>{data.manage}</td>
-                </tbody>
-              );
-            })
-          }
+          {userRoleTable}
         </table>
       </div>
     </>

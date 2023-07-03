@@ -14,7 +14,8 @@ export default function EditDetail() {
   const [endDate, setEndDate] = useState<Date | null>();
   const [finalPaymentDate, setFinalPaymentDate] = useState<Date | null>();
   const [totalPayment, setTotalPayment] = useState({
-    paymentAmount: states.customer.totalDuty + states.customer.totalDubDutyAmount
+    paymentAmount:
+      states.customer.totalDuty + states.customer.totalDubDutyAmount,
   });
   console.log(states);
   const navigate = useNavigate();
@@ -229,7 +230,7 @@ export default function EditDetail() {
                     type="text"
                     className={`${style.txt}`}
                     defaultValue={states.customer.contract.relatedStatus}
-                    onChange={(e) => updateContract(e)}             
+                    onChange={(e) => updateContract(e)}
                   />
                 </div>
               </div>
@@ -295,8 +296,16 @@ export default function EditDetail() {
                       console.log(states);
                     }}
                     onBlur={() => {
-                      console.log(states.customer.totalDuty + states.customer.totalDubDutyAmount);
-                      setTotalPayment({...totalPayment, paymentAmount:Number(states.customer.totalDuty) + Number(states.customer.totalDubDutyAmount)});                    
+                      console.log(
+                        states.customer.totalDuty +
+                          states.customer.totalDubDutyAmount
+                      );
+                      setTotalPayment({
+                        ...totalPayment,
+                        paymentAmount:
+                          Number(states.customer.totalDuty) +
+                          Number(states.customer.totalDubDutyAmount),
+                      });
                     }}
                   />
                 </div>
@@ -313,7 +322,12 @@ export default function EditDetail() {
                       updateCustomer(e);
                     }}
                     onBlur={() => {
-                      setTotalPayment({...totalPayment, paymentAmount:Number(states.customer.totalDuty) + Number(states.customer.totalDubDutyAmount)});                    
+                      setTotalPayment({
+                        ...totalPayment,
+                        paymentAmount:
+                          Number(states.customer.totalDuty) +
+                          Number(states.customer.totalDubDutyAmount),
+                      });
                       console.log(states);
                     }}
                   />
@@ -326,8 +340,8 @@ export default function EditDetail() {
                     // name="totalPayment"
                     // type="text"
                     className={`${style.txt}`}
-                  // defaultValue={states.customer.totalPayment}
-                  // onChange={(e) => updateCustomer(e)}
+                    // defaultValue={states.customer.totalPayment}
+                    // onChange={(e) => updateCustomer(e)}
                   >
                     {totalPayment.paymentAmount}
                   </div>
