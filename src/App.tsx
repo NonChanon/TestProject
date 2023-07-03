@@ -5,6 +5,8 @@ import DataResult from "./pages/DataResult.tsx";
 import DetailCollection from "./pages/DetailCollection.tsx";
 import InvoicePayment from "./pages/InvoicePayment.tsx";
 import RDTransaction from "./pages/RDTransaction.tsx";
+import RDDetailCollection from "./pages/RDDetailCollection.tsx";
+import RDEditDetail from "./pages/RDEditDetail.tsx"
 import RecieptAS9 from "./pages/RecieptAS9.tsx";
 import UserManagement from "./pages/UserManagement.tsx";
 import RoleManagement from "./pages/RoleManagement.tsx";
@@ -42,6 +44,14 @@ function App() {
           element={isAuthen ? <DataResult /> : <Navigate to="/login" />}
         />
         <Route
+          path="/batchdataresult/:lotname"
+          element={isAuthen ? <DetailCollection /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/batchdataresult/:lotname/:customertaxid/edit"
+          element={isAuthen ? <EditDetail /> : <Navigate to="/login" />}
+        />
+        <Route
           path="/invoice/all"
           element={isAuthen ? <InvoicePayment /> : <Navigate to="/login" />}
         />
@@ -58,20 +68,16 @@ function App() {
           element={isAuthen ? <DetailCollection /> : <Navigate to="/login" />}
         />
         <Route
-          path="/batchdataresult/:lotname/:customertaxid/edit"
-          element={isAuthen ? <EditDetail /> : <Navigate to="/login" />}
-        />
-        <Route
-          path="/rd/all"
+          path="/rd"
           element={isAuthen ? <RDTransaction /> : <Navigate to="/login" />}
         />
         <Route
-          path="/rd/success"
-          element={isAuthen ? <RDTransaction /> : <Navigate to="/login" />}
+          path="/rd/:lotName"
+          element={isAuthen ? <RDDetailCollection /> : <Navigate to="/login" />}
         />
         <Route
-          path="/rd/fail"
-          element={isAuthen ? <RDTransaction /> : <Navigate to="/login" />}
+          path="/rd/:lotname/:customertaxid/edit"
+          element={isAuthen ? <RDEditDetail /> : <Navigate to="/login" />}
         />
         <Route
           path="/reciept"
@@ -84,10 +90,6 @@ function App() {
         <Route
           path="/rolemanagement"
           element={isAuthen ? <RoleManagement /> : <Navigate to="/login" />}
-        />
-        <Route
-          path="/batchdataresult/:lotname"
-          element={isAuthen ? <DetailCollection /> : <Navigate to="/login" />}
         />
         <Route
           path="/usermanagement/adduser"

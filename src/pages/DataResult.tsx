@@ -101,7 +101,7 @@ export default function DataResult() {
       sumTotalPayment = 0;
 
     return (
-      <div>
+      <div className={`${style.dataresultTable}`}>
         <div className={`Batch shadow ${style.row} ${style.space4}`}>
           <p className={`${style.tab}`}>Batch Date : {data}</p>
         </div>
