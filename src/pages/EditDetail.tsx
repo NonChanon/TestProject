@@ -1,12 +1,61 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import style from "./EditDetail.module.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import DatePicker from "react-datepicker";
 
 import moment from "moment";
 
+interface customerModel {
+  title: string;
+  firstname: string;
+  lastname: string;
+  taxPayerId: string;
+  instInfoId: string;
+  totalDuty: number;
+  totalDubDutyAmount: number;
+  totalPayment: number;
+  finalPaymentDate: string;
+  completed: boolean;
+  address: addressModel;
+  contract: contractModel;
+}
+
+interface addressModel {
+  village: string;
+  addressNo: string;
+  floor: string;
+  villageNo: string;
+  alley: string;
+  street: string;
+  subDistrict: string;
+  district: string;
+  province: string;
+  postalCode: string;
+}
+
+interface contractModel {
+  number: string;
+  startDate: string;
+  endDate: string;
+  applicantId: string;
+  branchNumber: string;
+  branchType: string;
+  relatedStatus: string;
+}
+
 export default function EditDetail() {
+  const [datas, setDatas] = useState<any>({
+    title: "", firstname: "", lastname: "", taxPayerId: "", instInfoId: "",
+    totalDuty: 0, totalDubDutyAmount: 0, totalPayment: 0, finalPaymentDate: "",
+    address: {
+      village: "", addressNo: "", floor: "", villageNo: "", alley: "",
+      street: "", subDistrict: "", district: "", province: "", postalCode: "",
+    },
+    contract: {
+      number: "", startDate: "", endDate: "", applicantId: "", branchNumber: "", relatedStatus: ""
+    }
+  });
   const { state } = useLocation();
   console.log(state);
   const [states, setStates] = useState(state);
@@ -16,9 +65,21 @@ export default function EditDetail() {
   const [totalPayment, setTotalPayment] = useState({
     paymentAmount: states.customer.totalDuty + states.customer.totalDubDutyAmount
   });
-  console.log(states);
   const navigate = useNavigate();
   const path = useLocation().pathname;
+
+  const loadDatas = async () => {
+    const dataRes = await axios.get(`http://localhost:8080/api${path}`);
+    setDatas(dataRes.data);
+    console.log("getEditData is : " + dataRes.data);
+  };
+
+  useEffect(() => {
+    console.log("edit effect trigger");
+    loadDatas();
+  }, [useLocation().key])
+
+  console.log(datas);
 
   const updateCustomer = (e: { target: { name: any; value: any } }) => {
     console.log(e.target.name);
@@ -78,7 +139,7 @@ export default function EditDetail() {
                     name="number"
                     type="text"
                     className={`${style.txt}`}
-                    defaultValue={states.customer.contract.number}
+                    defaultValue={datas.contract.number}
                     onChange={(e) => updateContract(e)}
                   />
                 </div>
@@ -111,7 +172,7 @@ export default function EditDetail() {
                         );
                       }}
                       isClearable
-                      placeholderText="Select Date"
+                      placeholderText={datas.contract.startDate === null ? "Select Date" : datas.contract.startDate}
                     />
                   </div>
                   <div>
@@ -157,7 +218,7 @@ export default function EditDetail() {
                         );
                       }}
                       isClearable
-                      placeholderText="Select Date"
+                      placeholderText={datas.contract.endDate === null ? "Select Date" : datas.contract.endDate}
                       className="calendarDate"
                     />
                   </div>
@@ -192,7 +253,7 @@ export default function EditDetail() {
                     name="applicantId"
                     type="text"
                     className={`${style.txt}`}
-                    defaultValue={states.customer.contract.applicantId}
+                    defaultValue={datas.contract.applicantId}
                     onChange={(e) => updateContract(e)}
                   />
                 </div>
@@ -204,7 +265,7 @@ export default function EditDetail() {
                     name="branchNumber"
                     type="text"
                     className={`${style.txt}`}
-                    defaultValue={states.customer.contract.branchNumber}
+                    defaultValue={datas.contract.branchNumber}
                     onChange={(e) => updateContract(e)}
                   />
                 </div>
@@ -216,7 +277,7 @@ export default function EditDetail() {
                     name="branchType"
                     type="text"
                     className={`${style.txt}`}
-                    defaultValue={states.customer.contract.branchType}
+                    defaultValue={datas.contract.brachType}
                     onChange={(e) => updateContract(e)}
                   />
                 </div>
@@ -228,8 +289,8 @@ export default function EditDetail() {
                     name="relatedStatus"
                     type="text"
                     className={`${style.txt}`}
-                    defaultValue={states.customer.contract.relatedStatus}
-                    onChange={(e) => updateContract(e)}             
+                    defaultValue={datas.contract.relatedStatus}
+                    onChange={(e) => updateContract(e)}
                   />
                 </div>
               </div>
@@ -263,7 +324,7 @@ export default function EditDetail() {
                         );
                       }}
                       isClearable
-                      placeholderText="Select Date"
+                      placeholderText={datas.finalPaymentDate === null ? "Select Date" : datas.finalPaymentDate}
                       className={`${style.calendarDate}`}
                     />
                   </div>
@@ -296,7 +357,7 @@ export default function EditDetail() {
                     }}
                     onBlur={() => {
                       console.log(states.customer.totalDuty + states.customer.totalDubDutyAmount);
-                      setTotalPayment({...totalPayment, paymentAmount:Number(states.customer.totalDuty) + Number(states.customer.totalDubDutyAmount)});                    
+                      setTotalPayment({ ...totalPayment, paymentAmount: Number(states.customer.totalDuty) + Number(states.customer.totalDubDutyAmount) });
                     }}
                   />
                 </div>
@@ -313,7 +374,7 @@ export default function EditDetail() {
                       updateCustomer(e);
                     }}
                     onBlur={() => {
-                      setTotalPayment({...totalPayment, paymentAmount:Number(states.customer.totalDuty) + Number(states.customer.totalDubDutyAmount)});                    
+                      setTotalPayment({ ...totalPayment, paymentAmount: Number(states.customer.totalDuty) + Number(states.customer.totalDubDutyAmount) });
                       console.log(states);
                     }}
                   />
@@ -323,11 +384,7 @@ export default function EditDetail() {
                 <p className={`${style.txtblk}`}>Total Amount</p>
                 <div className={`${style.inputDiv}`}>
                   <div
-                    // name="totalPayment"
-                    // type="text"
                     className={`${style.txt}`}
-                  // defaultValue={states.customer.totalPayment}
-                  // onChange={(e) => updateCustomer(e)}
                   >
                     {totalPayment.paymentAmount}
                   </div>
@@ -345,7 +402,7 @@ export default function EditDetail() {
                     name="title"
                     type="text"
                     className={`${style.txt}`}
-                    defaultValue={states.customer.title}
+                    defaultValue={datas.title}
                     onChange={(e) => updateCustomer(e)}
                   />
                 </div>
@@ -357,7 +414,7 @@ export default function EditDetail() {
                     name="firstname"
                     type="text"
                     className={`${style.txt}`}
-                    defaultValue={states.customer.firstname}
+                    defaultValue={datas.firstname}
                     onChange={(e) => updateCustomer(e)}
                   />
                 </div>
@@ -369,7 +426,7 @@ export default function EditDetail() {
                     name="lastname"
                     type="text"
                     className={`${style.txt}`}
-                    defaultValue={states.customer.lastname}
+                    defaultValue={datas.lastname}
                     onChange={(e) => updateCustomer(e)}
                   />
                 </div>
@@ -381,7 +438,7 @@ export default function EditDetail() {
                     name="village"
                     type="text"
                     className={`${style.txt}`}
-                    defaultValue={states.customer.address.village}
+                    defaultValue={datas.address.village}
                     onChange={(e) => updateAddress(e)}
                   />
                 </div>
@@ -394,7 +451,7 @@ export default function EditDetail() {
                       name="addressNo"
                       type="text"
                       className={`${style.minitxt}`}
-                      defaultValue={states.customer.address.addressNo}
+                      defaultValue={datas.address.addressNo}
                       onChange={(e) => updateAddress(e)}
                     />
                   </div>
@@ -406,7 +463,7 @@ export default function EditDetail() {
                       name="floor"
                       type="text"
                       className={`${style.minitxt}`}
-                      defaultValue={states.customer.address.floor}
+                      defaultValue={datas.address.floor}
                       onChange={(e) => updateAddress(e)}
                     />
                   </div>
@@ -419,7 +476,7 @@ export default function EditDetail() {
                     name="villageNo"
                     type="text"
                     className={`${style.txt}`}
-                    defaultValue={states.customer.address.villageNo}
+                    defaultValue={datas.address.villageNo}
                     onChange={(e) => updateAddress(e)}
                   />
                 </div>
@@ -431,7 +488,7 @@ export default function EditDetail() {
                     name="alley"
                     type="text"
                     className={`${style.txt}`}
-                    defaultValue={states.customer.address.alley}
+                    defaultValue={datas.address.alley}
                     onChange={(e) => updateAddress(e)}
                   />
                 </div>
@@ -443,7 +500,7 @@ export default function EditDetail() {
                     name="street"
                     type="text"
                     className={`${style.txt}`}
-                    defaultValue={states.customer.address.street}
+                    defaultValue={datas.address.street}
                     onChange={(e) => updateAddress(e)}
                   />
                 </div>
@@ -455,7 +512,7 @@ export default function EditDetail() {
                     name="subDistrict"
                     type="text"
                     className={`${style.txt}`}
-                    defaultValue={states.customer.address.subDistrict}
+                    defaultValue={datas.address.subDistrict}
                     onChange={(e) => updateAddress(e)}
                   />
                 </div>
@@ -467,7 +524,7 @@ export default function EditDetail() {
                     name="district"
                     type="text"
                     className={`${style.txt}`}
-                    defaultValue={states.customer.address.district}
+                    defaultValue={datas.address.district}
                     onChange={(e) => updateAddress(e)}
                   />
                 </div>
@@ -479,7 +536,7 @@ export default function EditDetail() {
                     name="province"
                     type="text"
                     className={`${style.txt}`}
-                    defaultValue={states.customer.address.province}
+                    defaultValue={datas.address.province}
                     onChange={(e) => updateAddress(e)}
                   />
                 </div>
@@ -491,7 +548,7 @@ export default function EditDetail() {
                     name="postalCode"
                     type="text"
                     className={`${style.txt}`}
-                    defaultValue={states.customer.address.postalCode}
+                    defaultValue={datas.address.postalCode}
                     onChange={(e) => updateAddress(e)}
                   />
                 </div>
