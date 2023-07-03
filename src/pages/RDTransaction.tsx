@@ -42,11 +42,10 @@ export default function RDTransaction() {
   });
 
   let grouped = datas;
-  const path = useLocation().pathname;
 
   //load data by api to backend
   const loadDatas = async () => {
-    const dataRes = await axios.get(`http://localhost:8080/api${path}`);
+    const dataRes = await axios.get(`http://localhost:8080/api/rd/all`);
     setDatas(dataRes.data);
     console.log("loadDatas : " + dataRes.data);
   };
@@ -91,6 +90,10 @@ export default function RDTransaction() {
     loadDatas();
   }, [useLocation().key]);
 
+  let sumTotalDuty = 0,
+                  sumTotalDubDutyAmount = 0,
+                  sumTotalPayment = 0;
+
   return (
     <div className={style.space2}>
       <div className={`${style.title} ${style.spaceTitle}`}>
@@ -127,7 +130,7 @@ export default function RDTransaction() {
                 />
               </svg>
             </div>
-            <div className={style.line2}></div>
+            <div className={`${style.line2}`}></div>
           </button>
 
           <button className={`LotName ${style.button1}`}>
@@ -148,7 +151,7 @@ export default function RDTransaction() {
                 onChange={(e) => updateLotNameInput(e)}
               />
             </div>
-            <div className={style.line2}></div>
+            <div className={`${style.line2}`}></div>
           </button>
         </div>
 
@@ -220,17 +223,14 @@ export default function RDTransaction() {
               </button>
             </div>
 
-            {batchDate.map((data: string) => {
-              let sumTotalDuty = 0,
-                  sumTotalDubDutyAmount = 0,
-                  sumTotalPayment = 0;
-              return (
+            {datas.content.length > 0 ?           
+              (
                 <div>
-                  <div
+                  {/* <div
                     className={`${style.Batch} shadow ${style.row} ${style.space4}`}
                   >
                     <p className={style.tab}>Batch Date : {data}</p>
-                  </div>
+                  </div> */}
                   <div className={`${style.Table} ${style.top}`}>
                     <table className={style.transactionTable}>
                       <tr>
@@ -245,7 +245,7 @@ export default function RDTransaction() {
                         <th>Total Payment</th>
                         <th>Payment Status</th>
                       </tr>
-                      {grouped[data].map((lot: lotModel, i:number) => {
+                      {datas.content.map((lot: lotModel, i:number) => {
                         sumTotalDuty += lot.totalDuty;
                         sumTotalDubDutyAmount += lot.totalDubDutyAmount;
                         sumTotalPayment += lot.totalPayment;
@@ -264,7 +264,7 @@ export default function RDTransaction() {
                         return (
                           <tr>
                             <td width="5%">{i + 1}</td>
-                            <td width="10%"><Link to={`/batchdataresult/${lot.name}`} state={{ lot: lot }}>{lot.name}</Link></td>
+                            <td width="10%"><Link to={`/rd/${lot.name}`} state={{ lot: lot }}>{lot.name}</Link></td>
                             <td width="8%">{lot.batchDate}</td>
                             <td width="10%">{lot.batchTime}</td>
                             <td width="15%">{lot.sendRdDate}</td>
@@ -303,8 +303,8 @@ export default function RDTransaction() {
                     </table>
                   </div>
                 </div>
-              );
-            })}
+              )
+             : undefined}
           </div>
         </div>
       </div>

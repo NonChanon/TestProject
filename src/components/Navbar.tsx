@@ -104,7 +104,7 @@ export default function Navbar() {
             </li>
             <li>
               <NavLink
-                to="/rd/all"
+                to="/rd"
                 className={({ isActive }) =>
                   isActive ? activeClassName : undefined
                 }
