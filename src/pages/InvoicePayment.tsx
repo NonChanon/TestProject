@@ -29,7 +29,7 @@ export default function InvoicePayment() {
     sumIVStatus: {
       approved: 0,
       pending: 0,
-    }
+    },
   });
   const [startDate = null, setStartDate] = useState<Date | null>();
   const [lotName, setLotName] = useState({
@@ -57,8 +57,11 @@ export default function InvoicePayment() {
 
   const onSearch = async (e: React.MouseEvent, request: object) => {
     e.preventDefault();
-    moment
-    const dataRes = await axios.post(`http://localhost:8080/api/lots/search/iv`, request);
+    moment;
+    const dataRes = await axios.post(
+      `http://localhost:8080/api/lots/search/iv`,
+      request
+    );
     setDatas(dataRes.data);
     console.log("search data is " + dataRes.data);
   };
@@ -106,7 +109,9 @@ export default function InvoicePayment() {
         <div>Invoice Payment</div>
       </div>
 
-      <div className={`SearchBar shadow ${style.row} ${style.btw} ${style.spaceTitle}`}>
+      <div
+        className={`SearchBar shadow ${style.row} ${style.btw} ${style.spaceTitle}`}
+      >
         <div className={`${style.FilterButon}`}>
           <button className={`BatchDate ${style.button1}`}>
             <div className={`${style.row}`}>
@@ -162,7 +167,15 @@ export default function InvoicePayment() {
 
         <button
           className={`${style.SearchButton}`}
-          onClick={(e) => onSearch(e, { batchDate: startDate === null ? "" : moment(startDate).format('DD/MM/yyyy').toString(), lotName: lotName.lotNameInput })}
+          onClick={(e) =>
+            onSearch(e, {
+              batchDate:
+                startDate === null
+                  ? ""
+                  : moment(startDate).format("DD/MM/yyyy").toString(),
+              lotName: lotName.lotNameInput,
+            })
+          }
         >
           <div className={`${style.row}`}>
             <svg
@@ -192,17 +205,24 @@ export default function InvoicePayment() {
           <div className={`${style.space3}`}>
             <div className={`${style.filter} ${style.spaceTitle2}`}>
               <button
-                className={tab === 'all' ? `${style.filterButtonActive}` : `${style.filterButton}`}
+                className={
+                  tab === "all"
+                    ? `${style.filterButtonActive}`
+                    : `${style.filterButton}`
+                }
                 onClick={() => {
                   setTab("all");
                   loadFilterDatas("/invoice/all");
-                }}>
-                <p style={{ padding: "3px 8px 3px 8px" }}>
-                  All
-                </p>
+                }}
+              >
+                <p style={{ padding: "3px 8px 3px 8px" }}>All</p>
               </button>
               <button
-                className={tab === 'approved' ? `${style.filterButtonActive}` : `${style.filterButton}`}
+                className={
+                  tab === "approved"
+                    ? `${style.filterButtonActive}`
+                    : `${style.filterButton}`
+                }
                 onClick={() => {
                   setTab("approved");
                   loadFilterDatas("/invoice/approved");
@@ -210,12 +230,18 @@ export default function InvoicePayment() {
               >
                 <p className={`${style.row}`}>
                   Approved
-                  <p className={`${style.green}`}>{datas.sumIVStatus.approved}</p>
+                  <p className={`${style.green}`}>
+                    {datas.sumIVStatus.approved}
+                  </p>
                 </p>
               </button>
 
               <button
-                className={tab === 'pending' ? `${style.filterButtonActive}` : `${style.filterButton}`}
+                className={
+                  tab === "pending"
+                    ? `${style.filterButtonActive}`
+                    : `${style.filterButton}`
+                }
                 onClick={() => {
                   setTab("pending");
                   loadFilterDatas("/invoice/pending");
@@ -223,7 +249,9 @@ export default function InvoicePayment() {
               >
                 <p className={`${style.row}`}>
                   Pending
-                  <p className={`${style.yellow}`}>{datas.sumIVStatus.pending}</p>
+                  <p className={`${style.yellow}`}>
+                    {datas.sumIVStatus.pending}
+                  </p>
                 </p>
               </button>
             </div>
@@ -259,7 +287,7 @@ export default function InvoicePayment() {
                       return (
                         <tbody>
                           <tr>
-                            <td >{i + 1}</td>
+                            <td>{i + 1}</td>
                             <td>{lot.name}</td>
                             <td>{lot.batchDate}</td>
                             <td>{lot.batchTime}</td>
@@ -270,19 +298,25 @@ export default function InvoicePayment() {
                             <td>{lot.ref1}</td>
                             <td>{lot.ref2}</td>
                             <td>
-                              <p className={lot.paymentStatus}>{lot.paymentStatus}</p>
+                              <p className={lot.paymentStatus}>
+                                {lot.paymentStatus}
+                              </p>
                             </td>
-                            <td >
+                            <td>
                               <PopupButt />
                             </td>
-                            <td >
+                            <td>
                               <PopupButt />
                             </td>
                             <td className="action">
                               {/* <Routes>
                         <Route path={`/${lot.name}`} element={<DetailCollection />} />
                       </Routes> */}
-                              <NavLink to={`/${lot.name}?page=0`} end state={{ lot: lot }}>
+                              <NavLink
+                                to={`/${lot.name}?page=0`}
+                                end
+                                state={{ lot: lot }}
+                              >
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"
                                   width="21"
@@ -296,7 +330,13 @@ export default function InvoicePayment() {
                                     stroke-linejoin="round"
                                   >
                                     <path d="M12 7.5v-2a1 1 0 0 0-1-1H1.5a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1H11a1 1 0 0 0 1-1V10M3.84 2L9.51.52a.49.49 0 0 1 .61.36L10.4 2" />
-                                    <rect width="3.5" height="2.5" x="10" y="7.5" rx=".5" />
+                                    <rect
+                                      width="3.5"
+                                      height="2.5"
+                                      x="10"
+                                      y="7.5"
+                                      rx=".5"
+                                    />
                                   </g>
                                 </svg>
                               </NavLink>
@@ -313,7 +353,9 @@ export default function InvoicePayment() {
                         <th className={`${style.ltb}`}></th>
                         <th className={`${style.ltb}`}>{sumDoc}</th>
                         <th className={`${style.ltb}`}>{sumTotalDuty}</th>
-                        <th className={`${style.ltb}`}>{sumTotalDubDutyAmount}</th>
+                        <th className={`${style.ltb}`}>
+                          {sumTotalDubDutyAmount}
+                        </th>
                         <th className={`${style.ltb}`}>{sumTotalPayment}</th>
                         <th className={`${style.ltb}`}></th>
                         <th className={`${style.ltb}`}></th>

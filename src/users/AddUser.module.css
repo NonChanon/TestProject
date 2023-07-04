@@ -1,0 +1,110 @@
+.line {
+  margin-right: 10px;
+  min-height: 50px;
+  min-width: 3px;
+  background-color: #489788;
+}
+
+.title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 600;
+  color: #393939;
+}
+
+.spaceTitle {
+  margin-bottom: 20px;
+}
+
+.UserForm {
+  margin-bottom: 20px;
+}
+
+.header {
+  background-color: #ffffff;
+  padding: 15px 0;
+  color: #393939;
+  border-bottom: #b1b1b1 solid 1px;
+  margin: 0 15px;
+  font-size: 16px;
+}
+
+.formDetail {
+  padding: 15px 0;
+  margin: 0 15px;
+  display: grid;
+
+  grid-template-columns: 100px 250px;
+  text-align: start;
+  align-items: center;
+}
+
+.formLabel {
+  font-size: 15px;
+  color: #535353;
+
+  margin-left: 10px;
+}
+
+.tab {
+  margin-left: 10px;
+  border: #e6e5e5 solid 1px;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.submitButt {
+  padding: 10px;
+  background: #489788;
+  margin: 10px 0;
+  border-radius: 5px;
+  font-size: medium;
+  font-weight: normal;
+  color: #ffffff;
+  align-items: center;
+  text-align: center;
+  border: none;
+  cursor: pointer;
+}
+
+.cancelButt {
+  padding: 10px;
+  background: #ffffff;
+  border: #8c8c8c solid 1px;
+  margin: 10px 0;
+  border-radius: 5px;
+  font-size: medium;
+  font-weight: normal;
+  color: #535353;
+  align-items: center;
+  text-align: center;
+  margin-left: 15px;
+  cursor: pointer;
+}
+
+.buttonBox {
+  display: flex;
+  justify-content: end;
+}
+
+.exit {
+  padding: 5px;
+  background: #ffffff;
+  border: none;
+  cursor: pointer;
+}
+
+.addButton {
+  padding: 10px 15px;
+  color: #ffffff;
+  background-color: #00ca07;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: medium;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}

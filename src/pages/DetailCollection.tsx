@@ -117,6 +117,8 @@ export default function DetailCollection() {
     loadDatas();
   }, [useLocation().key]);
 
+  console.log(localStorage.user_name);
+
   function renderPageNumber() {
     const list = [];
     if (datas.totalPages > 1) {
@@ -309,7 +311,7 @@ export default function DetailCollection() {
               </div>
               <div className={`${style.ButtonAction}`}>
                 <button
-                  onClick={(e) => onApprove(e, { approvalStatus: "Approved" })}
+                  onClick={(e) => onApprove(e, { approvalStatus: "Approved", approvalBy: localStorage.user_name })}
                   className={`${style.apbutt} ${style.tab2}`}
                 >
                   Approve
