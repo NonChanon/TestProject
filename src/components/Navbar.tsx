@@ -17,6 +17,7 @@ const adminPage = () => {
             }
           >
             <svg
+              className="menulistsvg"
               xmlns="http://www.w3.org/2000/svg"
               width="20"
               height="20"
@@ -42,6 +43,7 @@ const adminPage = () => {
             }
           >
             <svg
+              className="menulistsvg"
               xmlns="http://www.w3.org/2000/svg"
               width="20"
               height="20"
@@ -85,6 +87,7 @@ export default function Navbar() {
                 }
               >
                 <svg
+                  className="menulistsvg"
                   xmlns="http://www.w3.org/2000/svg"
                   width="20"
                   height="20"
@@ -110,6 +113,7 @@ export default function Navbar() {
                 }
               >
                 <svg
+                  className="menulistsvg"
                   xmlns="http://www.w3.org/2000/svg"
                   width="20"
                   height="20"
@@ -137,6 +141,7 @@ export default function Navbar() {
                 }
               >
                 <svg
+                  className="menulistsvg"
                   xmlns="http://www.w3.org/2000/svg"
                   width="20"
                   height="20"
@@ -164,6 +169,7 @@ export default function Navbar() {
                 }
               >
                 <svg
+                  className="menulistsvg"
                   xmlns="http://www.w3.org/2000/svg"
                   width="20"
                   height="20"
@@ -192,6 +198,7 @@ export default function Navbar() {
                 onClick={logout}
               >
                 <svg
+                  className="menulistsvg"
                   xmlns="http://www.w3.org/2000/svg"
                   width="20"
                   height="20"
@@ -216,7 +223,7 @@ export default function Navbar() {
       </nav>
       <nav className="hnavbar">
         <span className="logo">
-          <img src={logo} alt="Logo" />
+          <img className="logoimg" src={logo} alt="Logo" />
           eDuty Stamp
         </span>
       </nav>

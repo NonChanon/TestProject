@@ -17,7 +17,7 @@
 .title {
   display: flex;
   flex-direction: row;
-  align-items: center; 
+  align-items: center;
   font-size: 16px;
   font-weight: 600;
   color: #393939;
@@ -28,9 +28,10 @@
   border: none;
   border-radius: 5px;
   color: #ffffff;
+  margin: 15px 32px 15px 0px;
   padding: 5px;
-  margin: 5px 5px 5px 0px;
   text-align: center;
+  text-decoration: none;
   display: inline-block;
   font-size: 15px;
   cursor: pointer;
@@ -86,15 +87,46 @@
 }
 
 .searchFunctionContainer {
-  background-color: rgba(57, 57, 57, 0.1);
   width: 100%;
-  border-radius: 5px;
 }
 
 .searchFunctionBox {
   display: flex;
   justify-content: space-between;
-  padding: 15px;
+}
+
+.button1 {
+  background-color: #ffffff;
+  border: none;
+  color: #535353;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 15px;
+  transition-duration: 0.4s;
+}
+
+.inputForm {
+  height: 100%;
+  border: none;
+  font-size: 14px;
+  padding: 5px;
+}
+
+.selectForm {
+  height: 100%;
+  width: 200px;
+  border: none;
+  font-size: 14px;
+  padding: 5px;
+}
+
+.line2 {
+  margin-top: 5px;
+  height: 2px;
+  width: auto;
+  background-color: #e6e5e5;
 }
 
 .searchFunctionContainer label {
