@@ -3,6 +3,7 @@ import style from "./EditDetail.module.css";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import DatePicker from "react-datepicker";
+import Select from 'react-select';
 
 import moment from "moment";
 
@@ -12,9 +13,9 @@ interface customerModel {
   lastname: string;
   taxPayerId: string;
   instInfoId: string;
-  totalDuty: number;
-  totalDubDutyAmount: number;
-  totalPayment: number;
+  totalDuty: string;
+  totalDubDutyAmount: string;
+  totalPayment: string;
   finalPaymentDate: string;
   completed: boolean;
   address: addressModel;
@@ -45,16 +46,38 @@ interface contractModel {
 }
 
 export default function EditDetail() {
-  const [datas, setDatas] = useState<any>({
-    title: "", firstname: "", lastname: "", taxPayerId: "", instInfoId: "",
-    totalDuty: 0, totalDubDutyAmount: 0, totalPayment: 0, finalPaymentDate: "",
+  const [datas, setDatas] = useState<customerModel>({
+    title: "",
+    firstname: "",
+    lastname: "",
+    taxPayerId: "",
+    instInfoId: "",
+    totalDuty: "",
+    totalDubDutyAmount: "",
+    totalPayment: "",
+    finalPaymentDate: "",
+    completed: false,
     address: {
-      village: "", addressNo: "", floor: "", villageNo: "", alley: "",
-      street: "", subDistrict: "", district: "", province: "", postalCode: "",
+      village: "",
+      addressNo: "",
+      floor: "",
+      villageNo: "",
+      alley: "",
+      street: "",
+      subDistrict: "",
+      district: "",
+      province: "",
+      postalCode: "",
     },
     contract: {
-      number: "", startDate: "", endDate: "", applicantId: "", branchNumber: "", relatedStatus: ""
-    }
+      number: "",
+      startDate: "",
+      endDate: "",
+      applicantId: "",
+      branchType: "",
+      branchNumber: "",
+      relatedStatus: "",
+    },
   });
   const { state } = useLocation();
   console.log(state);
@@ -70,7 +93,9 @@ export default function EditDetail() {
   const path = useLocation().pathname;
 
   const loadDatas = async () => {
-    const dataRes = await axios.get(`http://localhost:8080/api${path.replace('/batchdataresult', '')}`);
+    const dataRes = await axios.get(
+      `http://localhost:8080/api${path.replace("/batchdataresult", "")}`
+    );
     setDatas(dataRes.data);
     console.log("getEditData is : " + dataRes.data);
   };
@@ -78,7 +103,7 @@ export default function EditDetail() {
   useEffect(() => {
     console.log("edit effect trigger");
     loadDatas();
-  }, [useLocation().key])
+  }, [useLocation().key]);
 
   console.log(datas);
 
@@ -173,11 +198,16 @@ export default function EditDetail() {
                         );
                       }}
                       isClearable
-                      placeholderText={datas.contract.startDate === null ? "Select Date" : datas.contract.startDate}
+                      placeholderText={
+                        datas.contract.startDate === null
+                          ? "Select Date"
+                          : datas.contract.startDate
+                      }
                     />
                   </div>
                   <div>
                     <svg
+                      className={`${style.svgEdit}`}
                       xmlns="http://www.w3.org/2000/svg"
                       width="18"
                       height="18"
@@ -219,12 +249,17 @@ export default function EditDetail() {
                         );
                       }}
                       isClearable
-                      placeholderText={datas.contract.endDate === null ? "Select Date" : datas.contract.endDate}
+                      placeholderText={
+                        datas.contract.endDate === null
+                          ? "Select Date"
+                          : datas.contract.endDate
+                      }
                       className="calendarDate"
                     />
                   </div>
                   <div>
                     <svg
+                      className={`${style.svgEdit}`}
                       xmlns="http://www.w3.org/2000/svg"
                       width="18"
                       height="18"
@@ -325,12 +360,17 @@ export default function EditDetail() {
                         );
                       }}
                       isClearable
-                      placeholderText={datas.finalPaymentDate === null ? "Select Date" : datas.finalPaymentDate}
+                      placeholderText={
+                        datas.finalPaymentDate === null
+                          ? "Select Date"
+                          : datas.finalPaymentDate
+                      }
                       className={`${style.calendarDate}`}
                     />
                   </div>
                   <div>
                     <svg
+                      className={`${style.svgEdit}`}
                       xmlns="http://www.w3.org/2000/svg"
                       width="18"
                       height="18"
@@ -351,7 +391,7 @@ export default function EditDetail() {
                     name="totalDuty"
                     type="text"
                     className={`${style.txt}`}
-                    defaultValue={states.customer.totalDuty}
+                    defaultValue={datas.totalDuty}
                     onChange={(e) => {
                       updateCustomer(e);
                       console.log(states);
@@ -397,9 +437,7 @@ export default function EditDetail() {
               <div className={`${style.item}`}>
                 <p className={`${style.txtblk}`}>Total Amount</p>
                 <div className={`${style.inputDiv}`}>
-                  <div
-                    className={`${style.txt}`}
-                  >
+                  <div className={`${style.txt}`}>
                     {totalPayment.paymentAmount}
                   </div>
                 </div>
@@ -411,14 +449,24 @@ export default function EditDetail() {
             <div className={`${style.gridContainer}`}>
               <div className={`${style.item}`}>
                 <p className={`${style.txtblk}`}>Title</p>
-                <div className={`${style.inputDiv}`}>
-                  <input
+                <div
+                className={`${style.inputDiv}`}
+                style={{'height':'100%', 'display':'flex', 'position':'relative'}}
+                >
+                  {/* <Select
                     name="title"
                     type="text"
                     className={`${style.txt}`}
                     defaultValue={datas.title}
                     onChange={(e) => updateCustomer(e)}
-                  />
+                  /> */}
+                  <select name="title" id="customerTitle" style={{'height': '100%', 'width': '90%', 'border': 'none', 'display':'flex', 'position':'absolute', 'left': '8px'}}
+                  onChange={(e) => updateCustomer(e)} 
+                  >
+                    <option value="Mr.">Mr.</option>
+                    <option value="Ms.">Ms.</option>
+                    <option value="Mrs.">Mrs.</option>
+                  </select>
                 </div>
               </div>
               <div className={`${style.item}`}>
@@ -576,7 +624,10 @@ export default function EditDetail() {
           onClick={async (e) => {
             e.preventDefault();
             await axios.put(
-              `http://localhost:8080/api${path.replace('/batchdataresult', '')}`,
+              `http://localhost:8080/api${path.replace(
+                "/batchdataresult",
+                ""
+              )}`,
               states.customer
             );
             navigate(-1);
