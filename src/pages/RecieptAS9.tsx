@@ -1,15 +1,15 @@
 import React, { MouseEvent, useEffect, useState } from "react";
 import { Link, useLocation, useNavigate, NavLink } from "react-router-dom";
-import "./RecieptAS9.css";
+import style from "../pages/RecieptAS9.module.css";
 import axios from "axios";
 import moment from "moment";
 import DatePicker from "react-datepicker";
-// import "react-datepicker/dist/react-datepicker.css";
 
 interface lotModel {
   name: string;
   totalDoc: number;
   batchDate: string;
+  batchTime: string;
   approvalStatus: string;
   approvedBy: string;
   totalDuty: number;
@@ -20,6 +20,7 @@ interface lotModel {
 }
 
 export default function RecieptAS9() {
+  const [tab, setTab] = useState("all");
   const [datas, setDatas] = useState<any>({
     content: [],
     sumStatus: {
@@ -41,16 +42,18 @@ export default function RecieptAS9() {
   let grouped = datas;
 
   const loadDatas = async () => {
-    const dataRes = await axios.get(`http://localhost:8080/api${path}`);
+    const dataRes = await axios.get(`http://localhost:8080/api/invoice/approved`);
     setDatas(dataRes.data);
     console.log("getData is : " + dataRes.data);
   };
+
+
 
   const onSearch = async (e: MouseEvent, request: object) => {
     e.preventDefault();
     moment;
     const dataRes = await axios.post(
-      `http://localhost:8080/api/lots/search/dataresult`,
+      `http://localhost:8080/api/lots/search/iv`,
       request
     );
     setDatas(dataRes.data);
@@ -94,11 +97,10 @@ export default function RecieptAS9() {
       sumTotalDubDutyAmount = 0,
       sumTotalPayment = 0;
 
+
     return (
       <div>
-        <div className="Batch shadow row space4 ">
-          <p className="tab">Batch Date : {data}</p>
-        </div>
+
         <table className="transaction-table">
           <thead>
             <tr>
@@ -128,7 +130,7 @@ export default function RecieptAS9() {
                   <td>{lot.name}</td>
                   <td>{lot.totalDoc}</td>
                   <td>{lot.batchDate}</td>
-                  <td></td>
+                  <td>{lot.batchTime}</td>
                   <td></td>
                   <td></td>
                   <td>{lot.totalPayment}</td>
@@ -192,16 +194,16 @@ export default function RecieptAS9() {
           })}
           <tfoot>
             <tr>
-              <th className="ltb">Total</th>
-              <th className="ltb"></th>
-              <th className="ltb">{sumDoc}</th>
-              <th className="ltb"></th>
-              <th className="ltb"></th>
-              <th className="ltb"></th>
-              <th className="ltb"></th>
-              <th className="ltb">{sumTotalPayment}</th>
-              <th className="ltb"></th>
-              <th className="ltb"></th>
+              <th className={`${style.ltb}`}>Total</th>
+              <th className={`${style.ltb}`}></th>
+              <th className={`${style.ltb}`}>{sumDoc}</th>
+              <th className={`${style.ltb}`}></th>
+              <th className={`${style.ltb}`}></th>
+              <th className={`${style.ltb}`}></th>
+              <th className={`${style.ltb}`}></th>
+              <th className={`${style.ltb}`}>{sumTotalPayment}</th>
+              <th className={`${style.ltb}`}></th>
+              <th className={`${style.ltb}`}></th>
             </tr>
           </tfoot>
         </table>
@@ -209,47 +211,40 @@ export default function RecieptAS9() {
     );
   });
 
+
+
   return (
-    <div className="space2">
-      <div className="title spaceTitle">
-        <div className="line"></div>
+    <div className={`${style.space2}`}>
+      <div className={`${style.title} ${style.spaceTitle}`}>
+        <div className={`${style.line}`}></div>
         <div>Reciept & AS9</div>
       </div>
 
-      <div className="SearchBar shadow  row btw spaceTitle">
+      <div className={`shadow ${style.row} ${style.btw} ${style.spaceTitle}`}>
         <div className="FilterButon">
-          <button className="BatchDate button1">
-            <div className="row">
-              <DatePicker
-                id="batchDate"
-                dateFormat="dd/MM/yyy"
-                selected={startDate}
-                onChange={(date: Date) => {
-                  setStartDate(date);
-                  console.log("Selected date is : " + date.toLocaleString());
-                }}
-                isClearable
-                placeholderText="Batch Date"
-                className="calendarDate"
-              />
-              <svg
-                style={{ margin: "0px" }}
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  fill="#7F7F7F"
-                  d="M8 14q-.425 0-.713-.288T7 13q0-.425.288-.713T8 12q.425 0 .713.288T9 13q0 .425-.288.713T8 14Zm4 0q-.425 0-.713-.288T11 13q0-.425.288-.713T12 12q.425 0 .713.288T13 13q0 .425-.288.713T12 14Zm4 0q-.425 0-.713-.288T15 13q0-.425.288-.713T16 12q.425 0 .713.288T17 13q0 .425-.288.713T16 14ZM5 22q-.825 0-1.413-.588T3 20V6q0-.825.588-1.413T5 4h1V2h2v2h8V2h2v2h1q.825 0 1.413.588T21 6v14q0 .825-.588 1.413T19 22H5Zm0-2h14V10H5v10ZM5 8h14V6H5v2Zm0 0V6v2Z"
-                />
-              </svg>
-            </div>
-            <div className="line2"></div>
-          </button>
 
-          <button className="LotName button1">
-            <div className="row ">
+          <button className={`LotName ${style.button1}`}>
+            <div className={`${style.row}`}>
+              <input
+                name="lotNameInput"
+                className="form-control"
+                style={{
+                  height: "100%",
+                  border: "0",
+                  fontSize: "14px",
+                  fontFamily: "'Rubik', sans-serif",
+                  margin: "0",
+                  padding: "5px",
+                  boxSizing: "border-box",
+                }}
+                placeholder="InstInfo ID"
+                onChange={(e) => updateLotNameInput(e)}
+              />
+            </div>
+            <div className={`${style.line2}`}></div>
+          </button>
+          <button className={`LotName ${style.button1}`}>
+            <div className={`${style.row}`}>
               <input
                 name="lotNameInput"
                 className="form-control"
@@ -266,12 +261,12 @@ export default function RecieptAS9() {
                 onChange={(e) => updateLotNameInput(e)}
               />
             </div>
-            <div className="line2"></div>
+            <div className={`${style.line2}`}></div>
           </button>
         </div>
 
         <button
-          className="SearchButton"
+          className={`${style.searchButton}`}
           onClick={(e) =>
             onSearch(e, {
               batchDate:
@@ -282,7 +277,7 @@ export default function RecieptAS9() {
             })
           }
         >
-          <div className="row ">
+          <div className={`${style.row}`}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="22"
@@ -300,32 +295,15 @@ export default function RecieptAS9() {
                 <path d="M17.571 17.5L12 12" />
               </g>
             </svg>
-            <div className="space5">Search</div>
+            <div className={`${style.space5}`}>Search</div>
           </div>
         </button>
       </div>
 
       <div className="Transection">
         <div className="BatchBar shadow ">
-          <div className="space3 ">
-            <div className="filter spaceTitle2">
-              <Link className="button button:hover black active" to="/reciept">
-                All
-              </Link>
-              <Link className="button button:hover black" to="/lots/approved">
-                <p className="row ">
-                  Approved
-                  <p className="green">{datas.sumStatus.approved}</p>
-                </p>
-              </Link>
+          <div className={`${style.space3}`}>
 
-              <Link className="button button:hover black" to="/lots/pending">
-                <p className="row">
-                  Pending
-                  <p className="yellow">{datas.sumStatus.pending}</p>
-                </p>
-              </Link>
-            </div>
 
             <div>
               <table>{dataRecAS9Table}</table>

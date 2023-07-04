@@ -1,0 +1,218 @@
+@import url("https://fonts.googleapis.com/css2?family=Rubik:wght@400&display=swap");
+
+* {
+  font-family: "Rubik", sans-serif;
+}
+
+.ttline {
+  margin-right: 10px;
+  min-height: 50px;
+  min-width: 3px;
+  background-color: #489788;
+}
+
+.ttspace {
+  margin: 10px 10px 0px 210px;
+  height: 100%;
+}
+
+.title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 600;
+  color: #393939;
+  margin-bottom: 20px;
+}
+
+.content {
+  padding: 15px 20px 15px 20px;
+  box-shadow: 0px 4px 4px 0 rgba(0, 0, 0, 0.25);
+}
+
+.tt {
+  font-size: 15px;
+  font-weight: 600;
+  color: #535353;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #e6e5e5;
+}
+
+.col {
+  display: grid;
+  grid-template-columns: 200px 200px 200px;
+  font-size: 14px;
+  display: flex;
+  background: #f00606;
+  color: #535353;
+}
+
+.txt {
+  display: flex;
+  
+  font-size: 14px;
+  
+  border: none;
+  align-items: center;
+  padding: 12px;
+  height: 14px;
+  max-width:120px;
+ 
+}
+
+.txt:focus {
+  outline: none;
+}
+
+.minitxt {
+  font-size: 14px;
+  align-items: center;
+  text-align: center;
+  border: solid#CECECE 1px;
+  border-radius: 5px;
+  padding: 10px 2px;
+  margin-left: 5px;
+  height: 14px;
+  width: 40px;
+}
+
+.gridContainer {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  margin: 10px 0;
+  
+}
+
+.gridContainer > div {
+  text-align: end;
+
+  font-size: 14px;
+}
+
+.txtblk {
+  width: 200px;
+  height: auto;
+  margin-right: 5px;
+}
+
+.minitxtblk{
+  margin: 0 2px 0 5px;
+}
+
+.minigrid {
+    display: flex;
+    align-items: center;
+    
+    
+  }
+
+.item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  justify-content: end;
+  
+}
+
+.con{
+    background: #ffffff;
+    padding: auto;
+    display: flex;
+    align-items: center;
+}
+
+.submitButton {
+  background-color: #389483;
+  border: none;
+  border-radius: 5px;
+  color: #ffffff;
+  width: 80px;
+  height: 35px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 15px;
+  cursor: pointer;
+  transition-duration: 0.4s;
+}
+
+.submitButton:hover {
+  background-color: #009105;
+  border: none;
+  color: #ffffff;
+  border-radius: 5px;
+  width: 80px;
+  height: 35px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.cancelButton {
+  background-color: #A6431E;
+  border: none;
+  border-radius: 5px;
+  color: #ffffff;
+  width: 80px;
+  height: 35px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 15px;
+  cursor: pointer;
+  transition-duration: 0.4s;
+}
+
+.cancelButton:hover {
+  background-color: #8f0500;
+  border: none;
+  color: #ffffff;
+  border-radius: 5px;
+  width: 80px;
+  height: 35px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.inputDiv {
+  display: flex;
+  align-items: center;
+  margin-left: 3px;
+  border-radius: 5px;
+  width: 150px;
+}
+
+/* .calendarDate {
+  height: 100%;
+  border: 0;
+  font-size: 14px;
+  font-family: 'Rubik', sans-serif;
+  margin-right: 100%;
+  padding: 1px;
+  box-sizing: border-box;
+} */
+
+.test { 
+  width: 100%;
+  height: 100%;
+  border: 0;
+  font-size: 14px;
+  font-family: 'Rubik', sans-serif;
+  padding: 1px;
+  align-items: center;
+}
+.test input{
+  width: 100%;
+  height: 100%;
+  border: 0;
+  font-size: 14px;
+  font-family: 'Rubik', sans-serif;
+  padding: 3.5px 3.5px 3.5px 12px;
+  align-items: center;
+}

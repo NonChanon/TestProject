@@ -9,6 +9,7 @@ interface lotModel {
   name: string;
   totalDoc: number;
   batchDate: string;
+  lastUpdateDate: string;
   approvalStatus: string;
   approvedBy: string;
   totalDuty: number;
@@ -101,7 +102,7 @@ export default function DataResult() {
       sumTotalPayment = 0;
 
     return (
-      <div>
+      <div className={`${style.dataresultTable}`}>
         <div className={`Batch shadow ${style.row} ${style.space4}`}>
           <p className={`${style.tab}`}>Batch Date : {data}</p>
         </div>
@@ -132,7 +133,7 @@ export default function DataResult() {
                   <td width="5%">{i + 1}</td>
                   <td width="10%">{lot.name}</td>
                   <td width="8%">{lot.totalDoc}</td>
-                  <td width="12%">{lot.batchDate}</td>
+                  <td width="12%">{lot.lastUpdateDate}</td>
                   <td width="12%">
                     <p className={`${style[lot.approvalStatus]}`}>
                       {lot.approvalStatus}

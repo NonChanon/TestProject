@@ -89,7 +89,16 @@
     cursor: pointer;
   }
   
+  .transactionTable {
+    margin-top: 5px;
+    margin-bottom: 20px;
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
   
+    background-color: #FAFAFA;
+    font-size: 14px;
+  }
   
   .row {
     display: flex;
@@ -106,7 +115,7 @@
   }
   
   .space2 {
-    margin: 20px 20px 20px 220px;
+    margin: 10px 10px 0px 210px;
   }
   
   .space3 {
@@ -222,4 +231,64 @@
   
   .filter {
     border-bottom: 1px solid #e6e5e5;
+  }
+
+  .filterButton {
+    background-color: #ffffff;
+    border: none;
+    color: #535353;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-weight: lighter;
+    cursor: pointer;
+    transition-duration: 0.4s;
+  }
+
+  .filterButton:hover {
+    background-color: #f5f5f5;
+    border: none;
+    color: #535353;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+  
+    cursor: pointer;
+  }
+  
+  .filterButtonActive {
+    background-color: #ffffff;
+    border: none;
+    color: #535353;
+    padding: 15px 32px;
+    text-align: center;
+    border-bottom: 3px solid #489788;
+    display: inline-block;
+    cursor: pointer;
+  }
+
+  .calendarDate {
+    height: 100%;
+    border: 0;
+    font-size: 14px;
+    font-family: 'Rubik', sans-serif;
+    margin: 0;
+    padding: 5px;
+    box-sizing: border-box;
+  }
+
+  .SearchButton {
+    background-color: #489788;
+    border: none;
+    border-radius: 5px;
+    color: #ffffff;
+    padding: 5px;
+    margin-right: 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 15px;
+    cursor: pointer;
   }
