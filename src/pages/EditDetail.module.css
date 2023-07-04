@@ -58,7 +58,6 @@
   padding: 12px;
   height: 14px;
   max-width:120px;
- 
 }
 
 .txt:focus {
@@ -216,4 +215,8 @@
   font-family: 'Rubik', sans-serif;
   padding: 3.5px 3.5px 3.5px 12px;
   align-items: center;
+}
+
+.svgEdit {
+  margin-right: 5px;
 }

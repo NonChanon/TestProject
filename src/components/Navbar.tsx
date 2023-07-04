@@ -81,7 +81,7 @@ export default function Navbar() {
           <ul className="menulist">
             <li>
               <NavLink
-                to={"/"}
+                to={"/batchdataresult"}
                 className={({ isActive }) =>
                   isActive ? activeClassName : undefined
                 }
