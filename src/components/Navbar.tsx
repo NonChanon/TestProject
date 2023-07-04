@@ -81,7 +81,7 @@ export default function Navbar() {
           <ul className="menulist">
             <li>
               <NavLink
-                to={"/"}
+                to={"/batchdataresult"}
                 className={({ isActive }) =>
                   isActive ? activeClassName : undefined
                 }
@@ -222,10 +222,10 @@ export default function Navbar() {
         </ul>
       </nav>
       <nav className="hnavbar">
-        <span className="logo">
-          <img className="logoimg" src={logo} alt="Logo" />
-          eDuty Stamp
-        </span>
+        {/* <span className="logo"> */}
+        <img className="logoimg" src={logo} alt="Logo" />
+        {/* eDuty Stamp
+        </span> */}
       </nav>
     </div>
   );
