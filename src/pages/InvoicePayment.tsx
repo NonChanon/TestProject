@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Link, useLocation, NavLink } from "react-router-dom";
+import { useLocation, NavLink } from "react-router-dom";
 import moment from "moment";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -94,9 +94,9 @@ export default function InvoicePayment() {
   }, [useLocation().key]);
 
   let sumDoc = 0,
-      sumTotalDuty = 0,
-      sumTotalDubDutyAmount = 0,
-      sumTotalPayment = 0;
+    sumTotalDuty = 0,
+    sumTotalDubDutyAmount = 0,
+    sumTotalPayment = 0;
 
   return (
     <div className={`${style.space2}`}>
@@ -191,21 +191,21 @@ export default function InvoicePayment() {
           <div className={`${style.space3}`}>
             <div className={`${style.filter} ${style.spaceTitle2}`}>
               <button
-              className={tab === 'all' ? `${style.filterButtonActive}` : `${style.filterButton}`}
-              onClick={() => {
-                setTab("all");
-                loadFilterDatas("/invoice/all");
-              }}>
+                className={tab === 'all' ? `${style.filterButtonActive}` : `${style.filterButton}`}
+                onClick={() => {
+                  setTab("all");
+                  loadFilterDatas("/invoice/all");
+                }}>
                 <p style={{ padding: "3px 8px 3px 8px" }}>
                   All
                 </p>
               </button>
               <button
-              className={tab === 'approved' ? `${style.filterButtonActive}` : `${style.filterButton}`}
-              onClick={() => {
-                setTab("approved");
-                loadFilterDatas("/invoice/approved");
-              }}
+                className={tab === 'approved' ? `${style.filterButtonActive}` : `${style.filterButton}`}
+                onClick={() => {
+                  setTab("approved");
+                  loadFilterDatas("/invoice/approved");
+                }}
               >
                 <p className={`${style.row}`}>
                   Approved
@@ -214,11 +214,11 @@ export default function InvoicePayment() {
               </button>
 
               <button
-              className={tab === 'pending' ? `${style.filterButtonActive}` : `${style.filterButton}`}
-              onClick={() => {
-                setTab("pending");
-                loadFilterDatas("/invoice/pending");
-              }}
+                className={tab === 'pending' ? `${style.filterButtonActive}` : `${style.filterButton}`}
+                onClick={() => {
+                  setTab("pending");
+                  loadFilterDatas("/invoice/pending");
+                }}
               >
                 <p className={`${style.row}`}>
                   Pending
@@ -228,106 +228,106 @@ export default function InvoicePayment() {
             </div>
             {datas.content.length > 0 ? (
               <div>
-              <div className={`${style.Table} ${style.top}`}>
-              <table className={`${style.transactionTable}`}>
-            <thead>
-              <tr>
-                <th>No.</th>
-                <th>Lot Name</th>
-                <th>Batch Date</th>
-                <th>Batch Time</th>
-                <th>Total Doc</th>
-                <th>Total Duty</th>
-                <th>TotalDubDutyAmount</th>
-                <th>Total Payment</th>
-                <th>Ref 1</th>
-                <th>Ref 2</th>
-                <th>Payment Status</th>
-                <th>QR Payment</th>
-                <th>Pay in slip</th>
-                <th>e-Payment</th>
-              </tr>
-            </thead>       
-              {datas.content.map((lot: lotModel, i: number) => {
-              console.log(lot);
-              sumDoc += lot.totalDoc;
-              sumTotalDuty += lot.totalDuty;
-              sumTotalDubDutyAmount += lot.totalDubDutyAmount;
-              sumTotalPayment += lot.totalPayment;
-  
-              return (
-                <tbody>
-                  <tr>
-                    <td >{i + 1}</td>
-                    <td>{lot.name}</td>
-                    <td>{lot.batchDate}</td>
-                    <td>{lot.batchTime}</td>
-                    <td>{lot.totalDoc}</td>
-                    <td>{lot.totalDuty}</td>
-                    <td>{lot.totalDubDutyAmount}</td>
-                    <td>{lot.totalPayment}</td>
-                    <td>{lot.ref1}</td>
-                    <td>{lot.ref2}</td>
-                    <td>
-                      <p className={lot.paymentStatus}>{lot.paymentStatus}</p>
-                    </td>
-                    <td >
-                      <PopupButt />
-                    </td>
-                    <td >
-                      <PopupButt />
-                    </td>
-                    <td className="action">
-                      {/* <Routes>
+                <div className={`${style.Table} ${style.top}`}>
+                  <table className={`${style.transactionTable}`}>
+                    <thead>
+                      <tr>
+                        <th>No.</th>
+                        <th>Lot Name</th>
+                        <th>Batch Date</th>
+                        <th>Batch Time</th>
+                        <th>Total Doc</th>
+                        <th>Total Duty</th>
+                        <th>TotalDubDutyAmount</th>
+                        <th>Total Payment</th>
+                        <th>Ref 1</th>
+                        <th>Ref 2</th>
+                        <th>Payment Status</th>
+                        <th>QR Payment</th>
+                        <th>Pay in slip</th>
+                        <th>e-Payment</th>
+                      </tr>
+                    </thead>
+                    {datas.content.map((lot: lotModel, i: number) => {
+                      console.log(lot);
+                      sumDoc += lot.totalDoc;
+                      sumTotalDuty += lot.totalDuty;
+                      sumTotalDubDutyAmount += lot.totalDubDutyAmount;
+                      sumTotalPayment += lot.totalPayment;
+
+                      return (
+                        <tbody>
+                          <tr>
+                            <td >{i + 1}</td>
+                            <td>{lot.name}</td>
+                            <td>{lot.batchDate}</td>
+                            <td>{lot.batchTime}</td>
+                            <td>{lot.totalDoc}</td>
+                            <td>{lot.totalDuty}</td>
+                            <td>{lot.totalDubDutyAmount}</td>
+                            <td>{lot.totalPayment}</td>
+                            <td>{lot.ref1}</td>
+                            <td>{lot.ref2}</td>
+                            <td>
+                              <p className={lot.paymentStatus}>{lot.paymentStatus}</p>
+                            </td>
+                            <td >
+                              <PopupButt />
+                            </td>
+                            <td >
+                              <PopupButt />
+                            </td>
+                            <td className="action">
+                              {/* <Routes>
                         <Route path={`/${lot.name}`} element={<DetailCollection />} />
                       </Routes> */}
-                      <NavLink to={`/${lot.name}?page=0`} end state={{ lot: lot }}>
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="21"
-                          height="21"
-                          viewBox="0 0 14 14"
-                        >
-                          <g
-                            fill="none"
-                            stroke="#489788"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                          >
-                            <path d="M12 7.5v-2a1 1 0 0 0-1-1H1.5a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1H11a1 1 0 0 0 1-1V10M3.84 2L9.51.52a.49.49 0 0 1 .61.36L10.4 2" />
-                            <rect width="3.5" height="2.5" x="10" y="7.5" rx=".5" />
-                          </g>
-                        </svg>
-                      </NavLink>
-                    </td>
-                  </tr>
-                </tbody>
-              );
-            })}
-            <tfoot>
-              <tr>
-                <th className={`${style.ltb}`}>Total</th>
-                <th className={`${style.ltb}`}></th>
-                <th className={`${style.ltb}`}></th>
-                <th className={`${style.ltb}`}></th>
-                <th className={`${style.ltb}`}>{sumDoc}</th>
-                <th className={`${style.ltb}`}>{sumTotalDuty}</th>
-                <th className={`${style.ltb}`}>{sumTotalDubDutyAmount}</th>
-                <th className={`${style.ltb}`}>{sumTotalPayment}</th>
-                <th className={`${style.ltb}`}></th>
-                <th className={`${style.ltb}`}></th>
-                <th className={`${style.ltb}`}></th>
-                <th className={`${style.ltb}`}></th>
-                <th className={`${style.ltb}`}></th>
-                <th className={`${style.ltb}`}></th>
-              </tr>
-            </tfoot>
-            </table>
-            </div>
-            </div>
+                              <NavLink to={`/${lot.name}?page=0`} end state={{ lot: lot }}>
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="21"
+                                  height="21"
+                                  viewBox="0 0 14 14"
+                                >
+                                  <g
+                                    fill="none"
+                                    stroke="#489788"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                  >
+                                    <path d="M12 7.5v-2a1 1 0 0 0-1-1H1.5a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1H11a1 1 0 0 0 1-1V10M3.84 2L9.51.52a.49.49 0 0 1 .61.36L10.4 2" />
+                                    <rect width="3.5" height="2.5" x="10" y="7.5" rx=".5" />
+                                  </g>
+                                </svg>
+                              </NavLink>
+                            </td>
+                          </tr>
+                        </tbody>
+                      );
+                    })}
+                    <tfoot>
+                      <tr>
+                        <th className={`${style.ltb}`}>Total</th>
+                        <th className={`${style.ltb}`}></th>
+                        <th className={`${style.ltb}`}></th>
+                        <th className={`${style.ltb}`}></th>
+                        <th className={`${style.ltb}`}>{sumDoc}</th>
+                        <th className={`${style.ltb}`}>{sumTotalDuty}</th>
+                        <th className={`${style.ltb}`}>{sumTotalDubDutyAmount}</th>
+                        <th className={`${style.ltb}`}>{sumTotalPayment}</th>
+                        <th className={`${style.ltb}`}></th>
+                        <th className={`${style.ltb}`}></th>
+                        <th className={`${style.ltb}`}></th>
+                        <th className={`${style.ltb}`}></th>
+                        <th className={`${style.ltb}`}></th>
+                        <th className={`${style.ltb}`}></th>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+              </div>
             ) : undefined}
-            
-              {/* <table>{dataInvoiceTable}</table> */}
+
+            {/* <table>{dataInvoiceTable}</table> */}
           </div>
         </div>
       </div>
