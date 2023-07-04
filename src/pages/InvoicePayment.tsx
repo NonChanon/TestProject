@@ -6,6 +6,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import PopupButt from "../components/PopupButt";
 import style from "./InvoicePayment.module.css";
+import ImageUpload from "../components/ImageUpload";
 
 interface lotModel {
   name: string;
