@@ -4,6 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import moment from "moment";
 import style from "./DataResult.module.css";
+import { instanceOf, object } from "prop-types";
 
 interface lotModel {
   name: string;
@@ -17,8 +18,18 @@ interface lotModel {
   totalPayment: number;
 }
 
+interface dataModel {
+  content: lotModel[],
+  sumStatus: {
+    approved: number;
+    pending: number;
+    invalidData: number;
+    denied: number;
+  }
+}
+
 export default function DataResult() {
-  const [datas, setDatas] = useState<any>({
+  const [datas, setDatas] = useState<dataModel>({
     content: [],
     sumStatus: {
       approved: 0,
@@ -37,7 +48,7 @@ export default function DataResult() {
   console.log("path = " + path);
   console.log(useLocation());
 
-  let grouped = datas.content;
+  let grouped: any = datas.content;
 
   const loadDatas = async () => {
     const dataRes = await axios.get(`http://localhost:8080/api/lots/all`);
@@ -76,7 +87,7 @@ export default function DataResult() {
   console.log(grouped);
 
   if (datas.content != null) {
-    grouped = datas.content.reduce((acc: any, obj: lotModel) => {
+    grouped = datas.content.reduce((acc: {[key:string] :lotModel[]}, obj: lotModel) => {
       console.log("Acc ======>", acc);
       const key: string = obj.batchDate;
       acc[key] = acc[key] || [];
@@ -84,6 +95,8 @@ export default function DataResult() {
       return acc;
     }, {});
   }
+
+  grouped = grouped as {[key:string] :lotModel[]};
 
   console.log(grouped);
 
