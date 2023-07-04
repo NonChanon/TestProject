@@ -12,9 +12,9 @@ interface customerModel {
   lastname: string;
   taxPayerId: string;
   instInfoId: string;
-  totalDuty: number;
-  totalDubDutyAmount: number;
-  totalPayment: number;
+  totalDuty: string;
+  totalDubDutyAmount: string;
+  totalPayment: string;
   finalPaymentDate: string;
   completed: boolean;
   address: addressModel;
@@ -45,15 +45,15 @@ interface contractModel {
 }
 
 export default function EditDetail() {
-  const [datas, setDatas] = useState<any>({
+  const [datas, setDatas] = useState<customerModel>({
     title: "", firstname: "", lastname: "", taxPayerId: "", instInfoId: "",
-    totalDuty: 0, totalDubDutyAmount: 0, totalPayment: 0, finalPaymentDate: "",
+    totalDuty: "", totalDubDutyAmount: "", totalPayment: "", finalPaymentDate: "", completed: false,
     address: {
       village: "", addressNo: "", floor: "", villageNo: "", alley: "",
       street: "", subDistrict: "", district: "", province: "", postalCode: "",
     },
     contract: {
-      number: "", startDate: "", endDate: "", applicantId: "", branchNumber: "", relatedStatus: ""
+      number: "", startDate: "", endDate: "", applicantId: "", branchType: "", branchNumber: "", relatedStatus: ""
     }
   });
   const { state } = useLocation();
@@ -351,7 +351,7 @@ export default function EditDetail() {
                     name="totalDuty"
                     type="text"
                     className={`${style.txt}`}
-                    defaultValue={states.customer.totalDuty}
+                    defaultValue={datas.totalDuty}
                     onChange={(e) => {
                       updateCustomer(e);
                       console.log(states);
