@@ -48,6 +48,7 @@ export default function RDTransaction() {
     console.log("loadDatas : " + dataRes.data);
   };
 
+
   const loadFilterDatas = async (filter: string) => {
     const dataRes = await axios.get(`http://localhost:8080/api${filter}`);
     setDatas(dataRes.data);

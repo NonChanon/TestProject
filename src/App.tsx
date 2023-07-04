@@ -15,6 +15,7 @@ import Login from "./pages/Login.tsx";
 import UseAuth from "./services/UseAuth.tsx";
 import AddUser from "./users/AddUser.tsx";
 import EditUser from "./users/EditUser.tsx";
+import ImageUpload from "./components/ImageUpload.tsx";
 
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -101,6 +102,7 @@ function App() {
         />
       </Routes>
     </>
+
   );
 }
 

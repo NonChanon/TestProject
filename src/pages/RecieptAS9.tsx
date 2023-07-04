@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate, NavLink } from "react-router-dom";
 import style from "../pages/RecieptAS9.module.css";
 import axios from "axios";
 import moment from "moment";
-import DatePicker from "react-datepicker";
+import ImageUpload from "../components/ImageUpload";
 
 interface lotModel {
   name: string;
