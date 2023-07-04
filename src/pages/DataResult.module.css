@@ -1,7 +1,7 @@
 table,
 td,
 th {
-  border-bottom: 1px solid #B1B1B1;
+  border-bottom: 1px solid #b1b1b1;
   text-align: center;
   background-color: #fafafa;
   padding: 15px;
@@ -17,7 +17,7 @@ table {
 
 th {
   height: 50px;
-  background-color: #FAFAFA;
+  background-color: #fafafa;
   font-weight: 500;
   font-size: 14px;
   color: #8c8c8c;
@@ -34,11 +34,10 @@ th {
   margin-top: 5px;
   height: 2px;
   width: auto;
-  background-color: #cecece;
+  background-color: #e6e5e5;
 }
 
 .line3 {
-
   height: 30px;
   width: 2px;
   background-color: #cecece;
@@ -131,8 +130,6 @@ th {
   cursor: pointer;
 }
 
-
-
 .row {
   display: flex;
   flex-direction: row;
@@ -178,7 +175,7 @@ th {
 }
 
 .Approved {
-  background-color: #00CA07;
+  background-color: #00ca07;
   color: #ffffff;
   font-size: 13px;
   padding: 10px 2px;
@@ -225,7 +222,7 @@ th {
 }
 
 .Denied {
-  background-color: #B1B1B1;
+  background-color: #b1b1b1;
   color: #ffffff;
   font-size: 13px;
   padding: 10px 2px;
@@ -276,19 +273,17 @@ th {
 }
 
 .grid-container {
-  background-color: #FAFAFA;
+  background-color: #fafafa;
   font-size: 14px;
-  border-bottom: 1px solid #B1B1B1;
+  border-bottom: 1px solid #b1b1b1;
   justify-content: space-between;
   color: #393939;
 }
 
 .grid-item {
-  background-color: #FAFAFA;
+  background-color: #fafafa;
   text-align: center;
   padding: 15px;
-
-
 }
 
 .lastgrid-container {
@@ -307,7 +302,7 @@ th {
 
 .top {
   margin-top: 5px;
-  color: #8C8C8C;
+  color: #8c8c8c;
 }
 
 .apbutton {
@@ -327,7 +322,7 @@ th {
   border-collapse: collapse;
   text-align: center;
 
-  background-color: #FAFAFA;
+  background-color: #fafafa;
   font-size: 14px;
 }
 
@@ -339,14 +334,14 @@ th {
 }
 
 tfoot {
-  border-top: 2px solid #B1B1B1;
+  border-top: 2px solid #b1b1b1;
 }
 
 .calendarDate {
   height: 100%;
   border: 0;
   font-size: 14px;
-  font-family: 'Rubik', sans-serif;
+  font-family: "Rubik", sans-serif;
   margin: 0;
   padding: 5px;
   box-sizing: border-box;

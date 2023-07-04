@@ -6,7 +6,6 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import PopupButt from "../components/PopupButt";
 
-
 interface lotModel {
   name: string;
   totalDoc: number;
@@ -21,17 +20,12 @@ interface lotModel {
 }
 
 export default function InvoicePayment() {
-
-
-
   const [datas, setDatas] = useState<any>({
     content: [],
-    sumStatus: {
+    sumIVStatus: {
       approved: 0,
       pending: 0,
-      invalidData: 0,
-      denied: 0
-    }
+    },
   });
   const [startDate, setStartDate] = useState<Date | null>();
   const [lotName, setLotName] = useState({
@@ -52,8 +46,11 @@ export default function InvoicePayment() {
 
   const onSearch = async (e: MouseEvent, request: object) => {
     e.preventDefault();
-    moment
-    const dataRes = await axios.post(`http://localhost:8080/api/lots/search/dataresult`, request);
+    moment;
+    const dataRes = await axios.post(
+      `http://localhost:8080/api/lots/search/dataresult`,
+      request
+    );
     setDatas(dataRes.data);
     console.log("search data is " + dataRes.data);
   };
@@ -129,7 +126,7 @@ export default function InvoicePayment() {
             return (
               <tbody>
                 <tr>
-                  <td >{i + 1}</td>
+                  <td>{i + 1}</td>
                   <td>{lot.name}</td>
                   <td>{lot.batchDate}</td>
                   <td>{lot.totalDoc}</td>
@@ -142,17 +139,21 @@ export default function InvoicePayment() {
                   <td>
                     <p className={lot.approvalStatus}>{lot.approvalStatus}</p>
                   </td>
-                  <td >
+                  <td>
                     <PopupButt />
                   </td>
-                  <td >
+                  <td>
                     <PopupButt />
                   </td>
                   <td className="action">
                     {/* <Routes>
                       <Route path={`/${lot.name}`} element={<DetailCollection />} />
                     </Routes> */}
-                    <NavLink to={`/${lot.name}?page=0`} end state={{ lot: lot }}>
+                    <NavLink
+                      to={`/${lot.name}?page=0`}
+                      end
+                      state={{ lot: lot }}
+                    >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="21"
@@ -166,7 +167,13 @@ export default function InvoicePayment() {
                           stroke-linejoin="round"
                         >
                           <path d="M12 7.5v-2a1 1 0 0 0-1-1H1.5a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1H11a1 1 0 0 0 1-1V10M3.84 2L9.51.52a.49.49 0 0 1 .61.36L10.4 2" />
-                          <rect width="3.5" height="2.5" x="10" y="7.5" rx=".5" />
+                          <rect
+                            width="3.5"
+                            height="2.5"
+                            x="10"
+                            y="7.5"
+                            rx=".5"
+                          />
                         </g>
                       </svg>
                     </NavLink>
@@ -261,7 +268,15 @@ export default function InvoicePayment() {
 
         <button
           className="SearchButton"
-          onClick={(e) => onSearch(e, { batchDate: startDate === null ? "" : moment(startDate).format('DD/MM/yyyy').toString(), lotName: lotName.lotNameInput })}
+          onClick={(e) =>
+            onSearch(e, {
+              batchDate:
+                startDate === null
+                  ? ""
+                  : moment(startDate).format("DD/MM/yyyy").toString(),
+              lotName: lotName.lotNameInput,
+            })
+          }
         >
           <div className="row ">
             <svg
@@ -290,24 +305,27 @@ export default function InvoicePayment() {
         <div className="BatchBar shadow ">
           <div className="space3 ">
             <div className="filter spaceTitle2">
-              <Link className="button button:hover black active" to="/invoice/all">
+              <Link
+                className="button button:hover black active"
+                to="/invoice/all"
+              >
                 All
               </Link>
               <Link className="button button:hover black" to="/lots/approved">
                 <p className="row ">
                   Approved
-                  <p className="green">{datas.sumStatus.approved}</p>
+                  <p className="green">{datas.sumIVStatus.approved}</p>
                 </p>
               </Link>
 
               <Link className="button button:hover black" to="/lots/pending">
                 <p className="row">
                   Pending
-                  <p className="yellow">{datas.sumStatus.pending}</p>
+                  <p className="yellow">{datas.sumIVStatus.pending}</p>
                 </p>
               </Link>
             </div>
-            <div >
+            <div>
               <table>{dataInvoiceTable}</table>
             </div>
           </div>
