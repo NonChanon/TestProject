@@ -48,12 +48,36 @@ export default function RDTransaction() {
   const [lotName, setLotName] = useState({
     lotNameInput: "",
   });
+  // const [imageData, setImageData] = useState("");
 
+  // const getImage = () => {
+  //   axios.get("http://localhost:8080/api/image/img1.png", {
+  //     responseType: "arraybuffer"
+  //   }).then((response) => {
+  //     const base64 = btoa(
+  //       new Uint8Array(response.data).reduce(
+  //         (data, byte) => data + String.fromCharCode(byte),
+  //         ''
+  //       )
+  //     )
+  //     setImageData(base64);
+  //     console.log(base64);
+  //     console.log(response.data);
+  //   });
+  // };
   //load data by api to backend
   const loadDatas = async () => {
     const dataRes = await axios.get(`http://localhost:8080/api/rd/all`);
     setDatas(dataRes.data);
     console.log("loadDatas : " + dataRes.data);
+  };
+
+  const loadPageDatas = async (filter: string, pageNo: string) => {
+    const dataRes = await axios.get(
+      `http://localhost:8080/api${filter}?page=${pageNo}`
+    );
+    setDatas(dataRes.data);
+    console.log("currentPage = " + dataRes.data.currentPage);
   };
 
   const loadFilterDatas = async (filter: string) => {
@@ -85,6 +109,7 @@ export default function RDTransaction() {
   useEffect(() => {
     console.log("trigger useEffect");
     loadDatas();
+    // getImage();
   }, [useLocation().key]);
 
   function renderPageNumber() {
@@ -178,6 +203,9 @@ export default function RDTransaction() {
       <div className={`${style.title} ${style.spaceTitle}`}>
         <div className={style.line}></div>
         <div>RD Transaction</div>
+      </div>
+      <div className="img" style={{'backgroundColor':'red'}}>
+        {/* <img src={`data:;base64,${imageData}`} /> */}
       </div>
 
       <div
