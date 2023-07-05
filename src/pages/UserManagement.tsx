@@ -36,10 +36,11 @@ export default function UserManagement() {
     setIsOpen(!isOpen);
     localStorage.removeItem("id");
   };
-  const { firstname, lastname, email, role } = user;
+  const { firstname, lastname, email } = user;
 
   const handleChange = (e: any) => {
     setUser({ ...user, [e.target.name]: e.target.value });
+    console.log(user);
   };
 
   const handleSubmit = async () => {
@@ -70,8 +71,10 @@ export default function UserManagement() {
   };
 
   const deleteUser = async (id: Number) => {
-    await axios.delete(`http://localhost:8080/api/v1/admin/users/${id}`);
-    loadUsers();
+    if (window.confirm("Confirm Delete?")) {
+      await axios.delete(`http://localhost:8080/api/v1/admin/users/${id}`);
+      loadUsers();
+    }
   };
 
   const userRoleTable = users.map((data, i) => {
@@ -121,14 +124,17 @@ export default function UserManagement() {
                 <div className={style.header}>Group User</div>
                 <div className={style.formDetail}>
                   <label className={style.formLabel}>Role</label>
-                  <input
-                    type={"text"}
+                  <select
                     className={style.tab}
-                    placeholder="role"
                     name="role"
-                    value={role}
                     onChange={handleChange}
-                  />
+                  >
+                    <option value="" disabled selected hidden>
+                      {user.role}
+                    </option>
+                    <option value="USER">USER</option>
+                    <option value="ADMIN">ADMIN</option>
+                  </select>
                 </div>
               </form>
               <form className={`shadow ${style.UserForm}`}>

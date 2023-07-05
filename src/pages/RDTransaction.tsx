@@ -56,14 +56,6 @@ export default function RDTransaction() {
     console.log("loadDatas : " + dataRes.data);
   };
 
-  const loadPageDatas = async (filter: string, pageNo: string) => {
-    const dataRes = await axios.get(
-      `http://localhost:8080/api${filter}?page=${pageNo}`
-    );
-    setDatas(dataRes.data);
-    console.log("currentPage = " + dataRes.data.currentPage);
-  };
-
   const loadFilterDatas = async (filter: string) => {
     const dataRes = await axios.get(`http://localhost:8080/api${filter}`);
     setDatas(dataRes.data);

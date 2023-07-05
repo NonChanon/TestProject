@@ -12,7 +12,7 @@ export default function AddUser() {
     role: "",
   });
 
-  const { firstname, lastname, email, password, role } = user;
+  const { firstname, lastname, email, password } = user;
 
   const handleChange = (e: any) => {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -62,14 +62,17 @@ export default function AddUser() {
                   <div className={style.header}>Group User</div>
                   <div className={style.formDetail}>
                     <label className={style.formLabel}>Role</label>
-                    <input
-                      type={"text"}
+                    <select
                       className={style.tab}
-                      placeholder="role"
                       name="role"
-                      value={role}
                       onChange={handleChange}
-                    />
+                    >
+                      <option value="" disabled selected hidden>
+                        Select Group User
+                      </option>
+                      <option value="USER">USER</option>
+                      <option value="ADMIN">ADMIN</option>
+                    </select>
                   </div>
                 </form>
                 <form className={`shadow ${style.UserForm}`}>
