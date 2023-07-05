@@ -94,10 +94,6 @@ function App() {
           path="/usermanagement/adduser"
           element={isAuthen ? <AddUser /> : <Navigate to="/login" />}
         />
-        <Route
-          path="/usermanagement/edituser/:id"
-          element={isAuthen ? <EditUser /> : <Navigate to="/login" />}
-        />
       </Routes>
     </>
 
