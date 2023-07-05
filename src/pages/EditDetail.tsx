@@ -3,7 +3,6 @@ import style from "./EditDetail.module.css";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import DatePicker from "react-datepicker";
-import Select from 'react-select';
 
 import moment from "moment";
 
