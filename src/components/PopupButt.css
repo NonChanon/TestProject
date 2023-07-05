@@ -9,10 +9,9 @@
   position: fixed;
 }
 
-.popupButton {
+.iconSize {
   padding: 20px 40px;
-  color: brown;
-  background-color: yellow;
+  cursor: pointer;
 }
 
 .popupTitle {

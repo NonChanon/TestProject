@@ -15,6 +15,7 @@ interface lotModel {
   totalDuty: number;
   totalDubDutyAmount: number;
   totalPayment: number;
+
 }
 
 export default function DataResult() {
