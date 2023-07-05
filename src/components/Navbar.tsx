@@ -135,7 +135,7 @@ export default function Navbar() {
             </li>
             <li>
               <NavLink
-                to="/invoice/all"
+                to="/invoice"
                 className={({ isActive }) =>
                   isActive ? activeClassName : undefined
                 }
