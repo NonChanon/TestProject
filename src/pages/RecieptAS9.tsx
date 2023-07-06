@@ -3,13 +3,13 @@ import { Link, useLocation, useNavigate, NavLink } from "react-router-dom";
 import style from "../pages/RecieptAS9.module.css";
 import axios from "axios";
 import moment from "moment";
-import DatePicker from "react-datepicker";
-// import "react-datepicker/dist/react-datepicker.css";
+import ImageUpload from "../components/ImageUpload";
 
 interface lotModel {
   name: string;
   totalDoc: number;
   batchDate: string;
+  batchTime: string;
   approvalStatus: string;
   approvedBy: string;
   totalDuty: number;
@@ -42,16 +42,18 @@ export default function RecieptAS9() {
   let grouped = datas;
 
   const loadDatas = async () => {
-    const dataRes = await axios.get(`http://localhost:8080/api${path}`);
+    const dataRes = await axios.get(`http://localhost:8080/api/invoice/approved`);
     setDatas(dataRes.data);
     console.log("getData is : " + dataRes.data);
   };
+
+
 
   const onSearch = async (e: MouseEvent, request: object) => {
     e.preventDefault();
     moment;
     const dataRes = await axios.post(
-      `http://localhost:8080/api/lots/search/dataresult`,
+      `http://localhost:8080/api/lots/search/iv`,
       request
     );
     setDatas(dataRes.data);
@@ -128,7 +130,7 @@ export default function RecieptAS9() {
                   <td>{lot.name}</td>
                   <td>{lot.totalDoc}</td>
                   <td>{lot.batchDate}</td>
-                  <td></td>
+                  <td>{lot.batchTime}</td>
                   <td></td>
                   <td></td>
                   <td>{lot.totalPayment}</td>
@@ -209,11 +211,7 @@ export default function RecieptAS9() {
     );
   });
 
-  const loadFilterDatas = async (filter: string) => {
-    const dataRes = await axios.get(`http://localhost:8080/api${filter}`);
-    setDatas(dataRes.data);
-    console.log("getData is : " + dataRes.data);
-  };
+
 
   return (
     <div className={`${style.space2}`}>
@@ -224,36 +222,27 @@ export default function RecieptAS9() {
 
       <div className={`shadow ${style.row} ${style.btw} ${style.spaceTitle}`}>
         <div className="FilterButon">
-          <button className={`${style.button1} `}>
+
+          <button className={`LotName ${style.button1}`}>
             <div className={`${style.row}`}>
-              <DatePicker
-                id="batchDate"
-                dateFormat="dd/MM/yyy"
-                selected={startDate}
-                onChange={(date: Date) => {
-                  setStartDate(date);
-                  console.log("Selected date is : " + date.toLocaleString());
+              <input
+                name="lotNameInput"
+                className="form-control"
+                style={{
+                  height: "100%",
+                  border: "0",
+                  fontSize: "14px",
+                  fontFamily: "'Rubik', sans-serif",
+                  margin: "0",
+                  padding: "5px",
+                  boxSizing: "border-box",
                 }}
-                isClearable
-                placeholderText="Batch Date"
-                className={`${style.calendarDate}`}
+                placeholder="InstInfo ID"
+                onChange={(e) => updateLotNameInput(e)}
               />
-              <svg
-                style={{ margin: "0px" }}
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  fill="#7F7F7F"
-                  d="M8 14q-.425 0-.713-.288T7 13q0-.425.288-.713T8 12q.425 0 .713.288T9 13q0 .425-.288.713T8 14Zm4 0q-.425 0-.713-.288T11 13q0-.425.288-.713T12 12q.425 0 .713.288T13 13q0 .425-.288.713T12 14Zm4 0q-.425 0-.713-.288T15 13q0-.425.288-.713T16 12q.425 0 .713.288T17 13q0 .425-.288.713T16 14ZM5 22q-.825 0-1.413-.588T3 20V6q0-.825.588-1.413T5 4h1V2h2v2h8V2h2v2h1q.825 0 1.413.588T21 6v14q0 .825-.588 1.413T19 22H5Zm0-2h14V10H5v10ZM5 8h14V6H5v2Zm0 0V6v2Z"
-                />
-              </svg>
             </div>
             <div className={`${style.line2}`}></div>
           </button>
-
           <button className={`LotName ${style.button1}`}>
             <div className={`${style.row}`}>
               <input
@@ -314,87 +303,7 @@ export default function RecieptAS9() {
       <div className="Transection">
         <div className="BatchBar shadow ">
           <div className={`${style.space3}`}>
-            <div className={`${style.filter} ${style.spaceTitle2}`}>
-              <button
-                onClick={() => {
-                  setTab("all");
-                  loadFilterDatas("/lots/all");
-                }}
-                className={
-                  tab === "all"
-                    ? `${style.filterButtonActive}`
-                    : `${style.filterButton}`
-                }
-              >
-                <p style={{ padding: "3px 8px 3px 8px" }}>All</p>
-              </button>
-              <button
-                onClick={() => {
-                  setTab("approved");
-                  loadFilterDatas("/lots/approved");
-                }}
-                className={
-                  tab === "approved"
-                    ? `${style.filterButtonActive}`
-                    : `${style.filterButton}`
-                }
-              >
-                <p className={`${style.row}`}>
-                  Approved
-                  <p className={`${style.green}`}>{datas.sumStatus.approved}</p>
-                </p>
-              </button>
-              <button
-                onClick={() => {
-                  setTab("pending");
-                  loadFilterDatas("/lots/pending");
-                }}
-                className={
-                  tab === "pending"
-                    ? `${style.filterButtonActive}`
-                    : `${style.filterButton}`
-                }
-              >
-                <p className={`${style.row}`}>
-                  Pending
-                  <p className={`${style.yellow}`}>{datas.sumStatus.pending}</p>
-                </p>
-              </button>
-              <button
-                onClick={() => {
-                  setTab("invaliddata");
-                  loadFilterDatas("/lots/invaliddata");
-                }}
-                className={
-                  tab === "invaliddata"
-                    ? `${style.filterButtonActive}`
-                    : `${style.filterButton}`
-                }
-              >
-                <p className={`${style.row}`}>
-                  Invalid Data
-                  <p className={`${style.red}`}>
-                    {datas.sumStatus.invalidData}
-                  </p>
-                </p>
-              </button>
-              <button
-                onClick={() => {
-                  setTab("denied");
-                  loadFilterDatas("/lots/denied");
-                }}
-                className={
-                  tab === "denied"
-                    ? `${style.filterButtonActive}`
-                    : `${style.filterButton}`
-                }
-              >
-                <p className={`${style.row}`}>
-                  Denied
-                  <p className={`${style.gray}`}>{datas.sumStatus.denied}</p>
-                </p>
-              </button>
-            </div>
+
 
             <div>
               <table>{dataRecAS9Table}</table>

@@ -117,6 +117,8 @@ export default function DetailCollection() {
     loadDatas();
   }, [useLocation().key]);
 
+  console.log(localStorage.user_name);
+
   function renderPageNumber() {
     const list = [];
     if (datas.totalPages > 1) {
@@ -168,7 +170,7 @@ export default function DetailCollection() {
             xmlns="http://www.w3.org/2000/svg"
             width="16"
             height="16"
-            viewBox="0 2 16 16"
+            viewBox="7 2 16 16"
           >
             <path
               fill="none"
@@ -309,7 +311,7 @@ export default function DetailCollection() {
               </div>
               <div className={`${style.ButtonAction}`}>
                 <button
-                  onClick={(e) => onApprove(e, { approvalStatus: "Approved" })}
+                  onClick={(e) => onApprove(e, { approvalStatus: "Approved", approvalBy: localStorage.user_name })}
                   className={`${style.apbutt} ${style.tab2}`}
                 >
                   Approve

@@ -292,3 +292,33 @@
     font-size: 15px;
     cursor: pointer;
   }
+
+  .pagination {
+    display: inline-block;
+  }
+  
+  .pagination button {
+    background-color: unset;
+    color: black;
+    border: 1px #489788;
+  
+    float: left;
+    padding: 8px 16px;
+  
+    font-size: 16px;
+  } 
+  
+  .pagination button.active {
+    background-color: #489788;
+    color: white;
+    border-radius: 5px;
+  }
+  
+  .pagination button:hover:not(.active) {
+    background-color: #dddddd;
+    border-radius: 5px;
+  }
+  
+  .end {
+    margin-inline: auto;
+  }
