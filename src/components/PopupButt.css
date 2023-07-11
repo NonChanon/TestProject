@@ -51,6 +51,7 @@
 .exit {
   padding: 5px;
   background: #ff00d4;
+  cursor: pointer;
 }
 
 .doneButt {
@@ -63,9 +64,12 @@
   color: #ffffff;
   align-items: center;
   text-align: center;
+  cursor: pointer;
+  width: 100%;
+  border: none;
 }
 
 .imgPopup {
-  width: 500px;
-  height: 500px;
+  width: 350px;
+  height: 350px;
 }

@@ -3,7 +3,6 @@ import { Link, useLocation, useNavigate, NavLink } from "react-router-dom";
 import style from "../pages/RecieptAS9.module.css";
 import axios from "axios";
 import moment from "moment";
-import ImageUpload from "../components/ImageUpload";
 
 interface lotModel {
   name: string;
@@ -42,12 +41,12 @@ export default function RecieptAS9() {
   let grouped = datas;
 
   const loadDatas = async () => {
-    const dataRes = await axios.get(`http://localhost:8080/api/invoice/approved`);
+    const dataRes = await axios.get(
+      `http://localhost:8080/api/invoice/approved`
+    );
     setDatas(dataRes.data);
     console.log("getData is : " + dataRes.data);
   };
-
-
 
   const onSearch = async (e: MouseEvent, request: object) => {
     e.preventDefault();
@@ -97,20 +96,20 @@ export default function RecieptAS9() {
       sumTotalDubDutyAmount = 0,
       sumTotalPayment = 0;
 
-
     return (
       <div>
-
         <table className="transaction-table">
           <thead>
             <tr>
               <th>No.</th>
               <th>Lot Name</th>
-              <th>Total Doc</th>
+
               <th>Batch Date</th>
               <th>Batch Time</th>
+
               <th>InstInfo ID</th>
               <th>TaxPayer ID</th>
+              <th>Total Doc</th>
               <th>Total Payment</th>
               <th>AS9</th>
               <th>Receipt</th>
@@ -128,11 +127,13 @@ export default function RecieptAS9() {
                 <tr>
                   <td>{i + 1}</td>
                   <td>{lot.name}</td>
-                  <td>{lot.totalDoc}</td>
+
                   <td>{lot.batchDate}</td>
                   <td>{lot.batchTime}</td>
+
                   <td></td>
                   <td></td>
+                  <td>{lot.totalDoc}</td>
                   <td>{lot.totalPayment}</td>
                   <td className="action">
                     {/* <Routes>
@@ -196,11 +197,13 @@ export default function RecieptAS9() {
             <tr>
               <th className={`${style.ltb}`}>Total</th>
               <th className={`${style.ltb}`}></th>
+
+              <th className={`${style.ltb}`}></th>
+              <th className={`${style.ltb}`}></th>
+
+              <th className={`${style.ltb}`}></th>
+              <th className={`${style.ltb}`}></th>
               <th className={`${style.ltb}`}>{sumDoc}</th>
-              <th className={`${style.ltb}`}></th>
-              <th className={`${style.ltb}`}></th>
-              <th className={`${style.ltb}`}></th>
-              <th className={`${style.ltb}`}></th>
               <th className={`${style.ltb}`}>{sumTotalPayment}</th>
               <th className={`${style.ltb}`}></th>
               <th className={`${style.ltb}`}></th>
@@ -211,8 +214,6 @@ export default function RecieptAS9() {
     );
   });
 
-
-
   return (
     <div className={`${style.space2}`}>
       <div className={`${style.title} ${style.spaceTitle}`}>
@@ -222,7 +223,6 @@ export default function RecieptAS9() {
 
       <div className={`shadow ${style.row} ${style.btw} ${style.spaceTitle}`}>
         <div className="FilterButon">
-
           <button className={`LotName ${style.button1}`}>
             <div className={`${style.row}`}>
               <input
@@ -303,8 +303,6 @@ export default function RecieptAS9() {
       <div className="Transection">
         <div className="BatchBar shadow ">
           <div className={`${style.space3}`}>
-
-
             <div>
               <table>{dataRecAS9Table}</table>
             </div>

@@ -7,7 +7,7 @@ export default function EPayBtn() {
 
   const getImage = () => {
     axios
-      .get("http://localhost:8080/api/image/img1.jpg", {
+      .get("http://localhost:8080/api/image/qr2.png", {
         responseType: "arraybuffer",
       })
       .then((response) => {
@@ -55,7 +55,7 @@ export default function EPayBtn() {
         <div className="bgFade">
           <div className="a">
             <div className="titleBlock">
-              <p className="popupTitle">QR CODE</p>
+              <p className="popupTitle">E-Payment</p>
               <div onClick={toggleModal} className="exit">
                 X
               </div>
@@ -63,7 +63,7 @@ export default function EPayBtn() {
             {/* <img src={pics} /> */}
             {/* <input type="file" /> */}
             <div>
-              <img src={`data:;base64,${imageData}`} />
+              <img src={`data:;base64,${imageData}`} className="imgPopup" />
             </div>
 
             <div className="doneButt" onClick={toggleModal}>

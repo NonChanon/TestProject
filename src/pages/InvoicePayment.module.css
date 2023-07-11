@@ -186,6 +186,29 @@
   border-radius: 5px;
 }
 
+.Pending {
+  background-color: #ecbf21;
+  color: #ffffff;
+  font-size: 13px;
+  padding: 10px 20px;
+  border-radius: 5px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.Approved {
+  background-color: #00ca07;
+  border: none;
+  border-radius: 5px;
+  color: #ffffff;
+  padding: 10px 20px;
+  text-align: center;
+
+  font-size: 13px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
 .gray {
   margin-left: 10px;
   background-color: #b1b1b1;
