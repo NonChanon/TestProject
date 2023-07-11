@@ -51,16 +51,8 @@ function App() {
           element={isAuthen ? <EditDetail /> : <Navigate to="/login" />}
         />
         <Route
-          path="/invoice/all"
+          path="/invoice"
           element={isAuthen ? <InvoicePayment /> : <Navigate to="/login" />}
-        />
-        <Route
-          path="/invoice/approved"
-          element={isAuthen ? <RDTransaction /> : <Navigate to="/login" />}
-        />
-        <Route
-          path="/invoice/pending"
-          element={isAuthen ? <RDTransaction /> : <Navigate to="/login" />}
         />
         <Route
           path="/detail"

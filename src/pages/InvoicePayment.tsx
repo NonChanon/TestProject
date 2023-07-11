@@ -68,10 +68,20 @@ interface dataModel {
   currentPage: number;
   content: customerModel[];
   lot: lotModel;
+  content: lotModel[];
+  sumIVStatus: IVStatusModel;
+}
+
+interface IVStatusModel {
+  pending: number;
+  approved: number;
 }
 
 export default function InvoicePayment() {
-  const [datas, setDatas] = useState<any>({
+  const [datas, setDatas] = useState<dataModel>({
+    totalItems: 0,
+    totalPages: 0,
+    currentPage: 0,
     content: [],
     sumIVStatus: {
       approved: 0,
@@ -104,18 +114,25 @@ export default function InvoicePayment() {
   const [lotName, setLotName] = useState({
     lotNameInput: "",
   });
-  const [tab, setTab] = useState("all");
+  const [tab, setTab] = useState("/invoice/all");
+  const [pageNo, setPageNo] = useState("0");
 
   const path = useLocation().pathname;
   console.log("path = " + path);
   console.log(useLocation());
 
-  let grouped = datas;
-
   const loadDatas = async () => {
     const dataRes = await axios.get(`http://localhost:8080/api/invoice/all`);
     setDatas(dataRes.data);
     console.log("getData is : " + dataRes.data);
+  };
+
+  const loadPageDatas = async (filter: string, pageNo: string) => {
+    const dataRes = await axios.get(
+      `http://localhost:8080/api${filter}?page=${pageNo}`
+    );
+    setDatas(dataRes.data);
+    console.log("currentPage = " + dataRes.data.currentPage);
   };
 
   const loadFilterDatas = async (filter: string) => {
@@ -210,6 +227,88 @@ export default function InvoicePayment() {
     console.log("Trigger use Effect");
     loadDatas();
   }, [useLocation().key]);
+
+  function renderPageNumber() {
+    const list = [];
+    if (datas.totalPages > 1) {
+      list.push(
+        <button
+          onClick={() => {
+            setPageNo(`${datas.currentPage == 0 ? 0 : datas.currentPage - 1}`);
+            loadPageDatas(
+              tab,
+              `${datas.currentPage == 0 ? 0 : datas.currentPage - 1}`
+            );
+          }}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 2 16 16"
+          >
+            <g transform="translate(24 0) scale(-1 1)">
+              <path
+                fill="none"
+                stroke="#489788"
+                stroke-width="2"
+                d="m9 6l6 6l-6 6"
+              />
+            </g>
+          </svg>
+        </button>
+      );
+      for (let i = 0; i < datas.totalPages; i++) {
+        list.push(
+          <button
+            onClick={() => {
+              setPageNo(`${i}`);
+              loadPageDatas(tab, `${i}`);
+            }}
+            className={pageNo == `${i}` ? `${style.active}` : undefined}
+          >
+            {i + 1}
+          </button>
+        );
+      }
+      list.push(
+        <button
+          onClick={() => {
+            setPageNo(
+              `${
+                datas.currentPage == datas.totalPages - 1
+                  ? datas.totalPages - 1
+                  : datas.currentPage + 1
+              }`
+            );
+            loadPageDatas(
+              tab,
+              `${
+                datas.currentPage == datas.totalPages - 1
+                  ? datas.totalPages - 1
+                  : datas.currentPage + 1
+              }`
+            );
+          }}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="7 2 16 16"
+          >
+            <path
+              fill="none"
+              stroke="#489788"
+              stroke-width="2"
+              d="m9 6l6 6l-6 6"
+            />
+          </svg>
+        </button>
+      );
+    }
+    return <div>{list}</div>;
+  }
 
   let sumDoc = 0,
     sumTotalDuty = 0,
@@ -319,12 +418,13 @@ export default function InvoicePayment() {
             <div className={`${style.filter} ${style.spaceTitle2}`}>
               <button
                 className={
-                  tab === "all"
+                  tab === "/invoice/all"
                     ? `${style.filterButtonActive}`
                     : `${style.filterButton}`
                 }
                 onClick={() => {
-                  setTab("all");
+                  setTab("/invoice/all");
+                  setPageNo("0");
                   loadFilterDatas("/invoice/all");
                 }}
               >
@@ -332,12 +432,13 @@ export default function InvoicePayment() {
               </button>
               <button
                 className={
-                  tab === "approved"
+                  tab === "/invoice/approved"
                     ? `${style.filterButtonActive}`
                     : `${style.filterButton}`
                 }
                 onClick={() => {
-                  setTab("approved");
+                  setTab("/invoice/approved");
+                  setPageNo("0");
                   loadFilterDatas("/invoice/approved");
                 }}
               >
@@ -351,12 +452,13 @@ export default function InvoicePayment() {
 
               <button
                 className={
-                  tab === "pending"
+                  tab === "/invoice/pending"
                     ? `${style.filterButtonActive}`
                     : `${style.filterButton}`
                 }
                 onClick={() => {
-                  setTab("pending");
+                  setTab("/invoice/pending");
+                  setPageNo("0");
                   loadFilterDatas("/invoice/pending");
                 }}
               >
@@ -629,10 +731,19 @@ export default function InvoicePayment() {
                     </tfoot>
                   </table>
                 </div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                  }}
+                >
+                  <div className={`${style.pagination} ${style.end}`}>
+                    {renderPageNumber()}
+                  </div>
+                </div>
               </div>
             ) : undefined}
-
-            {/* <table>{dataInvoiceTable}</table> */}
           </div>
         </div>
       </div>

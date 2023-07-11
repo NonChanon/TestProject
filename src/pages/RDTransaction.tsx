@@ -18,34 +18,50 @@ interface lotModel {
   totalPayment: number;
 }
 
-// interface stateModel {
-//   content: lotModel[];
-//   sumRdStatus: {
-//     success: number;
-//     fail: number;
-//   }
-// }
+interface dataModel {
+  totalItems: number;
+  totalPages: number;
+  currentPage: number;
+  content: lotModel[];
+  sumRdStatus: rdStatusModel;
+}
+
+interface rdStatusModel {
+  success: number;
+  fail: number;
+}
 
 export default function RDTransaction() {
-  const [datas, setDatas] = useState<any>({
+  const [datas, setDatas] = useState<dataModel>({
+    totalItems: 0,
+    totalPages: 0,
+    currentPage: 0,
     content: [],
     sumRdStatus: {
       success: 0,
       fail: 0,
     },
   });
-
+  const [pageNo, setPageNo] = useState("0");
   const [startDate = null, setStartDate] = useState<Date | null>();
-  const [tab, setTab] = useState("all");
+  const [tab, setTab] = useState("/rd/all");
   const [lotName, setLotName] = useState({
     lotNameInput: "",
   });
-
-  //load data by api to backend
+  
+ 
   const loadDatas = async () => {
     const dataRes = await axios.get(`http://localhost:8080/api/rd/all`);
     setDatas(dataRes.data);
     console.log("loadDatas : " + dataRes.data);
+  };
+
+  const loadPageDatas = async (filter: string, pageNo: string) => {
+    const dataRes = await axios.get(
+      `http://localhost:8080/api${filter}?page=${pageNo}`
+    );
+    setDatas(dataRes.data);
+    console.log("currentPage = " + dataRes.data.currentPage);
   };
 
   const loadFilterDatas = async (filter: string) => {
@@ -77,7 +93,90 @@ export default function RDTransaction() {
   useEffect(() => {
     console.log("trigger useEffect");
     loadDatas();
+    // getImage();
   }, [useLocation().key]);
+
+  function renderPageNumber() {
+    const list = [];
+    if (datas.totalPages > 1) {
+      list.push(
+        <button
+          onClick={() => {
+            setPageNo(`${datas.currentPage == 0 ? 0 : datas.currentPage - 1}`);
+            loadPageDatas(
+              tab,
+              `${datas.currentPage == 0 ? 0 : datas.currentPage - 1}`
+            );
+          }}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 2 16 16"
+          >
+            <g transform="translate(24 0) scale(-1 1)">
+              <path
+                fill="none"
+                stroke="#489788"
+                stroke-width="2"
+                d="m9 6l6 6l-6 6"
+              />
+            </g>
+          </svg>
+        </button>
+      );
+      for (let i = 0; i < datas.totalPages; i++) {
+        list.push(
+          <button
+            onClick={() => {
+              setPageNo(`${i}`);
+              loadPageDatas(tab, `${i}`);
+            }}
+            className={pageNo == `${i}` ? `${style.active}` : undefined}
+          >
+            {i + 1}
+          </button>
+        );
+      }
+      list.push(
+        <button
+          onClick={() => {
+            setPageNo(
+              `${
+                datas.currentPage == datas.totalPages - 1
+                  ? datas.totalPages - 1
+                  : datas.currentPage + 1
+              }`
+            );
+            loadPageDatas(
+              tab,
+              `${
+                datas.currentPage == datas.totalPages - 1
+                  ? datas.totalPages - 1
+                  : datas.currentPage + 1
+              }`
+            );
+          }}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="7 2 16 16"
+          >
+            <path
+              fill="none"
+              stroke="#489788"
+              stroke-width="2"
+              d="m9 6l6 6l-6 6"
+            />
+          </svg>
+        </button>
+      );
+    }
+    return <div>{list}</div>;
+  }
 
   let sumTotalDuty = 0,
     sumTotalDubDutyAmount = 0,
@@ -88,6 +187,9 @@ export default function RDTransaction() {
       <div className={`${style.title} ${style.spaceTitle}`}>
         <div className={style.line}></div>
         <div>RD Transaction</div>
+      </div>
+      <div className="img" style={{'backgroundColor':'red'}}>
+        {/* <img src={`data:;base64,${imageData}`} /> */}
       </div>
 
       <div
@@ -181,18 +283,20 @@ export default function RDTransaction() {
         </button>
       </div>
 
-      <div className={`${style.Transection}`}>
+      <div className={`Transaction`}>
         <div className={`BatchBar shadow`}>
           <div className={style.space3}>
             <div className={`${style.filter} ${style.spaceTitle2}`}>
               <button
                 className={
                   tab === "all"
+                  tab === "/rd/all"
                     ? `${style.filterButtonActive}`
                     : `${style.filterButton}`
                 }
                 onClick={() => {
-                  setTab("all");
+                  setTab("/rd/all");
+                  setPageNo("0");
                   loadFilterDatas("/rd/all");
                 }}
               >
@@ -201,11 +305,13 @@ export default function RDTransaction() {
               <button
                 className={
                   tab === "success"
+                  tab === "/rd/success"
                     ? `${style.filterButtonActive}`
                     : `${style.filterButton}`
                 }
                 onClick={() => {
-                  setTab("success");
+                  setTab("/rd/success");
+                  setPageNo("0");
                   loadFilterDatas("/rd/success");
                 }}
               >
@@ -217,11 +323,13 @@ export default function RDTransaction() {
               <button
                 className={
                   tab === "fail"
+                  tab === "/rd/fail"
                     ? `${style.filterButtonActive}`
                     : `${style.filterButton}`
                 }
                 onClick={() => {
-                  setTab("fail");
+                  setTab("/rd/fail");
+                  setPageNo("0");
                   loadFilterDatas("/rd/fail");
                 }}
               >
@@ -312,6 +420,18 @@ export default function RDTransaction() {
                       <td className={style.ltb}></td>
                     </tr>
                   </table>
+
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                  }}
+                >
+                  <div className={`${style.pagination} ${style.end}`}>
+                    {renderPageNumber()}
+                  </div>
                 </div>
               </div>
             ) : undefined}
