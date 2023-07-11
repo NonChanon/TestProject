@@ -3,7 +3,6 @@ import style from "./EditDetail.module.css";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import DatePicker from "react-datepicker";
-import Select from 'react-select';
 
 import moment from "moment";
 
@@ -450,8 +449,12 @@ export default function EditDetail() {
               <div className={`${style.item}`}>
                 <p className={`${style.txtblk}`}>Title</p>
                 <div
-                className={`${style.inputDiv}`}
-                style={{'height':'100%', 'display':'flex', 'position':'relative'}}
+                  className={`${style.inputDiv}`}
+                  style={{
+                    height: "100%",
+                    display: "flex",
+                    position: "relative",
+                  }}
                 >
                   {/* <Select
                     name="title"
@@ -460,8 +463,18 @@ export default function EditDetail() {
                     defaultValue={datas.title}
                     onChange={(e) => updateCustomer(e)}
                   /> */}
-                  <select name="title" id="customerTitle" style={{'height': '100%', 'width': '90%', 'border': 'none', 'display':'flex', 'position':'absolute', 'left': '8px'}}
-                  onChange={(e) => updateCustomer(e)} 
+                  <select
+                    name="title"
+                    id="customerTitle"
+                    style={{
+                      height: "100%",
+                      width: "90%",
+                      border: "none",
+                      display: "flex",
+                      position: "absolute",
+                      left: "8px",
+                    }}
+                    onChange={(e) => updateCustomer(e)}
                   >
                     <option value="Mr.">Mr.</option>
                     <option value="Ms.">Ms.</option>

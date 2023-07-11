@@ -54,10 +54,10 @@ interface contractModel {
 
 interface dataModel {
   totalItems: number;
-    totalPages: number;
-    currentPage: number;
-    content: customerModel[];
-    lot: lotModel;
+  totalPages: number;
+  currentPage: number;
+  content: customerModel[];
+  lot: lotModel;
 }
 
 export default function DetailCollection() {
@@ -74,8 +74,8 @@ export default function DetailCollection() {
       approvedBy: "",
       totalDuty: 0,
       totalDubDutyAmount: 0,
-      totalPayment: 0
-    }
+      totalPayment: 0,
+    },
   });
 
   const [pageNo, setPageNo] = useState("0");
@@ -85,13 +85,13 @@ export default function DetailCollection() {
   console.log("path = " + path);
   console.log("search path = " + searchPath);
   console.log(useLocation());
-  console.log("lotname : " + path.split('/')[path.split('/').length - 1]);
+  console.log("lotname : " + path.split("/")[path.split("/").length - 1]);
 
   const navigate = useNavigate();
 
   const loadDatas = async () => {
     const dataRes = await axios.get(
-      `http://localhost:8080/api/${path.split('/')[path.split('/').length - 1]}`
+      `http://localhost:8080/api/${path.split("/")[path.split("/").length - 1]}`
     );
     setDatas(dataRes.data);
     console.log("loaddata = " + dataRes.data);
@@ -99,11 +99,13 @@ export default function DetailCollection() {
 
   const loadPageDatas = async (page: string) => {
     const dataRes = await axios.get(
-      `http://localhost:8080/api/${path.split('/')[path.split('/').length - 1]}?page=${page}`
+      `http://localhost:8080/api/${
+        path.split("/")[path.split("/").length - 1]
+      }?page=${page}`
     );
     setDatas(dataRes.data);
     console.log("currentPage = " + dataRes.data.currentPage);
-  }
+  };
 
   const onApprove = async (e: React.MouseEvent, status: object) => {
     e.preventDefault();
@@ -124,7 +126,9 @@ export default function DetailCollection() {
         <button
           onClick={() => {
             setPageNo(`${datas.currentPage == 0 ? 0 : datas.currentPage - 1}`);
-            loadPageDatas(`${datas.currentPage == 0 ? 0 : datas.currentPage - 1}`);
+            loadPageDatas(
+              `${datas.currentPage == 0 ? 0 : datas.currentPage - 1}`
+            );
           }}
         >
           <svg
@@ -160,8 +164,20 @@ export default function DetailCollection() {
       list.push(
         <button
           onClick={() => {
-            setPageNo(`${datas.currentPage == datas.totalPages - 1 ? datas.totalPages - 1 : datas.currentPage + 1}`);
-            loadPageDatas(`${datas.currentPage == datas.totalPages - 1 ? datas.totalPages - 1 : datas.currentPage + 1}`);
+            setPageNo(
+              `${
+                datas.currentPage == datas.totalPages - 1
+                  ? datas.totalPages - 1
+                  : datas.currentPage + 1
+              }`
+            );
+            loadPageDatas(
+              `${
+                datas.currentPage == datas.totalPages - 1
+                  ? datas.totalPages - 1
+                  : datas.currentPage + 1
+              }`
+            );
           }}
         >
           <svg
@@ -264,11 +280,15 @@ export default function DetailCollection() {
                   </tr>
                 </thead>
                 {datas.content.map((customer: customerModel, i: number) => {
-                    console.log(customer.firstname + " : " + customer.completed);
+                  console.log(customer.firstname + " : " + customer.completed);
                   return (
                     <tbody>
                       <tr
-                        style={customer.completed === false ? {'backgroundColor': '#ca0700', 'color':'#ffffff'} : undefined}
+                        style={
+                          customer.completed === false
+                            ? { backgroundColor: "#ca0700", color: "#ffffff" }
+                            : undefined
+                        }
                       >
                         <td width="5%">{i + 1}</td>
                         <td width="15%">{customer.instInfoId}</td>
@@ -277,7 +297,7 @@ export default function DetailCollection() {
                         <td width="15%">{customer.totalDuty}</td>
                         <td width="15%">{customer.totalDubDutyAmount}</td>
                         <td width="15%">{customer.totalPayment}</td>
-                        <td style={{ cursor: "pointer"}} width="5%">
+                        <td style={{ cursor: "pointer" }} width="5%">
                           <Link
                             to={`/rd/${datas.lot.name}/${customer.taxPayerId}/edit`}
                             state={{ lot: datas.lot, customer: customer }}
@@ -290,7 +310,11 @@ export default function DetailCollection() {
                             >
                               <path
                                 fill="none"
-                                stroke={customer.completed === false ? '#ffffff' : '#393939'}
+                                stroke={
+                                  customer.completed === false
+                                    ? "#ffffff"
+                                    : "#393939"
+                                }
                                 stroke-linecap="round"
                                 stroke-linejoin="round"
                                 stroke-width="1.5"
