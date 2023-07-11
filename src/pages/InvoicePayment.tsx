@@ -4,9 +4,10 @@ import { useLocation, NavLink } from "react-router-dom";
 import moment from "moment";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import PopupButt from "../components/PopupButt";
+import QrBtn from "../components/QrBtn";
 import style from "./InvoicePayment.module.css";
-import ImageUpload from "../components/ImageUpload";
+import SlipBtn from "../components/SlipBtn";
+import EPayBtn from "../components/EPayBtn";
 
 interface lotModel {
   name: string;
@@ -23,53 +24,98 @@ interface lotModel {
   paymentStatus: string;
 }
 
+interface customerModel {
+  title: string;
+  firstname: string;
+  lastname: string;
+  taxPayerId: string;
+  instInfoId: string;
+  totalDuty: number;
+  totalDubDutyAmount: number;
+  totalPayment: number;
+  finalPaymentDate: string;
+  completed: boolean;
+  address: addressModel;
+  contract: contractModel;
+}
+
+interface addressModel {
+  village: string;
+  addressNo: string;
+  floor: string;
+  villageNo: string;
+  alley: string;
+  street: string;
+  subDistrict: string;
+  district: string;
+  province: string;
+  postalCode: string;
+}
+
+interface contractModel {
+  number: string;
+  startDate: string;
+  endDate: string;
+  applicantId: string;
+  branchNumber: string;
+  branchType: string;
+  relatedStatus: string;
+}
+
 interface dataModel {
   totalItems: number;
   totalPages: number;
   currentPage: number;
-  content: lotModel[];
-  sumIVStatus: IVStatusModel;
-}
-
-interface IVStatusModel {
-  pending: number;
-  approved: number;
+  content: customerModel[];
+  lot: lotModel;
 }
 
 export default function InvoicePayment() {
-  const [datas, setDatas] = useState<dataModel>({
-    totalItems: 0,
-    totalPages: 0,
-    currentPage: 0,
+  const [datas, setDatas] = useState<any>({
     content: [],
     sumIVStatus: {
       approved: 0,
       pending: 0,
     },
   });
+
+  const [data, setData] = useState<dataModel>({
+    totalItems: 0,
+    totalPages: 0,
+    currentPage: 0,
+    content: [],
+    lot: {
+      name: "",
+      totalDoc: 0,
+      batchDate: "",
+      approvalStatus: "",
+      approvedBy: "",
+      totalDuty: 0,
+      totalDubDutyAmount: 0,
+      totalPayment: 0,
+      batchTime: "",
+      ref1: "",
+      ref2: "",
+      paymentStatus: "",
+    },
+  });
+
   const [startDate = null, setStartDate] = useState<Date | null>();
   const [lotName, setLotName] = useState({
     lotNameInput: "",
   });
-  const [tab, setTab] = useState("/invoice/all");
-  const [pageNo, setPageNo] = useState("0");
+  const [tab, setTab] = useState("all");
 
   const path = useLocation().pathname;
   console.log("path = " + path);
   console.log(useLocation());
 
+  let grouped = datas;
+
   const loadDatas = async () => {
     const dataRes = await axios.get(`http://localhost:8080/api/invoice/all`);
     setDatas(dataRes.data);
     console.log("getData is : " + dataRes.data);
-  };
-
-  const loadPageDatas = async (filter: string, pageNo: string) => {
-    const dataRes = await axios.get(
-      `http://localhost:8080/api${filter}?page=${pageNo}`
-    );
-    setDatas(dataRes.data);
-    console.log("currentPage = " + dataRes.data.currentPage);
   };
 
   const loadFilterDatas = async (filter: string) => {
@@ -98,92 +144,72 @@ export default function InvoicePayment() {
     console.log(lotName.lotNameInput);
   };
 
+  console.log(grouped);
+
+  if (datas.content != null) {
+    grouped = datas.content.reduce((acc: any, obj: lotModel) => {
+      console.log("Acc ======>", acc);
+      const key: string = obj.batchDate;
+      acc[key] = acc[key] || [];
+      acc[key].push(obj);
+      return acc;
+    }, {});
+  }
+
+  const handleStatus = (e: { target: { name: any; value: any } }) => {
+    setData({ ...data, lot: { ...data.lot, [e.target.name]: e.target.value } });
+  };
+
+  const onApprove = async (e: React.MouseEvent, status: string) => {
+    e.preventDefault();
+    console.log(status);
+    await axios.put(`http://localhost:8080/api/invoice/${status}`);
+    setIsOpen(!isOpen);
+    loadDatas();
+  };
+
+  const [isOpen, setIsOpen] = useState(false);
+
+  console.log(grouped);
+
+  const batchDate = Object.keys(grouped);
+  console.log("batchDate is : " + Object.keys(grouped));
+
+  const [imageData, setImageData] = useState("");
+
+  const getPayment = async (type: string) => {
+    await axios
+      .get(
+        `http://localhost:8080/api/${localStorage.lotName}/download/${type}`,
+        {
+          responseType: "arraybuffer",
+        }
+      )
+      .then((response) => {
+        const base64 = btoa(
+          new Uint8Array(response.data).reduce(
+            (data, byte) => data + String.fromCharCode(byte),
+            ""
+          )
+        );
+        setImageData(base64);
+        // console.log(base64);
+        console.log(response.data);
+      });
+  };
+
+  const toggleModal = (lotname: string, type: string) => {
+    setIsOpen(!isOpen);
+    localStorage.setItem("lotName", `${lotname}`);
+    getPayment(type);
+    console.log(localStorage.lotName);
+    console.log("asdkasdsaoidj");
+  };
+
   useEffect(() => {
     console.log("Trigger use Effect");
     loadDatas();
   }, [useLocation().key]);
-
-  function renderPageNumber() {
-    const list = [];
-    if (datas.totalPages > 1) {
-      list.push(
-        <button
-          onClick={() => {
-            setPageNo(`${datas.currentPage == 0 ? 0 : datas.currentPage - 1}`);
-            loadPageDatas(
-              tab,
-              `${datas.currentPage == 0 ? 0 : datas.currentPage - 1}`
-            );
-          }}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            viewBox="0 2 16 16"
-          >
-            <g transform="translate(24 0) scale(-1 1)">
-              <path
-                fill="none"
-                stroke="#489788"
-                stroke-width="2"
-                d="m9 6l6 6l-6 6"
-              />
-            </g>
-          </svg>
-        </button>
-      );
-      for (let i = 0; i < datas.totalPages; i++) {
-        list.push(
-          <button
-            onClick={() => {
-              setPageNo(`${i}`);
-              loadPageDatas(tab, `${i}`);
-            }}
-            className={pageNo == `${i}` ? `${style.active}` : undefined}
-          >
-            {i + 1}
-          </button>
-        );
-      }
-      list.push(
-        <button
-          onClick={() => {
-            setPageNo(
-              `${
-                datas.currentPage == datas.totalPages - 1
-                  ? datas.totalPages - 1
-                  : datas.currentPage + 1
-              }`
-            );
-            loadPageDatas(
-              tab,
-              `${
-                datas.currentPage == datas.totalPages - 1
-                  ? datas.totalPages - 1
-                  : datas.currentPage + 1
-              }`
-            );
-          }}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            viewBox="7 2 16 16"
-          >
-            <path
-              fill="none"
-              stroke="#489788"
-              stroke-width="2"
-              d="m9 6l6 6l-6 6"
-            />
-          </svg>
-        </button>
-      );
-    }
-    return <div>{list}</div>;
-  }
 
   let sumDoc = 0,
     sumTotalDuty = 0,
@@ -252,7 +278,6 @@ export default function InvoicePayment() {
             <div className={`${style.line2}`}></div>
           </button>
         </div>
-
         <button
           className={`${style.SearchButton}`}
           onClick={(e) =>
@@ -294,13 +319,12 @@ export default function InvoicePayment() {
             <div className={`${style.filter} ${style.spaceTitle2}`}>
               <button
                 className={
-                  tab === "/invoice/all"
+                  tab === "all"
                     ? `${style.filterButtonActive}`
                     : `${style.filterButton}`
                 }
                 onClick={() => {
-                  setTab("/invoice/all");
-                  setPageNo("0");
+                  setTab("all");
                   loadFilterDatas("/invoice/all");
                 }}
               >
@@ -308,13 +332,12 @@ export default function InvoicePayment() {
               </button>
               <button
                 className={
-                  tab === "/invoice/approved"
+                  tab === "approved"
                     ? `${style.filterButtonActive}`
                     : `${style.filterButton}`
                 }
                 onClick={() => {
-                  setTab("/invoice/approved");
-                  setPageNo("0");
+                  setTab("approved");
                   loadFilterDatas("/invoice/approved");
                 }}
               >
@@ -328,17 +351,16 @@ export default function InvoicePayment() {
 
               <button
                 className={
-                  tab === "/invoice/pending"
+                  tab === "pending"
                     ? `${style.filterButtonActive}`
                     : `${style.filterButton}`
                 }
                 onClick={() => {
-                  setTab("/invoice/pending");
-                  setPageNo("0");
+                  setTab("pending");
                   loadFilterDatas("/invoice/pending");
                 }}
               >
-                <p className={`${style.row}`}>
+                <p className={`${style.row} `}>
                   Pending
                   <p className={`${style.yellow}`}>
                     {datas.sumIVStatus.pending}
@@ -351,7 +373,7 @@ export default function InvoicePayment() {
                 <div className={`${style.Table} ${style.top}`}>
                   <table className={`${style.transactionTable}`}>
                     <thead>
-                      <tr>
+                      <tr className={`${style.tableTitle}`}>
                         <th>No.</th>
                         <th>Lot Name</th>
                         <th>Batch Date</th>
@@ -374,7 +396,13 @@ export default function InvoicePayment() {
                       sumTotalDuty += lot.totalDuty;
                       sumTotalDubDutyAmount += lot.totalDubDutyAmount;
                       sumTotalPayment += lot.totalPayment;
-
+                      const PaymentStatus = lot.paymentStatus;
+                      let display;
+                      if (PaymentStatus == "Pending") {
+                        display = <p className={style.Pending}>Pending</p>;
+                      } else if (PaymentStatus == "Approved") {
+                        display = <p className={style.Approved}>Approve</p>;
+                      }
                       return (
                         <tbody>
                           <tr>
@@ -388,49 +416,192 @@ export default function InvoicePayment() {
                             <td>{lot.totalPayment}</td>
                             <td>{lot.ref1}</td>
                             <td>{lot.ref2}</td>
+                            <td>{display}</td>
                             <td>
-                              <p className={lot.paymentStatus}>
-                                {lot.paymentStatus}
-                              </p>
-                            </td>
-                            <td>
-                              <PopupButt />
-                            </td>
-                            <td>
-                              <PopupButt />
-                            </td>
-                            <td className="action">
-                              {/* <Routes>
-                        <Route path={`/${lot.name}`} element={<DetailCollection />} />
-                      </Routes> */}
-                              <NavLink
-                                to={`/${lot.name}?page=0`}
-                                end
-                                state={{ lot: lot }}
-                              >
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  width="21"
-                                  height="21"
-                                  viewBox="0 0 14 14"
+                              <div className="QrButton">
+                                <div
+                                  className="iconSize"
+                                  onClick={(e) => toggleModal(lot.name, "qr")}
                                 >
-                                  <g
-                                    fill="none"
-                                    stroke="#489788"
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="20"
+                                    height="20"
+                                    viewBox="0 0 24 24"
                                   >
-                                    <path d="M12 7.5v-2a1 1 0 0 0-1-1H1.5a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1H11a1 1 0 0 0 1-1V10M3.84 2L9.51.52a.49.49 0 0 1 .61.36L10.4 2" />
-                                    <rect
-                                      width="3.5"
-                                      height="2.5"
-                                      x="10"
-                                      y="7.5"
-                                      rx=".5"
+                                    <path
+                                      fill="#489788"
+                                      d="M2 1h8a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zm1 2v6h6V3H3z"
                                     />
-                                  </g>
-                                </svg>
-                              </NavLink>
+                                    <path
+                                      fill="#489788"
+                                      fill-rule="evenodd"
+                                      d="M5 5h2v2H5z"
+                                    />
+                                    <path
+                                      fill="#489788"
+                                      d="M14 1h8a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1h-8a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zm1 2v6h6V3h-6z"
+                                    />
+                                    <path
+                                      fill="#489788"
+                                      fill-rule="evenodd"
+                                      d="M17 5h2v2h-2z"
+                                    />
+                                    <path
+                                      fill="#489788"
+                                      d="M2 13h8a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1v-8a1 1 0 0 1 1-1zm1 2v6h6v-6H3z"
+                                    />
+                                    <path
+                                      fill="#489788"
+                                      fill-rule="evenodd"
+                                      d="M5 17h2v2H5z"
+                                    />
+                                    <path
+                                      fill="#489788"
+                                      d="M23 19h-4v4h-5a1 1 0 0 1-1-1v-8v5h2v2h2v-6h-2v-2h-1h3v2h2v2h2v-4h1a1 1 0 0 1 1 1v5zm0 2v1a1 1 0 0 1-1 1h-1v-2h2z"
+                                    />
+                                  </svg>
+                                </div>
+
+                                {isOpen && (
+                                  <div className="bgFade">
+                                    <div className="a">
+                                      <div className="titleBlock">
+                                        <p className="popupTitle">QR CODE</p>
+                                        <div
+                                          onClick={(e) => setIsOpen(!isOpen)}
+                                          className="exit"
+                                        >
+                                          X
+                                        </div>
+                                      </div>
+                                      <div>
+                                        <img
+                                          src={`data:;base64,${imageData}`}
+                                          className="imgPopup"
+                                        />
+                                      </div>
+
+                                      <button
+                                        onClick={(e) => onApprove(e, lot.name)}
+                                        className="doneButt"
+                                      >
+                                        DONE
+                                      </button>
+                                    </div>
+                                  </div>
+                                )}
+                              </div>
+                            </td>
+                            <td>
+                              <div className="SlipButton">
+                                <div
+                                  className="iconSize"
+                                  onClick={(e) => toggleModal(lot.name, "slip")}
+                                >
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="25"
+                                    height="25"
+                                    viewBox="0 0 24 24"
+                                  >
+                                    <g
+                                      fill="none"
+                                      stroke="#489788"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      stroke-width="1.5"
+                                    >
+                                      <path d="M14 3v4a1 1 0 0 0 1 1h4" />
+                                      <path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2zM9 7h1m-1 6h6m-2 4h2" />
+                                    </g>
+                                  </svg>
+                                </div>
+
+                                {isOpen && (
+                                  <div className="bgFade">
+                                    <div className="a">
+                                      <div className="titleBlock">
+                                        <p className="popupTitle">QR CODE</p>
+                                        <div
+                                          onClick={(e) => setIsOpen(!isOpen)}
+                                          className="exit"
+                                        >
+                                          X
+                                        </div>
+                                      </div>
+                                      <div>
+                                        <img
+                                          src={`data:;base64,${imageData}`}
+                                          className="imgPopup"
+                                        />
+                                      </div>
+
+                                      <button
+                                        onClick={(e) => onApprove(e, lot.name)}
+                                        className="doneButt"
+                                      >
+                                        DONE
+                                      </button>
+                                    </div>
+                                  </div>
+                                )}
+                              </div>
+                            </td>
+                            <td>
+                              <div className="EPaymentButton">
+                                <div
+                                  className="iconSize"
+                                  onClick={(e) => toggleModal(lot.name, "ePay")}
+                                >
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="25"
+                                    height="25"
+                                    viewBox="0 0 24 24"
+                                  >
+                                    <g
+                                      fill="none"
+                                      stroke="#489788"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      stroke-width="1.5"
+                                    >
+                                      <path d="M14 3v4a1 1 0 0 0 1 1h4" />
+                                      <path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2zM9 7h1m-1 6h6m-2 4h2" />
+                                    </g>
+                                  </svg>
+                                </div>
+
+                                {isOpen && (
+                                  <div className="bgFade">
+                                    <div className="a">
+                                      <div className="titleBlock">
+                                        <p className="popupTitle">QR CODE</p>
+                                        <div
+                                          onClick={(e) => setIsOpen(!isOpen)}
+                                          className="exit"
+                                        >
+                                          X
+                                        </div>
+                                      </div>
+                                      <div>
+                                        <img
+                                          src={`data:;base64,${imageData}`}
+                                          className="imgPopup"
+                                        />
+                                      </div>
+
+                                      <button
+                                        onClick={(e) => onApprove(e, lot.name)}
+                                        className="doneButt"
+                                      >
+                                        DONE
+                                      </button>
+                                    </div>
+                                  </div>
+                                )}
+                              </div>
                             </td>
                           </tr>
                         </tbody>
@@ -457,17 +628,6 @@ export default function InvoicePayment() {
                       </tr>
                     </tfoot>
                   </table>
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    alignItems: "center",
-                  }}
-                >
-                  <div className={`${style.pagination} ${style.end}`}>
-                    {renderPageNumber()}
-                  </div>
                 </div>
               </div>
             ) : undefined}

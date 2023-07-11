@@ -54,10 +54,10 @@ interface contractModel {
 
 interface dataModel {
   totalItems: number;
-    totalPages: number;
-    currentPage: number;
-    content: customerModel[];
-    lot: lotModel;
+  totalPages: number;
+  currentPage: number;
+  content: customerModel[];
+  lot: lotModel;
 }
 
 export default function DetailCollection() {
@@ -74,8 +74,8 @@ export default function DetailCollection() {
       approvedBy: "",
       totalDuty: 0,
       totalDubDutyAmount: 0,
-      totalPayment: 0
-    }
+      totalPayment: 0,
+    },
   });
 
   const [pageNo, setPageNo] = useState("0");
@@ -85,13 +85,19 @@ export default function DetailCollection() {
   console.log("path = " + path);
   console.log("search path = " + searchPath);
   console.log(useLocation());
-  console.log("lotname : " + path.split('/')[path.split('/').length - 1]);
+  console.log("lotname : " + path.split("/")[path.split("/").length - 1]);
 
   const navigate = useNavigate();
 
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleModal = () => {
+    setIsOpen(!isOpen);
+  };
+
   const loadDatas = async () => {
     const dataRes = await axios.get(
-      `http://localhost:8080/api/${path.split('/')[path.split('/').length - 1]}`
+      `http://localhost:8080/api/${path.split("/")[path.split("/").length - 1]}`
     );
     setDatas(dataRes.data);
     console.log("loaddata = " + dataRes.data);
@@ -99,11 +105,13 @@ export default function DetailCollection() {
 
   const loadPageDatas = async (page: string) => {
     const dataRes = await axios.get(
-      `http://localhost:8080/api/${path.split('/')[path.split('/').length - 1]}?page=${page}`
+      `http://localhost:8080/api/${
+        path.split("/")[path.split("/").length - 1]
+      }?page=${page}`
     );
     setDatas(dataRes.data);
     console.log("currentPage = " + dataRes.data.currentPage);
-  }
+  };
 
   const onApprove = async (e: React.MouseEvent, status: object) => {
     e.preventDefault();
@@ -126,7 +134,9 @@ export default function DetailCollection() {
         <button
           onClick={() => {
             setPageNo(`${datas.currentPage == 0 ? 0 : datas.currentPage - 1}`);
-            loadPageDatas(`${datas.currentPage == 0 ? 0 : datas.currentPage - 1}`);
+            loadPageDatas(
+              `${datas.currentPage == 0 ? 0 : datas.currentPage - 1}`
+            );
           }}
         >
           <svg
@@ -162,8 +172,20 @@ export default function DetailCollection() {
       list.push(
         <button
           onClick={() => {
-            setPageNo(`${datas.currentPage == datas.totalPages - 1 ? datas.totalPages - 1 : datas.currentPage + 1}`);
-            loadPageDatas(`${datas.currentPage == datas.totalPages - 1 ? datas.totalPages - 1 : datas.currentPage + 1}`);
+            setPageNo(
+              `${
+                datas.currentPage == datas.totalPages - 1
+                  ? datas.totalPages - 1
+                  : datas.currentPage + 1
+              }`
+            );
+            loadPageDatas(
+              `${
+                datas.currentPage == datas.totalPages - 1
+                  ? datas.totalPages - 1
+                  : datas.currentPage + 1
+              }`
+            );
           }}
         >
           <svg
@@ -255,7 +277,69 @@ export default function DetailCollection() {
               <table>
                 <thead>
                   <tr>
-                    <th>No.</th>
+                    <th>
+                      <div>
+                        <div className="iconSize" onClick={toggleModal}>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="20"
+                            height="20"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              fill="#489788"
+                              d="M2 1h8a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zm1 2v6h6V3H3z"
+                            />
+                            <path
+                              fill="#489788"
+                              fill-rule="evenodd"
+                              d="M5 5h2v2H5z"
+                            />
+                            <path
+                              fill="#489788"
+                              d="M14 1h8a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1h-8a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zm1 2v6h6V3h-6z"
+                            />
+                            <path
+                              fill="#489788"
+                              fill-rule="evenodd"
+                              d="M17 5h2v2h-2z"
+                            />
+                            <path
+                              fill="#489788"
+                              d="M2 13h8a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1v-8a1 1 0 0 1 1-1zm1 2v6h6v-6H3z"
+                            />
+                            <path
+                              fill="#489788"
+                              fill-rule="evenodd"
+                              d="M5 17h2v2H5z"
+                            />
+                            <path
+                              fill="#489788"
+                              d="M23 19h-4v4h-5a1 1 0 0 1-1-1v-8v5h2v2h2v-6h-2v-2h-1h3v2h2v2h2v-4h1a1 1 0 0 1 1 1v5zm0 2v1a1 1 0 0 1-1 1h-1v-2h2z"
+                            />
+                          </svg>
+                        </div>
+
+                        {isOpen && (
+                          <div className="bgFade">
+                            <div className="a">
+                              <div className="titleBlock">
+                                <p className="popupTitle">QR CODE</p>
+                                <div onClick={toggleModal} className="exit">
+                                  X
+                                </div>
+                              </div>
+                              {/* <img src={pics} /> */}
+                              {/* <input type="file" /> */}
+
+                              <div className="doneButt" onClick={toggleModal}>
+                                DONE
+                              </div>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </th>
                     <th>InstInfo ID</th>
                     <th>TaxPayer ID</th>
                     <th>Name</th>
@@ -311,7 +395,12 @@ export default function DetailCollection() {
               </div>
               <div className={`${style.ButtonAction}`}>
                 <button
-                  onClick={(e) => onApprove(e, { approvalStatus: "Approved", approvalBy: localStorage.user_name })}
+                  onClick={(e) =>
+                    onApprove(e, {
+                      approvalStatus: "Approved",
+                      approvalBy: localStorage.user_name,
+                    })
+                  }
                   className={`${style.apbutt} ${style.tab2}`}
                 >
                   Approve
