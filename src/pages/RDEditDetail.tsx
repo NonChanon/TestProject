@@ -613,7 +613,7 @@ export default function EditDetail() {
                 <div
                   className={`${style.inputDiv}`}
                   style={
-                    datas.village === null || datas.village === ""
+                    datas.address.village === null || datas.address.village === ""
                       ? { borderColor: "#CA0700" }
                       : { borderColor: "#CECECE" }
                   }
