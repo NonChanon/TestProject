@@ -48,8 +48,24 @@ export default function RDTransaction() {
   const [lotName, setLotName] = useState({
     lotNameInput: "",
   });
-  
- 
+  // const [imageData, setImageData] = useState("");
+
+  // const getImage = () => {
+  //   axios.get("http://localhost:8080/api/image/img1.png", {
+  //     responseType: "arraybuffer"
+  //   }).then((response) => {
+  //     const base64 = btoa(
+  //       new Uint8Array(response.data).reduce(
+  //         (data, byte) => data + String.fromCharCode(byte),
+  //         ''
+  //       )
+  //     )
+  //     setImageData(base64);
+  //     console.log(base64);
+  //     console.log(response.data);
+  //   });
+  // };
+  //load data by api to backend
   const loadDatas = async () => {
     const dataRes = await axios.get(`http://localhost:8080/api/rd/all`);
     setDatas(dataRes.data);
@@ -289,10 +305,6 @@ export default function RDTransaction() {
             <div className={`${style.filter} ${style.spaceTitle2}`}>
               <button
                 className={
-<<<<<<< HEAD
-=======
-                  tab === "all"
->>>>>>> f4d080002b7f81828c85286d439da4e6acb2d989
                   tab === "/rd/all"
                     ? `${style.filterButtonActive}`
                     : `${style.filterButton}`
@@ -307,10 +319,6 @@ export default function RDTransaction() {
               </button>
               <button
                 className={
-<<<<<<< HEAD
-=======
-                  tab === "success"
->>>>>>> f4d080002b7f81828c85286d439da4e6acb2d989
                   tab === "/rd/success"
                     ? `${style.filterButtonActive}`
                     : `${style.filterButton}`
@@ -328,10 +336,6 @@ export default function RDTransaction() {
               </button>
               <button
                 className={
-<<<<<<< HEAD
-=======
-                  tab === "fail"
->>>>>>> f4d080002b7f81828c85286d439da4e6acb2d989
                   tab === "/rd/fail"
                     ? `${style.filterButtonActive}`
                     : `${style.filterButton}`
@@ -429,10 +433,6 @@ export default function RDTransaction() {
                       <td className={style.ltb}></td>
                     </tr>
                   </table>
-<<<<<<< HEAD
-=======
-
->>>>>>> f4d080002b7f81828c85286d439da4e6acb2d989
                 </div>
                 <div
                   style={{

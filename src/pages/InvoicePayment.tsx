@@ -68,16 +68,6 @@ interface dataModel {
   currentPage: number;
   content: customerModel[];
   lot: lotModel;
-<<<<<<< HEAD
-=======
-  content: lotModel[];
-  sumIVStatus: IVStatusModel;
-}
-
-interface IVStatusModel {
-  pending: number;
-  approved: number;
->>>>>>> f4d080002b7f81828c85286d439da4e6acb2d989
 }
 
 export default function InvoicePayment() {
@@ -641,6 +631,8 @@ export default function InvoicePayment() {
                 </div>
               </div>
             ) : undefined}
+
+            {/* <table>{dataInvoiceTable}</table> */}
           </div>
         </div>
       </div>
