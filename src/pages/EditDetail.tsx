@@ -3,7 +3,7 @@ import style from "./EditDetail.module.css";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import DatePicker from "react-datepicker";
-import Alert from '@mui/material/Alert' 
+import Alert from '@mui/material/Alert'
 
 import moment from "moment";
 import { validContractNumber, validId, validNumberAndLetterAndSpace, validNumber, validPostalCode, validLetterAndSpace } from "../components/RegEx";
@@ -111,7 +111,7 @@ export default function EditDetail() {
       states.customer.totalDuty + states.customer.totalDubDutyAmount,
   });
   const [isOpen, setIsOpen] = useState(false);
-  let initErr:errModel = {
+  let initErr: errModel = {
     contractNumber: true,
     applicantId: true,
     branchNumber: true,
@@ -149,15 +149,15 @@ export default function EditDetail() {
     validNumberAndLetterAndSpace.test(states.customer.address.district) ? initErr.district = false : initErr.district = true;
     validLetterAndSpace.test(states.customer.address.province) ? initErr.province = false : initErr.province = true;
     validPostalCode.test(states.customer.address.postalCode) ? initErr.postalCode = false : initErr.postalCode = true;
-    console.log(states.customer.address.street , validNumberAndLetterAndSpace.test(states.customer.address.street));
+    console.log(states.customer.address.street, validNumberAndLetterAndSpace.test(states.customer.address.street));
   }
-  
+
   const warningInput = () => {
     let invalidInput: string[] = [];
     console.log(initErr);
     validate();
     Object.entries(initErr).map((input) => {
-      if (input[1] === true){
+      if (input[1] === true) {
         invalidInput.push(input[0]);
       }
     });
@@ -220,7 +220,7 @@ export default function EditDetail() {
       }
     });
     console.log(message);
-    return <Alert style={{'marginBottom': '10px'}} severity="warning">{message.map((detail) => {
+    return <Alert style={{ 'marginBottom': '10px' }} severity="warning">{message.map((detail) => {
       return (<p>{detail}</p>);
     })}</Alert>;
   }
@@ -307,7 +307,7 @@ export default function EditDetail() {
                     onChange={(e) => {
                       updateContract(e)
                       validContractNumber.test(e.target.value) ? initErr.contractNumber = false : initErr.contractNumber = true;
-                      if (Object.values(initErr).every(element => element === false)){
+                      if (Object.values(initErr).every(element => element === false)) {
                         setIsOpen(false);
                       }
                     }}
@@ -437,7 +437,7 @@ export default function EditDetail() {
                     onChange={(e) => {
                       updateContract(e)
                       validId.test(e.target.value) ? initErr.applicantId = false : initErr.applicantId = true;
-                      if (Object.values(initErr).every(element => element === false)){
+                      if (Object.values(initErr).every(element => element === false)) {
                         setIsOpen(false);
                       }
                     }}
@@ -455,7 +455,7 @@ export default function EditDetail() {
                     onChange={(e) => {
                       updateContract(e)
                       validNumber.test(e.target.value) ? initErr.branchNumber = false : initErr.branchNumber = true;
-                      if (Object.values(initErr).every(element => element === false)){
+                      if (Object.values(initErr).every(element => element === false)) {
                         setIsOpen(false);
                       }
                     }}
@@ -464,26 +464,61 @@ export default function EditDetail() {
               </div>
               <div className={`${style.item}`}>
                 <p className={`${style.txtblk}`}>Branch Type</p>
-                <div className={`${style.inputDiv}`}>
-                  <input
+                <div
+                  className={`${style.inputDiv}`}
+                  style={{
+                    height: "26px",
+                    display: "flex",
+                    position: "relative",
+                  }}
+                >
+                  <select
                     name="branchType"
-                    type="text"
-                    className={`${style.txt}`}
-                    defaultValue={datas.contract.branchType}
+                    id="customerContractBranchType"
+                    style={{
+                      height: "100%",
+                      width: "90%",
+                      border: "none",
+                      display: "flex",
+                      position: "absolute",
+                      left: "8px",
+                    }}
                     onChange={(e) => updateContract(e)}
-                  />
+                  >
+                    {datas.contract.branchType === "" || datas.contract.branchType === null ? <option value="" selected disabled hidden>Choose here</option> : undefined}
+                    {datas.contract.branchType === "Main" ? <option selected value="Main">Main</option> : <option value="Main">Main</option>}
+                    {datas.contract.branchType === "Sub" ? <option selected value="Sub">Sub</option> : <option value="Sub">Sub</option>}
+                    {datas.contract.branchType === "Cooperative" ? <option selected value="Cooperative">Cooperative</option> : <option value="Cooperative">Cooperative</option>}
+                  </select>
                 </div>
               </div>
               <div className={`${style.item}`}>
                 <p className={`${style.txtblk}`}>Contract related Status</p>
-                <div className={`${style.inputDiv}`}>
-                  <input
+                <div
+                  className={`${style.inputDiv}`}
+                  style={{
+                    height: "26px",
+                    display: "flex",
+                    position: "relative",
+                  }}
+                >
+                  <select
                     name="relatedStatus"
-                    type="text"
-                    className={`${style.txt}`}
-                    defaultValue={datas.contract.relatedStatus}
+                    id="customerContractRelatedStatus"
+                    style={{
+                      height: "100%",
+                      width: "90%",
+                      border: "none",
+                      display: "flex",
+                      position: "absolute",
+                      left: "8px",
+                    }}
                     onChange={(e) => updateContract(e)}
-                  />
+                  >
+                    {datas.contract.relatedStatus === "" || datas.contract.relatedStatus === null ? <option value="" selected disabled hidden>Choose here</option> : undefined}
+                    {datas.contract.relatedStatus === "Lender" ? <option selected value="Lender">Lender</option> : <option value="Lender">Lender</option>}
+                    {datas.contract.relatedStatus === "Borrower" ? <option selected value="Borrower">Borrower</option> : <option value="Borrower">Borrower</option>}
+                  </select>
                 </div>
               </div>
             </div>
@@ -551,14 +586,14 @@ export default function EditDetail() {
                     onChange={(e) => {
                       updateCustomer(e);
                       validNumber.test(e.target.value) ? initErr.totalDuty = false : initErr.totalDuty = true;
-                      if (Object.values(initErr).every(element => element === false)){
+                      if (Object.values(initErr).every(element => element === false)) {
                         setIsOpen(false);
                       }
                     }}
                     onBlur={() => {
                       console.log(
                         states.customer.totalDuty +
-                          states.customer.totalDubDutyAmount
+                        states.customer.totalDubDutyAmount
                       );
                       setTotalPayment({
                         ...totalPayment,
@@ -581,7 +616,7 @@ export default function EditDetail() {
                     onChange={(e) => {
                       updateCustomer(e);
                       validNumber.test(e.target.value) ? initErr.totalDubDutyAmount = false : initErr.totalDubDutyAmount = true;
-                      if (Object.values(initErr).every(element => element === false)){
+                      if (Object.values(initErr).every(element => element === false)) {
                         setIsOpen(false);
                       }
                     }}
@@ -633,9 +668,9 @@ export default function EditDetail() {
                     }}
                     onChange={(e) => updateCustomer(e)}
                   >
-                    <option value="Mr.">Mr.</option>
-                    <option value="Ms.">Ms.</option>
-                    <option value="Mrs.">Mrs.</option>
+                    {datas.title === "Mr." ? <option selected value="Mr.">Mr.</option> : <option value="Mr.">Mr.</option>}
+                    {datas.title === "Ms." ? <option selected value="Ms.">Ms.</option> : <option value="Ms.">Ms.</option>}
+                    {datas.title === "Mrs." ? <option selected value="Mrs.">Mrs.</option> : <option value="Mrs.">Mrs.</option>}
                   </select>
                 </div>
               </div>
@@ -650,7 +685,7 @@ export default function EditDetail() {
                     onChange={(e) => {
                       updateCustomer(e);
                       validLetterAndSpace.test(e.target.value) ? initErr.firstname = false : initErr.firstname = true;
-                      if (Object.values(initErr).every(element => element === false)){
+                      if (Object.values(initErr).every(element => element === false)) {
                         setIsOpen(false);
                       }
                     }}
@@ -668,7 +703,7 @@ export default function EditDetail() {
                     onChange={(e) => {
                       updateCustomer(e);
                       validLetterAndSpace.test(e.target.value) ? initErr.lastname = false : initErr.lastname = true;
-                      if (Object.values(initErr).every(element => element === false)){
+                      if (Object.values(initErr).every(element => element === false)) {
                         setIsOpen(false);
                       }
                     }}
@@ -686,7 +721,7 @@ export default function EditDetail() {
                     onChange={(e) => {
                       updateAddress(e)
                       validNumberAndLetterAndSpace.test(e.target.value) ? initErr.village = false : initErr.village = true;
-                      if (Object.values(initErr).every(element => element === false)){
+                      if (Object.values(initErr).every(element => element === false)) {
                         setIsOpen(false);
                       }
                     }}
@@ -705,7 +740,7 @@ export default function EditDetail() {
                       onChange={(e) => {
                         updateAddress(e)
                         validNumber.test(e.target.value) ? initErr.addressNo = false : initErr.addressNo = true;
-                        if (Object.values(initErr).every(element => element === false)){
+                        if (Object.values(initErr).every(element => element === false)) {
                           setIsOpen(false);
                         }
                       }}
@@ -723,7 +758,7 @@ export default function EditDetail() {
                       onChange={(e) => {
                         updateAddress(e);
                         validNumber.test(e.target.value) ? initErr.floor = false : initErr.floor = true;
-                        if (Object.values(initErr).every(element => element === false)){
+                        if (Object.values(initErr).every(element => element === false)) {
                           setIsOpen(false);
                         }
                       }}
@@ -742,7 +777,7 @@ export default function EditDetail() {
                     onChange={(e) => {
                       updateAddress(e);
                       validNumber.test(e.target.value) ? initErr.villageNo = false : initErr.villageNo = true;
-                      if (Object.values(initErr).every(element => element === false)){
+                      if (Object.values(initErr).every(element => element === false)) {
                         setIsOpen(false);
                       }
                     }}
@@ -760,7 +795,7 @@ export default function EditDetail() {
                     onChange={(e) => {
                       updateAddress(e);
                       validNumberAndLetterAndSpace.test(e.target.value) ? initErr.alley = false : initErr.alley = true;
-                      if (Object.values(initErr).every(element => element === false)){
+                      if (Object.values(initErr).every(element => element === false)) {
                         setIsOpen(false);
                       }
                     }}
@@ -778,7 +813,7 @@ export default function EditDetail() {
                     onChange={(e) => {
                       updateAddress(e)
                       validNumberAndLetterAndSpace.test(e.target.value) ? initErr.street = false : initErr.street = true
-                      if (Object.values(initErr).every(element => element === false)){
+                      if (Object.values(initErr).every(element => element === false)) {
                         setIsOpen(false);
                       }
                     }}
@@ -796,7 +831,7 @@ export default function EditDetail() {
                     onChange={(e) => {
                       updateAddress(e);
                       validNumberAndLetterAndSpace.test(e.target.value) ? initErr.subDistrict = false : initErr.subDistrict = true;
-                      if (Object.values(initErr).every(element => element === false)){
+                      if (Object.values(initErr).every(element => element === false)) {
                         setIsOpen(false);
                       }
                     }}
@@ -814,7 +849,7 @@ export default function EditDetail() {
                     onChange={(e) => {
                       updateAddress(e);
                       validNumberAndLetterAndSpace.test(e.target.value) ? initErr.district = false : initErr.district = true;
-                      if (Object.values(initErr).every(element => element === false)){
+                      if (Object.values(initErr).every(element => element === false)) {
                         setIsOpen(false);
                       }
                     }}
@@ -832,7 +867,7 @@ export default function EditDetail() {
                     onChange={(e) => {
                       updateAddress(e);
                       validLetterAndSpace.test(e.target.value) ? initErr.province = false : initErr.province = true;
-                      if (Object.values(initErr).every(element => element === false)){
+                      if (Object.values(initErr).every(element => element === false)) {
                         setIsOpen(false);
                       }
                     }}
@@ -850,7 +885,7 @@ export default function EditDetail() {
                     onChange={(e) => {
                       updateAddress(e);
                       validPostalCode.test(e.target.value) ? initErr.postalCode = false : initErr.postalCode = true;
-                      if (Object.values(initErr).every(element => element === false)){
+                      if (Object.values(initErr).every(element => element === false)) {
                         setIsOpen(false);
                       }
                       console.log(initErr);
@@ -869,7 +904,7 @@ export default function EditDetail() {
             validate();
             console.log(initErr);
             console.log(Object.values(initErr), Object.values(initErr).includes(true));
-            if (Object.values(initErr).includes(true)){
+            if (Object.values(initErr).includes(true)) {
               setIsOpen(true);
             }
             else {

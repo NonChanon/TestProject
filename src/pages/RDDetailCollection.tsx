@@ -110,7 +110,7 @@ export default function DetailCollection() {
   const onApprove = async (e: React.MouseEvent, status: object) => {
     e.preventDefault();
     await axios.put(`http://localhost:8080/api/${datas.lot.name}`, status);
-    navigate("/batchdataresult");
+    navigate("/rd");
     console.log("change status!");
   };
 
