@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import style from "./AddUser.module.css";
 import "../components/PopupButt.css";
 
@@ -9,17 +9,36 @@ export default function AddUser() {
     lastname: "",
     email: "",
     password: "",
-    role: "",
+    role: {
+      name: "",
+    },
   });
 
   const { firstname, lastname, email, password } = user;
 
-  const handleChange = (e: any) => {
+  const handleChange = (e: { target: { name: any; value: any } }) => {
     setUser({ ...user, [e.target.name]: e.target.value });
     console.log(user);
   };
 
-  const handleSubmit = async (event: any) => {
+  const [roles, setRoles] = useState([]);
+
+  const loadRoles = async () => {
+    const dataRes = await axios.post("http://localhost:8080/api/roles");
+    setRoles(dataRes.data);
+  };
+  const handleRole = (e: { target: { name: any; value: any } }) => {
+    setUser({
+      ...user,
+      role: {
+        ...user.role,
+        [e.target.name]: e.target.value,
+      },
+    });
+  };
+
+  const handleSubmit = async (e: FormEvent) => {
+    // e.preventDefault();
     await axios.post("http://localhost:8080/api/v1/auth/register", user);
     setIsOpen(!isOpen);
   };
@@ -28,6 +47,7 @@ export default function AddUser() {
 
   const toggleModal = () => {
     setIsOpen(!isOpen);
+    loadRoles();
   };
 
   return (
@@ -49,7 +69,12 @@ export default function AddUser() {
         </button>
 
         {isOpen && (
-          <form className="registerPopup" onSubmit={handleSubmit}>
+          <form
+            className="registerPopup"
+            onSubmit={(e) => {
+              handleSubmit(e);
+            }}
+          >
             <div className="bgFade">
               <div className="a">
                 <div className="titleBlock">
@@ -64,14 +89,15 @@ export default function AddUser() {
                     <label className={style.formLabel}>Role</label>
                     <select
                       className={style.tab}
-                      name="role"
-                      onChange={handleChange}
+                      name="name"
+                      onChange={handleRole}
                     >
                       <option value="" disabled selected hidden>
                         Select Group User
                       </option>
-                      <option value="USER">USER</option>
-                      <option value="ADMIN">ADMIN</option>
+                      {roles.map((data, i) => {
+                        return <option value={data.name}>{data.name}</option>;
+                      })}
                     </select>
                   </div>
                 </form>

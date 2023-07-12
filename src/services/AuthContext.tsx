@@ -39,8 +39,12 @@ export const AuthProvider = ({ children }: any) => {
         form
       );
       localStorage.setItem("token", res.data.access_token);
-      localStorage.setItem("role", res.data.role);
-      localStorage.setItem("user_name", res.data.firstname + " " + res.data.lastname);
+      localStorage.setItem("role", res.data.role.name);
+      console.log(res.data.role.name);
+      localStorage.setItem(
+        "user_name",
+        res.data.firstname + " " + res.data.lastname
+      );
       axios.defaults.headers.common.Authorization = `Bearer ${localStorage.token}`;
       dispatch({ type: "LOGIN" });
       console.log(localStorage.role);
