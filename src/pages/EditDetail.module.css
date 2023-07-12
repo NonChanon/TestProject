@@ -107,6 +107,14 @@
   align-items: center;
 }
 
+.rdStatus {
+  width: 100%;
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 2px 0;
+}
+
 .con {
   background: #ffffff;
   padding: auto;

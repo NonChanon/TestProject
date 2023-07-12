@@ -551,14 +551,7 @@ export default function EditDetail() {
                 <select
                   name="relatedStatus"
                   id="customerContractRelatedStatus"
-                  style={{
-                    height: "100%",
-                    width: "90%",
-                    border: "none",
-                    display: "flex",
-                    position: "absolute",
-                    left: "8px",
-                  }}
+                  className={style.rdStatus}
                   onChange={(e) => updateContract(e)}
                 >
                   {datas.contract.relatedStatus === "" ||

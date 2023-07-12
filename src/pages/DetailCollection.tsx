@@ -256,29 +256,25 @@ export default function DetailCollection() {
               <table>
                 <thead>
                   <tr>
-                  <th>No.</th>
-                    
-
-                        {isOpen && (
-                          <div className="bgFade">
-                            <div className="a">
-                              <div className="titleBlock">
-                                <p className="popupTitle">QR CODE</p>
-                                <div onClick={toggleModal} className="exit">
-                                  X
-                                </div>
-                              </div>
-                              {/* <img src={pics} /> */}
-                              {/* <input type="file" /> */}
-
-                              <div className="doneButt" onClick={toggleModal}>
-                                DONE
-                              </div>
+                    <th>No.</th>
+                    {isOpen && (
+                      <div className="bgFade">
+                        <div className="a">
+                          <div className="titleBlock">
+                            <p className="popupTitle">QR CODE</p>
+                            <div onClick={toggleModal} className="exit">
+                              X
                             </div>
                           </div>
-                        )}
+                          {/* <img src={pics} /> */}
+                          {/* <input type="file" /> */}
+
+                          <div className="doneButt" onClick={toggleModal}>
+                            DONE
+                          </div>
+                        </div>
                       </div>
-                    </th>
+                    )}
                     <th>InstInfo ID</th>
                     <th>TaxPayer ID</th>
                     <th>Name</th>
