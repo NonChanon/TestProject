@@ -6,7 +6,7 @@ import DatePicker from "react-datepicker";
 import Alert from '@mui/material/Alert' 
 
 import moment from "moment";
-import { validContractNumber, validId, validLetterAndSpace, validNumber, validPostalCode } from "../components/RegEx";
+import { validContractNumber, validId, validNumberAndLetterAndSpace, validNumber, validPostalCode, validLetterAndSpace } from "../components/RegEx";
 
 interface customerModel {
   title: string;
@@ -111,44 +111,26 @@ export default function EditDetail() {
       states.customer.totalDuty + states.customer.totalDubDutyAmount,
   });
   const [isOpen, setIsOpen] = useState(false);
-  const [err, setErr] = useState<errModel>({
-    contractNumber: false,
-    applicantId: false,
-    branchNumber: false,
-    totalDuty: false,
-    totalDubDutyAmount: false,
-    firstname: false,
-    lastname: false,
-    village: false,
-    addressNo: false,
-    floor: false,
-    villageNo: false,
-    alley: false,
-    street: false,
-    subDistrict: false,
-    district: false,
-    province: false,
-    postalCode: false,
-  });
   let initErr:errModel = {
-    contractNumber: false,
-    applicantId: false,
-    branchNumber: false,
-    totalDuty: false,
-    totalDubDutyAmount: false,
-    firstname: false,
-    lastname: false,
-    village: false,
-    addressNo: false,
-    floor: false,
-    villageNo: false,
-    alley: false,
-    street: false,
-    subDistrict: false,
-    district: false,
-    province: false,
-    postalCode: false,
+    contractNumber: true,
+    applicantId: true,
+    branchNumber: true,
+    totalDuty: true,
+    totalDubDutyAmount: true,
+    firstname: true,
+    lastname: true,
+    village: true,
+    addressNo: true,
+    floor: true,
+    villageNo: true,
+    alley: true,
+    street: true,
+    subDistrict: true,
+    district: true,
+    province: true,
+    postalCode: true,
   };
+
   const validate = () => {
     validContractNumber.test(states.customer.contract.number) ? initErr.contractNumber = false : initErr.contractNumber = true;
     validId.test(states.customer.contract.applicantId) ? initErr.applicantId = false : initErr.applicantId = true;
@@ -157,18 +139,92 @@ export default function EditDetail() {
     validNumber.test(states.customer.totalDubDutyAmount) ? initErr.totalDubDutyAmount = false : initErr.totalDubDutyAmount = true;
     validLetterAndSpace.test(states.customer.firstname) ? initErr.firstname = false : initErr.firstname = true;
     validLetterAndSpace.test(states.customer.lastname) ? initErr.lastname = false : initErr.lastname = true;
-    validLetterAndSpace.test(states.customer.address.village) ? initErr.village = false : initErr.village = true;
+    validNumberAndLetterAndSpace.test(states.customer.address.village) ? initErr.village = false : initErr.village = true;
     validNumber.test(states.customer.address.addressNo) ? initErr.addressNo = false : initErr.addressNo = true;
     validNumber.test(states.customer.address.floor) ? initErr.floor = false : initErr.floor = true;
     validNumber.test(states.customer.address.villageNo) ? initErr.villageNo = false : initErr.villageNo = true;
-    validLetterAndSpace.test(states.customer.address.alley) ? initErr.alley = false : initErr.alley = true;
-    validLetterAndSpace.test(states.customer.address.street) ? initErr.street = false : initErr.street = true;
-    validLetterAndSpace.test(states.customer.address.subDistrict) ? initErr.subDistrict = false : initErr.subDistrict = true;
-    validLetterAndSpace.test(states.customer.address.district) ? initErr.district = false : initErr.district = true;
+    validNumberAndLetterAndSpace.test(states.customer.address.alley) ? initErr.alley = false : initErr.alley = true;
+    validNumberAndLetterAndSpace.test(states.customer.address.street) ? initErr.street = false : initErr.street = true;
+    validNumberAndLetterAndSpace.test(states.customer.address.subDistrict) ? initErr.subDistrict = false : initErr.subDistrict = true;
+    validNumberAndLetterAndSpace.test(states.customer.address.district) ? initErr.district = false : initErr.district = true;
     validLetterAndSpace.test(states.customer.address.province) ? initErr.province = false : initErr.province = true;
     validPostalCode.test(states.customer.address.postalCode) ? initErr.postalCode = false : initErr.postalCode = true;
-    console.log(states.customer.address.street , validLetterAndSpace.test(states.customer.address.street));
+    console.log(states.customer.address.street , validNumberAndLetterAndSpace.test(states.customer.address.street));
   }
+  
+  const warningInput = () => {
+    let invalidInput: string[] = [];
+    console.log(initErr);
+    validate();
+    Object.entries(initErr).map((input) => {
+      if (input[1] === true){
+        invalidInput.push(input[0]);
+      }
+    });
+    let message: string[] = [];
+    invalidInput.forEach((key) => {
+      switch (key) {
+        case 'contractNumber':
+          message.push('Please fill contract number correctly ex. th12345');
+          break;
+        case 'applicantId':
+          message.push('Please fill Identification number correctly with 13 digits ex. 1234567890123');
+          break;
+        case 'branchNumber':
+          message.push('Please fill Branch number with number only');
+          break;
+        case 'totalDuty':
+          message.push('Please fill Duty Amount with number only');
+          break;
+        case 'totalDubDutyAmount':
+          message.push('Please fill Dub Duty Amount with number only');
+          break;
+        case 'firstname':
+          message.push('Please fill Firstname with letter only');
+          break;
+        case 'lastname':
+          message.push('Please fill Lastname with letter only');
+          break;
+        case 'village':
+          message.push('Please fill Village with letter only');
+          break;
+        case 'addressNo':
+          message.push('Please fill Address Number with number only');
+          break;
+        case 'floor':
+          message.push('Please fill Floor with number only');
+          break;
+        case 'villageNo':
+          message.push('Please fill Village Number with number only');
+          break;
+        case 'alley':
+          message.push('Please fill Alley with letter only');
+          break;
+        case 'street':
+          message.push('Please fill Street with letter only');
+          break;
+        case 'subDistrict':
+          message.push('Please fill Subdistrict with letter only');
+          break;
+        case 'district':
+          message.push('Please fill District with letter only');
+          break;
+        case 'province':
+          message.push('Please fill Province with letter only');
+          break;
+        case 'postalCode':
+          message.push('Please fill Postal Code correctly with 5 digits ex.12345');
+          break;
+        default:
+          break;
+      }
+    });
+    console.log(message);
+    return <Alert style={{'marginBottom': '10px'}} severity="warning">{message.map((detail) => {
+      return (<p>{detail}</p>);
+    })}</Alert>;
+  }
+
   const navigate = useNavigate();
   const path = useLocation().pathname;
 
@@ -184,7 +240,7 @@ export default function EditDetail() {
     console.log("edit effect trigger");
     loadDatas();
     validate();
-    setErr(initErr);
+    console.log(initErr);
   }, [useLocation().key]);
 
   console.log(datas);
@@ -234,7 +290,7 @@ export default function EditDetail() {
         <div className={`${style.ttline}`}></div>
         <div>Edit Detail</div>
       </div>
-      {isOpen && <Alert style={{'marginBottom': '10px'}} severity="warning">This is a warning alert — check it out!</Alert>}
+      {isOpen && warningInput()}
       <form className={`${style.content}`}>
         <div>
           <div className="Contract Information">
@@ -250,7 +306,10 @@ export default function EditDetail() {
                     defaultValue={datas.contract.number}
                     onChange={(e) => {
                       updateContract(e)
-                      validContractNumber.test(e.target.value) ? setErr({...err, ['contractNumber']: false}) : setErr({...err, ['contractNumber']: true});
+                      validContractNumber.test(e.target.value) ? initErr.contractNumber = false : initErr.contractNumber = true;
+                      if (Object.values(initErr).every(element => element === false)){
+                        setIsOpen(false);
+                      }
                     }}
                   />
                 </div>
@@ -377,7 +436,10 @@ export default function EditDetail() {
                     defaultValue={datas.contract.applicantId}
                     onChange={(e) => {
                       updateContract(e)
-                      validId.test(e.target.value) ? setErr({...err, ['applicantId']: false}) : setErr({...err, ['applicantId']: true});
+                      validId.test(e.target.value) ? initErr.applicantId = false : initErr.applicantId = true;
+                      if (Object.values(initErr).every(element => element === false)){
+                        setIsOpen(false);
+                      }
                     }}
                   />
                 </div>
@@ -392,7 +454,10 @@ export default function EditDetail() {
                     defaultValue={datas.contract.branchNumber}
                     onChange={(e) => {
                       updateContract(e)
-                      validNumber.test(e.target.value) ? setErr({...err, ['branchNumber']: false}) : setErr({...err, ['branchNumber']: true});
+                      validNumber.test(e.target.value) ? initErr.branchNumber = false : initErr.branchNumber = true;
+                      if (Object.values(initErr).every(element => element === false)){
+                        setIsOpen(false);
+                      }
                     }}
                   />
                 </div>
@@ -485,8 +550,10 @@ export default function EditDetail() {
                     defaultValue={datas.totalDuty}
                     onChange={(e) => {
                       updateCustomer(e);
-                      validNumber.test(e.target.value) ? setErr({...err, ['totalDuty']: false}) : setErr({...err, ['totalDuty']: true});
-                      console.log(states);
+                      validNumber.test(e.target.value) ? initErr.totalDuty = false : initErr.totalDuty = true;
+                      if (Object.values(initErr).every(element => element === false)){
+                        setIsOpen(false);
+                      }
                     }}
                     onBlur={() => {
                       console.log(
@@ -513,7 +580,10 @@ export default function EditDetail() {
                     defaultValue={states.customer.totalDubDutyAmount}
                     onChange={(e) => {
                       updateCustomer(e);
-                      validNumber.test(e.target.value) ? setErr({...err, ['totalDubDutyAmount']: false}) : setErr({...err, ['totalDubDutyAmount']: true});
+                      validNumber.test(e.target.value) ? initErr.totalDubDutyAmount = false : initErr.totalDubDutyAmount = true;
+                      if (Object.values(initErr).every(element => element === false)){
+                        setIsOpen(false);
+                      }
                     }}
                     onBlur={() => {
                       setTotalPayment({
@@ -579,7 +649,10 @@ export default function EditDetail() {
                     defaultValue={datas.firstname}
                     onChange={(e) => {
                       updateCustomer(e);
-                      validLetterAndSpace.test(e.target.value) ? setErr({...err, ['firstname']: false}) : setErr({...err, ['firstname']: true});
+                      validLetterAndSpace.test(e.target.value) ? initErr.firstname = false : initErr.firstname = true;
+                      if (Object.values(initErr).every(element => element === false)){
+                        setIsOpen(false);
+                      }
                     }}
                   />
                 </div>
@@ -594,7 +667,10 @@ export default function EditDetail() {
                     defaultValue={datas.lastname}
                     onChange={(e) => {
                       updateCustomer(e);
-                      validLetterAndSpace.test(e.target.value) ? setErr({...err, ['lastname']: false}) : setErr({...err, ['lastname']: true});
+                      validLetterAndSpace.test(e.target.value) ? initErr.lastname = false : initErr.lastname = true;
+                      if (Object.values(initErr).every(element => element === false)){
+                        setIsOpen(false);
+                      }
                     }}
                   />
                 </div>
@@ -609,7 +685,10 @@ export default function EditDetail() {
                     defaultValue={datas.address.village}
                     onChange={(e) => {
                       updateAddress(e)
-                      validLetterAndSpace.test(e.target.value) ? setErr({...err, ['village']: false}) : setErr({...err, ['village']: true});
+                      validNumberAndLetterAndSpace.test(e.target.value) ? initErr.village = false : initErr.village = true;
+                      if (Object.values(initErr).every(element => element === false)){
+                        setIsOpen(false);
+                      }
                     }}
                   />
                 </div>
@@ -625,7 +704,10 @@ export default function EditDetail() {
                       defaultValue={datas.address.addressNo}
                       onChange={(e) => {
                         updateAddress(e)
-                        validNumber.test(e.target.value) ? setErr({...err, ['addressNo']: false}) : setErr({...err, ['addressNo']: true});
+                        validNumber.test(e.target.value) ? initErr.addressNo = false : initErr.addressNo = true;
+                        if (Object.values(initErr).every(element => element === false)){
+                          setIsOpen(false);
+                        }
                       }}
                     />
                   </div>
@@ -640,7 +722,10 @@ export default function EditDetail() {
                       defaultValue={datas.address.floor}
                       onChange={(e) => {
                         updateAddress(e);
-                        validNumber.test(e.target.value) ? setErr({...err, ['floor']: false}) : setErr({...err, ['floor']: true});
+                        validNumber.test(e.target.value) ? initErr.floor = false : initErr.floor = true;
+                        if (Object.values(initErr).every(element => element === false)){
+                          setIsOpen(false);
+                        }
                       }}
                     />
                   </div>
@@ -656,7 +741,10 @@ export default function EditDetail() {
                     defaultValue={datas.address.villageNo}
                     onChange={(e) => {
                       updateAddress(e);
-                      validNumber.test(e.target.value) ? setErr({...err, ['villageNo']: false}) : setErr({...err, ['villageNo']: true});
+                      validNumber.test(e.target.value) ? initErr.villageNo = false : initErr.villageNo = true;
+                      if (Object.values(initErr).every(element => element === false)){
+                        setIsOpen(false);
+                      }
                     }}
                   />
                 </div>
@@ -671,7 +759,10 @@ export default function EditDetail() {
                     defaultValue={datas.address.alley}
                     onChange={(e) => {
                       updateAddress(e);
-                      validLetterAndSpace.test(e.target.value) ? setErr({...err, ['alley']: false}) : setErr({...err, ['alley']: true});
+                      validNumberAndLetterAndSpace.test(e.target.value) ? initErr.alley = false : initErr.alley = true;
+                      if (Object.values(initErr).every(element => element === false)){
+                        setIsOpen(false);
+                      }
                     }}
                   />
                 </div>
@@ -686,7 +777,10 @@ export default function EditDetail() {
                     defaultValue={datas.address.street}
                     onChange={(e) => {
                       updateAddress(e)
-                      validLetterAndSpace.test(e.target.value) ? setErr({...err, ['street']: false}) : setErr({...err, ['street']: true})
+                      validNumberAndLetterAndSpace.test(e.target.value) ? initErr.street = false : initErr.street = true
+                      if (Object.values(initErr).every(element => element === false)){
+                        setIsOpen(false);
+                      }
                     }}
                   />
                 </div>
@@ -701,7 +795,10 @@ export default function EditDetail() {
                     defaultValue={datas.address.subDistrict}
                     onChange={(e) => {
                       updateAddress(e);
-                      validLetterAndSpace.test(e.target.value) ? setErr({...err, ['subDistrict']: false}) : setErr({...err, ['subDistrict']: true});
+                      validNumberAndLetterAndSpace.test(e.target.value) ? initErr.subDistrict = false : initErr.subDistrict = true;
+                      if (Object.values(initErr).every(element => element === false)){
+                        setIsOpen(false);
+                      }
                     }}
                   />
                 </div>
@@ -716,7 +813,10 @@ export default function EditDetail() {
                     defaultValue={datas.address.district}
                     onChange={(e) => {
                       updateAddress(e);
-                      validLetterAndSpace.test(e.target.value) ? setErr({...err, ['district']: false}) : setErr({...err, ['district']: true});
+                      validNumberAndLetterAndSpace.test(e.target.value) ? initErr.district = false : initErr.district = true;
+                      if (Object.values(initErr).every(element => element === false)){
+                        setIsOpen(false);
+                      }
                     }}
                   />
                 </div>
@@ -731,7 +831,10 @@ export default function EditDetail() {
                     defaultValue={datas.address.province}
                     onChange={(e) => {
                       updateAddress(e);
-                      validLetterAndSpace.test(e.target.value) ? setErr({...err, ['province']: false}) : setErr({...err, ['province']: true});
+                      validLetterAndSpace.test(e.target.value) ? initErr.province = false : initErr.province = true;
+                      if (Object.values(initErr).every(element => element === false)){
+                        setIsOpen(false);
+                      }
                     }}
                   />
                 </div>
@@ -746,7 +849,11 @@ export default function EditDetail() {
                     defaultValue={datas.address.postalCode}
                     onChange={(e) => {
                       updateAddress(e);
-                      validPostalCode.test(e.target.value) ? setErr({...err, ['postalCode']: false}) : setErr({...err, ['postalCode']: true})
+                      validPostalCode.test(e.target.value) ? initErr.postalCode = false : initErr.postalCode = true;
+                      if (Object.values(initErr).every(element => element === false)){
+                        setIsOpen(false);
+                      }
+                      console.log(initErr);
                     }}
                   />
                 </div>
@@ -759,8 +866,10 @@ export default function EditDetail() {
           style={{ marginRight: "5px" }}
           onClick={async (e) => {
             e.preventDefault();
-            console.log(Object.values(err), Object.values(err).includes(true));
-            if (Object.values(err).includes(true)){
+            validate();
+            console.log(initErr);
+            console.log(Object.values(initErr), Object.values(initErr).includes(true));
+            if (Object.values(initErr).includes(true)){
               setIsOpen(true);
             }
             else {
