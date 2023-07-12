@@ -52,7 +52,11 @@ li :hover:not(.active) {
   margin: 15px;
 }
 
-img {
+.logoimg {
   width: 40px;
   margin-right: 5px;
+}
+
+.menulistsvg {
+  margin-right: 10px;
 }
