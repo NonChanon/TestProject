@@ -6,7 +6,7 @@ export const validPostalCode = new RegExp("^[0-9]{5}$");
 
 export const validLetter = new RegExp("^[a-zA-Z]+$");
 
-export const validLetterAndSpace = new RegExp("^[a-zA-Z\s]*$");
+export const validLetterAndSpace = new RegExp("^[a-zA-Z0-9 ]*$");
 
 export const validNumber = new RegExp("^[0-9]+$");
 

@@ -6,7 +6,7 @@ import DatePicker from "react-datepicker";
 import Alert from '@mui/material/Alert' 
 
 import moment from "moment";
-import { validLetter, validPostalCode } from "../components/RegEx";
+import { validContractNumber, validId, validLetterAndSpace, validNumber, validPostalCode } from "../components/RegEx";
 
 interface customerModel {
   title: string;
@@ -44,6 +44,26 @@ interface contractModel {
   branchNumber: string;
   branchType: string;
   relatedStatus: string;
+}
+
+interface errModel {
+  contractNumber: boolean;
+  applicantId: boolean;
+  branchNumber: boolean;
+  totalDuty: boolean;
+  totalDubDutyAmount: boolean;
+  firstname: boolean;
+  lastname: boolean;
+  village: boolean;
+  addressNo: boolean;
+  floor: boolean;
+  villageNo: boolean;
+  alley: boolean;
+  street: boolean;
+  subDistrict: boolean;
+  district: boolean;
+  province: boolean;
+  postalCode: boolean;
 }
 
 export default function EditDetail() {
@@ -91,16 +111,64 @@ export default function EditDetail() {
       states.customer.totalDuty + states.customer.totalDubDutyAmount,
   });
   const [isOpen, setIsOpen] = useState(false);
-  const [err, setErr] = useState({
+  const [err, setErr] = useState<errModel>({
+    contractNumber: false,
+    applicantId: false,
+    branchNumber: false,
+    totalDuty: false,
+    totalDubDutyAmount: false,
     firstname: false,
     lastname: false,
+    village: false,
+    addressNo: false,
+    floor: false,
+    villageNo: false,
+    alley: false,
+    street: false,
+    subDistrict: false,
+    district: false,
+    province: false,
     postalCode: false,
   });
-  // const validate = () => {
-  //   validLetter.test(states.customer.firstname) ? setErr({...err, ['firstname']: false}) : setErr({...err, ['firstname']: true})
-  //   validLetter.test(states.customer.lastname) ? setErr({...err, ['lastname']: false}) : setErr({...err, ['lastname']: true})
-  //   validPostalCode.test(states.customer.address.postalCode) ? setErr({...err, ['postalCode']: false}) : setErr({...err, ['postalCode']: true})
-  // }
+  let initErr:errModel = {
+    contractNumber: false,
+    applicantId: false,
+    branchNumber: false,
+    totalDuty: false,
+    totalDubDutyAmount: false,
+    firstname: false,
+    lastname: false,
+    village: false,
+    addressNo: false,
+    floor: false,
+    villageNo: false,
+    alley: false,
+    street: false,
+    subDistrict: false,
+    district: false,
+    province: false,
+    postalCode: false,
+  };
+  const validate = () => {
+    validContractNumber.test(states.customer.contract.number) ? initErr.contractNumber = false : initErr.contractNumber = true;
+    validId.test(states.customer.contract.applicantId) ? initErr.applicantId = false : initErr.applicantId = true;
+    validNumber.test(states.customer.contract.branchNumber) ? initErr.branchNumber = false : initErr.branchNumber = true;
+    validNumber.test(states.customer.totalDuty) ? initErr.totalDuty = false : initErr.totalDuty = true;
+    validNumber.test(states.customer.totalDubDutyAmount) ? initErr.totalDubDutyAmount = false : initErr.totalDubDutyAmount = true;
+    validLetterAndSpace.test(states.customer.firstname) ? initErr.firstname = false : initErr.firstname = true;
+    validLetterAndSpace.test(states.customer.lastname) ? initErr.lastname = false : initErr.lastname = true;
+    validLetterAndSpace.test(states.customer.address.village) ? initErr.village = false : initErr.village = true;
+    validNumber.test(states.customer.address.addressNo) ? initErr.addressNo = false : initErr.addressNo = true;
+    validNumber.test(states.customer.address.floor) ? initErr.floor = false : initErr.floor = true;
+    validNumber.test(states.customer.address.villageNo) ? initErr.villageNo = false : initErr.villageNo = true;
+    validLetterAndSpace.test(states.customer.address.alley) ? initErr.alley = false : initErr.alley = true;
+    validLetterAndSpace.test(states.customer.address.street) ? initErr.street = false : initErr.street = true;
+    validLetterAndSpace.test(states.customer.address.subDistrict) ? initErr.subDistrict = false : initErr.subDistrict = true;
+    validLetterAndSpace.test(states.customer.address.district) ? initErr.district = false : initErr.district = true;
+    validLetterAndSpace.test(states.customer.address.province) ? initErr.province = false : initErr.province = true;
+    validPostalCode.test(states.customer.address.postalCode) ? initErr.postalCode = false : initErr.postalCode = true;
+    console.log(states.customer.address.street , validLetterAndSpace.test(states.customer.address.street));
+  }
   const navigate = useNavigate();
   const path = useLocation().pathname;
 
@@ -115,12 +183,8 @@ export default function EditDetail() {
   useEffect(() => {
     console.log("edit effect trigger");
     loadDatas();
-    console.log(states.customer.address.postalCode);
-    console.log(states.customer.firstname);
-    console.log(states.customer.lastname);
-    validPostalCode.test(states.customer.address.postalCode) ? setErr({...err, ['postalCode']: true}) : setErr({...err, ['postalCode']: false});
-    validLetter.test(states.customer.firstname) ? setErr({...err, ['firstname']: true}) : setErr({...err, ['firstname']: false});
-    validLetter.test(states.customer.lastname) ? setErr({...err, ['lastname']: true}) : setErr({...err, ['lastname']: false});
+    validate();
+    setErr(initErr);
   }, [useLocation().key]);
 
   console.log(datas);
@@ -184,7 +248,10 @@ export default function EditDetail() {
                     type="text"
                     className={`${style.txt}`}
                     defaultValue={datas.contract.number}
-                    onChange={(e) => updateContract(e)}
+                    onChange={(e) => {
+                      updateContract(e)
+                      validContractNumber.test(e.target.value) ? setErr({...err, ['contractNumber']: false}) : setErr({...err, ['contractNumber']: true});
+                    }}
                   />
                 </div>
               </div>
@@ -308,7 +375,10 @@ export default function EditDetail() {
                     type="text"
                     className={`${style.txt}`}
                     defaultValue={datas.contract.applicantId}
-                    onChange={(e) => updateContract(e)}
+                    onChange={(e) => {
+                      updateContract(e)
+                      validId.test(e.target.value) ? setErr({...err, ['applicantId']: false}) : setErr({...err, ['applicantId']: true});
+                    }}
                   />
                 </div>
               </div>
@@ -320,7 +390,10 @@ export default function EditDetail() {
                     type="text"
                     className={`${style.txt}`}
                     defaultValue={datas.contract.branchNumber}
-                    onChange={(e) => updateContract(e)}
+                    onChange={(e) => {
+                      updateContract(e)
+                      validNumber.test(e.target.value) ? setErr({...err, ['branchNumber']: false}) : setErr({...err, ['branchNumber']: true});
+                    }}
                   />
                 </div>
               </div>
@@ -412,6 +485,7 @@ export default function EditDetail() {
                     defaultValue={datas.totalDuty}
                     onChange={(e) => {
                       updateCustomer(e);
+                      validNumber.test(e.target.value) ? setErr({...err, ['totalDuty']: false}) : setErr({...err, ['totalDuty']: true});
                       console.log(states);
                     }}
                     onBlur={() => {
@@ -439,6 +513,7 @@ export default function EditDetail() {
                     defaultValue={states.customer.totalDubDutyAmount}
                     onChange={(e) => {
                       updateCustomer(e);
+                      validNumber.test(e.target.value) ? setErr({...err, ['totalDubDutyAmount']: false}) : setErr({...err, ['totalDubDutyAmount']: true});
                     }}
                     onBlur={() => {
                       setTotalPayment({
@@ -475,13 +550,6 @@ export default function EditDetail() {
                     position: "relative",
                   }}
                 >
-                  {/* <Select
-                    name="title"
-                    type="text"
-                    className={`${style.txt}`}
-                    defaultValue={datas.title}
-                    onChange={(e) => updateCustomer(e)}
-                  /> */}
                   <select
                     name="title"
                     id="customerTitle"
@@ -511,7 +579,7 @@ export default function EditDetail() {
                     defaultValue={datas.firstname}
                     onChange={(e) => {
                       updateCustomer(e);
-                      validLetter.test(e.target.value) ? setErr({...err, ['firstname']: true}) : setErr({...err, ['firstname']: false})
+                      validLetterAndSpace.test(e.target.value) ? setErr({...err, ['firstname']: false}) : setErr({...err, ['firstname']: true});
                     }}
                   />
                 </div>
@@ -526,7 +594,7 @@ export default function EditDetail() {
                     defaultValue={datas.lastname}
                     onChange={(e) => {
                       updateCustomer(e);
-                      validLetter.test(e.target.value) ? setErr({...err, ['lastname']: true}) : setErr({...err, ['lastname']: false})
+                      validLetterAndSpace.test(e.target.value) ? setErr({...err, ['lastname']: false}) : setErr({...err, ['lastname']: true});
                     }}
                   />
                 </div>
@@ -539,7 +607,10 @@ export default function EditDetail() {
                     type="text"
                     className={`${style.txt}`}
                     defaultValue={datas.address.village}
-                    onChange={(e) => updateAddress(e)}
+                    onChange={(e) => {
+                      updateAddress(e)
+                      validLetterAndSpace.test(e.target.value) ? setErr({...err, ['village']: false}) : setErr({...err, ['village']: true});
+                    }}
                   />
                 </div>
               </div>
@@ -552,7 +623,10 @@ export default function EditDetail() {
                       type="text"
                       className={`${style.minitxt}`}
                       defaultValue={datas.address.addressNo}
-                      onChange={(e) => updateAddress(e)}
+                      onChange={(e) => {
+                        updateAddress(e)
+                        validNumber.test(e.target.value) ? setErr({...err, ['addressNo']: false}) : setErr({...err, ['addressNo']: true});
+                      }}
                     />
                   </div>
                 </div>
@@ -564,7 +638,10 @@ export default function EditDetail() {
                       type="text"
                       className={`${style.minitxt}`}
                       defaultValue={datas.address.floor}
-                      onChange={(e) => updateAddress(e)}
+                      onChange={(e) => {
+                        updateAddress(e);
+                        validNumber.test(e.target.value) ? setErr({...err, ['floor']: false}) : setErr({...err, ['floor']: true});
+                      }}
                     />
                   </div>
                 </div>
@@ -577,7 +654,10 @@ export default function EditDetail() {
                     type="text"
                     className={`${style.txt}`}
                     defaultValue={datas.address.villageNo}
-                    onChange={(e) => updateAddress(e)}
+                    onChange={(e) => {
+                      updateAddress(e);
+                      validNumber.test(e.target.value) ? setErr({...err, ['villageNo']: false}) : setErr({...err, ['villageNo']: true});
+                    }}
                   />
                 </div>
               </div>
@@ -589,7 +669,10 @@ export default function EditDetail() {
                     type="text"
                     className={`${style.txt}`}
                     defaultValue={datas.address.alley}
-                    onChange={(e) => updateAddress(e)}
+                    onChange={(e) => {
+                      updateAddress(e);
+                      validLetterAndSpace.test(e.target.value) ? setErr({...err, ['alley']: false}) : setErr({...err, ['alley']: true});
+                    }}
                   />
                 </div>
               </div>
@@ -601,7 +684,10 @@ export default function EditDetail() {
                     type="text"
                     className={`${style.txt}`}
                     defaultValue={datas.address.street}
-                    onChange={(e) => updateAddress(e)}
+                    onChange={(e) => {
+                      updateAddress(e)
+                      validLetterAndSpace.test(e.target.value) ? setErr({...err, ['street']: false}) : setErr({...err, ['street']: true})
+                    }}
                   />
                 </div>
               </div>
@@ -613,7 +699,10 @@ export default function EditDetail() {
                     type="text"
                     className={`${style.txt}`}
                     defaultValue={datas.address.subDistrict}
-                    onChange={(e) => updateAddress(e)}
+                    onChange={(e) => {
+                      updateAddress(e);
+                      validLetterAndSpace.test(e.target.value) ? setErr({...err, ['subDistrict']: false}) : setErr({...err, ['subDistrict']: true});
+                    }}
                   />
                 </div>
               </div>
@@ -625,7 +714,10 @@ export default function EditDetail() {
                     type="text"
                     className={`${style.txt}`}
                     defaultValue={datas.address.district}
-                    onChange={(e) => updateAddress(e)}
+                    onChange={(e) => {
+                      updateAddress(e);
+                      validLetterAndSpace.test(e.target.value) ? setErr({...err, ['district']: false}) : setErr({...err, ['district']: true});
+                    }}
                   />
                 </div>
               </div>
@@ -637,7 +729,10 @@ export default function EditDetail() {
                     type="text"
                     className={`${style.txt}`}
                     defaultValue={datas.address.province}
-                    onChange={(e) => updateAddress(e)}
+                    onChange={(e) => {
+                      updateAddress(e);
+                      validLetterAndSpace.test(e.target.value) ? setErr({...err, ['province']: false}) : setErr({...err, ['province']: true});
+                    }}
                   />
                 </div>
               </div>
@@ -651,7 +746,7 @@ export default function EditDetail() {
                     defaultValue={datas.address.postalCode}
                     onChange={(e) => {
                       updateAddress(e);
-                      validPostalCode.test(e.target.value) ? setErr({...err, ['postalCode']: true}) : setErr({...err, ['postalCode']: false})
+                      validPostalCode.test(e.target.value) ? setErr({...err, ['postalCode']: false}) : setErr({...err, ['postalCode']: true})
                     }}
                   />
                 </div>
@@ -664,7 +759,11 @@ export default function EditDetail() {
           style={{ marginRight: "5px" }}
           onClick={async (e) => {
             e.preventDefault();
-            if (err.firstname && err.lastname && err.postalCode){
+            console.log(Object.values(err), Object.values(err).includes(true));
+            if (Object.values(err).includes(true)){
+              setIsOpen(true);
+            }
+            else {
               await axios.put(
                 `http://localhost:8080/api${path.replace(
                   "/batchdataresult",
@@ -672,10 +771,8 @@ export default function EditDetail() {
                 )}`,
                 states.customer
               );
+              setIsOpen(false);
               navigate(-1);
-            }
-            else {
-              setIsOpen(true);
             }
           }}
           type="submit"
