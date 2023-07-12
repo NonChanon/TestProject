@@ -3,8 +3,10 @@ import style from "./EditDetail.module.css";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import DatePicker from "react-datepicker";
+import Alert from '@mui/material/Alert' 
 
 import moment from "moment";
+import { validLetter, validPostalCode } from "../components/RegEx";
 
 interface customerModel {
   title: string;
@@ -88,6 +90,17 @@ export default function EditDetail() {
     paymentAmount:
       states.customer.totalDuty + states.customer.totalDubDutyAmount,
   });
+  const [isOpen, setIsOpen] = useState(false);
+  const [err, setErr] = useState({
+    firstname: false,
+    lastname: false,
+    postalCode: false,
+  });
+  // const validate = () => {
+  //   validLetter.test(states.customer.firstname) ? setErr({...err, ['firstname']: false}) : setErr({...err, ['firstname']: true})
+  //   validLetter.test(states.customer.lastname) ? setErr({...err, ['lastname']: false}) : setErr({...err, ['lastname']: true})
+  //   validPostalCode.test(states.customer.address.postalCode) ? setErr({...err, ['postalCode']: false}) : setErr({...err, ['postalCode']: true})
+  // }
   const navigate = useNavigate();
   const path = useLocation().pathname;
 
@@ -102,6 +115,12 @@ export default function EditDetail() {
   useEffect(() => {
     console.log("edit effect trigger");
     loadDatas();
+    console.log(states.customer.address.postalCode);
+    console.log(states.customer.firstname);
+    console.log(states.customer.lastname);
+    validPostalCode.test(states.customer.address.postalCode) ? setErr({...err, ['postalCode']: true}) : setErr({...err, ['postalCode']: false});
+    validLetter.test(states.customer.firstname) ? setErr({...err, ['firstname']: true}) : setErr({...err, ['firstname']: false});
+    validLetter.test(states.customer.lastname) ? setErr({...err, ['lastname']: true}) : setErr({...err, ['lastname']: false});
   }, [useLocation().key]);
 
   console.log(datas);
@@ -151,7 +170,7 @@ export default function EditDetail() {
         <div className={`${style.ttline}`}></div>
         <div>Edit Detail</div>
       </div>
-
+      {isOpen && <Alert style={{'marginBottom': '10px'}} severity="warning">This is a warning alert — check it out!</Alert>}
       <form className={`${style.content}`}>
         <div>
           <div className="Contract Information">
@@ -490,7 +509,10 @@ export default function EditDetail() {
                     type="text"
                     className={`${style.txt}`}
                     defaultValue={datas.firstname}
-                    onChange={(e) => updateCustomer(e)}
+                    onChange={(e) => {
+                      updateCustomer(e);
+                      validLetter.test(e.target.value) ? setErr({...err, ['firstname']: true}) : setErr({...err, ['firstname']: false})
+                    }}
                   />
                 </div>
               </div>
@@ -502,7 +524,10 @@ export default function EditDetail() {
                     type="text"
                     className={`${style.txt}`}
                     defaultValue={datas.lastname}
-                    onChange={(e) => updateCustomer(e)}
+                    onChange={(e) => {
+                      updateCustomer(e);
+                      validLetter.test(e.target.value) ? setErr({...err, ['lastname']: true}) : setErr({...err, ['lastname']: false})
+                    }}
                   />
                 </div>
               </div>
@@ -624,7 +649,10 @@ export default function EditDetail() {
                     type="text"
                     className={`${style.txt}`}
                     defaultValue={datas.address.postalCode}
-                    onChange={(e) => updateAddress(e)}
+                    onChange={(e) => {
+                      updateAddress(e);
+                      validPostalCode.test(e.target.value) ? setErr({...err, ['postalCode']: true}) : setErr({...err, ['postalCode']: false})
+                    }}
                   />
                 </div>
               </div>
@@ -636,14 +664,19 @@ export default function EditDetail() {
           style={{ marginRight: "5px" }}
           onClick={async (e) => {
             e.preventDefault();
-            await axios.put(
-              `http://localhost:8080/api${path.replace(
-                "/batchdataresult",
-                ""
-              )}`,
-              states.customer
-            );
-            navigate(-1);
+            if (err.firstname && err.lastname && err.postalCode){
+              await axios.put(
+                `http://localhost:8080/api${path.replace(
+                  "/batchdataresult",
+                  ""
+                )}`,
+                states.customer
+              );
+              navigate(-1);
+            }
+            else {
+              setIsOpen(true);
+            }
           }}
           type="submit"
         >
