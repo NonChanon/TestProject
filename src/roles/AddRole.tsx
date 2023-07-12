@@ -94,7 +94,7 @@ export default function AddRole() {
                   <div className={style.formDetail}>
                     <label className={style.formLabel}>Permission</label>
                     <div className={style.formLabel}>
-                      <label className="container">
+                      <label className={style.checkboxContainer}>
                         Create
                         <input
                           id="checkbox1"
@@ -111,7 +111,9 @@ export default function AddRole() {
                               arr.push({ id: 1 });
                               console.log(arr);
                             } else {
-                              var index =  arr.map(object => object.id).indexOf(1);
+                              var index = arr
+                                .map((object) => object.id)
+                                .indexOf(1);
                               console.log(index);
                               if (index !== -1) {
                                 arr.splice(index, 1);
@@ -125,7 +127,7 @@ export default function AddRole() {
                         />
                         <span className="checkmark"></span>
                       </label>
-                      <label className="container">
+                      <label className={style.checkboxContainer}>
                         Read
                         <input
                           id="checkbox2"
@@ -143,7 +145,9 @@ export default function AddRole() {
                               arr.push({ id: 2 });
                               console.log(arr);
                             } else {
-                              var index =  arr.map(object => object.id).indexOf(2);
+                              var index = arr
+                                .map((object) => object.id)
+                                .indexOf(2);
                               if (index !== -1) {
                                 arr.splice(index, 1);
                               } else {
@@ -156,7 +160,7 @@ export default function AddRole() {
                         />
                         <span className="checkmark"></span>
                       </label>
-                      <label className="container">
+                      <label className={style.checkboxContainer}>
                         Update
                         <input
                           id="checkbox3"
@@ -173,7 +177,9 @@ export default function AddRole() {
                               arr.push({ id: 3 });
                               console.log(arr);
                             } else {
-                              var index =  arr.map(object => object.id).indexOf(3);
+                              var index = arr
+                                .map((object) => object.id)
+                                .indexOf(3);
                               console.log(index);
                               if (index !== -1) {
                                 arr.splice(index, 1);
@@ -187,7 +193,7 @@ export default function AddRole() {
                         />
                         <span className="checkmark"></span>
                       </label>
-                      <label className="container">
+                      <label className={style.checkboxContainer}>
                         Delete
                         <input
                           id="checkbox4"
@@ -204,7 +210,9 @@ export default function AddRole() {
                               arr.push({ id: 4 });
                               console.log(arr);
                             } else {
-                              var index =  arr.map(object => object.id).indexOf(4);
+                              var index = arr
+                                .map((object) => object.id)
+                                .indexOf(4);
                               console.log(index);
                               if (index !== -1) {
                                 arr.splice(index, 1);

@@ -208,12 +208,10 @@ export default function RDTransaction() {
         {/* <img src={`data:;base64,${imageData}`} /> */}
       </div>
 
-      <div
-        className={`SearchBar shadow ${style.row} ${style.btw} ${style.spaceTitle}`}
-      >
-        <div>
+      <div className={`shadow ${style.searchContainer}`}>
+        <div className={style.filterContainer}>
           <button className={`BatchDate ${style.button1}`}>
-            <div className={style.row}>
+            <div className={style.dateLayout}>
               <DatePicker
                 id="batchDate"
                 dateFormat="dd/MM/yyy"
@@ -243,10 +241,9 @@ export default function RDTransaction() {
           </button>
 
           <button className={`LotName ${style.button1}`}>
-            <div className={style.row}>
+            <div className={`${style.row}`}>
               <input
                 name="lotNameInput"
-                className={`form-control`}
                 style={{
                   height: "100%",
                   border: "0",
@@ -263,40 +260,41 @@ export default function RDTransaction() {
             <div className={`${style.line2}`}></div>
           </button>
         </div>
-
-        <button
-          className={`${style.SearchButton}`}
-          onClick={(e) =>
-            onSearch(e, {
-              batchDate:
-                startDate === null
-                  ? ""
-                  : moment(startDate).format("DD/MM/yyyy").toString(),
-              lotName: lotName.lotNameInput,
-            })
-          }
-        >
-          <div className={style.row}>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="22"
-              height="22"
-              viewBox="0 0 22 22"
-            >
-              <g
-                fill="none"
-                fill-rule="evenodd"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+        <div className={style.searchLayout}>
+          <button
+            className={`${style.searchButton}`}
+            onClick={(e) =>
+              onSearch(e, {
+                batchDate:
+                  startDate === null
+                    ? ""
+                    : moment(startDate).format("DD/MM/yyyy").toString(),
+                lotName: lotName.lotNameInput,
+              })
+            }
+          >
+            <div className={`${style.buttonLayout}`}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="22"
+                height="22"
+                viewBox="0 0 22 22"
               >
-                <circle cx="8.5" cy="8.5" r="5" />
-                <path d="M17.571 17.5L12 12" />
-              </g>
-            </svg>
-            <div className={style.space5}>Search</div>
-          </div>
-        </button>
+                <g
+                  fill="none"
+                  fill-rule="evenodd"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <circle cx="8.5" cy="8.5" r="5" />
+                  <path d="M17.571 17.5L12 12" />
+                </g>
+              </svg>
+              <div className={`${style.space5}`}>Search</div>
+            </div>
+          </button>
+        </div>
       </div>
 
       <div className={`Transaction`}>
@@ -359,8 +357,8 @@ export default function RDTransaction() {
                   >
                     <p className={style.tab}>Batch Date : {data}</p>
                   </div> */}
-                <div className={`${style.Table} ${style.top}`}>
-                  <table className={style.transactionTable}>
+                <div className={`${style.transactionTable} ${style.top}`}>
+                  <table>
                     <tr>
                       <th>No.</th>
                       <th>Lot Name</th>
