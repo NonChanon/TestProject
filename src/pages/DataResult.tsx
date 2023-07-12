@@ -4,7 +4,6 @@ import { Link, useLocation } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import moment from "moment";
 import style from "./DataResult.module.css";
-import { instanceOf, object } from "prop-types";
 
 interface lotModel {
   name: string;

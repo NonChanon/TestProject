@@ -14,7 +14,6 @@ import EditDetail from "./pages/EditDetail.tsx";
 import Login from "./pages/Login.tsx";
 import UseAuth from "./services/UseAuth.tsx";
 import AddUser from "./users/AddUser.tsx";
-import ImageUpload from "./components/ImageUpload.tsx";
 
 import "react-datepicker/dist/react-datepicker.css";
 import { ProtectRoute } from "./services/ProtectRoute.tsx";
@@ -53,16 +52,8 @@ function App() {
           element={isAuthen ? <EditDetail /> : <Navigate to="/login" />}
         />
         <Route
-          path="/invoice/all"
+          path="/invoice"
           element={isAuthen ? <InvoicePayment /> : <Navigate to="/login" />}
-        />
-        <Route
-          path="/invoice/approved"
-          element={isAuthen ? <RDTransaction /> : <Navigate to="/login" />}
-        />
-        <Route
-          path="/invoice/pending"
-          element={isAuthen ? <RDTransaction /> : <Navigate to="/login" />}
         />
         <Route
           path="/detail"

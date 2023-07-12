@@ -27,10 +27,6 @@ li a {
   text-decoration: none;
 }
 
-.menulistsvg {
-  margin-right: 10px;
-}
-
 li :hover:not(.active) {
   background-color: #888888;
 }
@@ -56,7 +52,7 @@ li :hover:not(.active) {
   margin: 15px;
 }
 
-.logoimg {
+img {
   width: 40px;
   margin-right: 5px;
 }
