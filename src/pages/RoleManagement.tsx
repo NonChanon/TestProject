@@ -152,7 +152,7 @@ export default function RoleManagement() {
                   <div className={style.formDetail}>
                     <label className={style.formLabel}>Permission</label>
                     <div className={style.formLabel}>
-                      <label className="container">
+                      <label className={style.checkboxContainer}>
                         Create
                         <input
                           id="checkbox1"
@@ -186,7 +186,7 @@ export default function RoleManagement() {
                         />
                         <span className="checkmark"></span>
                       </label>
-                      <label className="container">
+                      <label className={style.checkboxContainer}>
                         Read
                         <input
                           id="checkbox2"
@@ -221,7 +221,7 @@ export default function RoleManagement() {
                         />
                         <span className="checkmark"></span>
                       </label>
-                      <label className="container">
+                      <label className={style.checkboxContainer}>
                         Update
                         <input
                           id="checkbox3"
@@ -256,7 +256,7 @@ export default function RoleManagement() {
                         />
                         <span className="checkmark"></span>
                       </label>
-                      <label className="container">
+                      <label className={style.checkboxContainer}>
                         Delete
                         <input
                           id="checkbox4"
@@ -310,38 +310,36 @@ export default function RoleManagement() {
           <div className={style.line}></div>
           <div>Role Management</div>
         </div>
-        <div
-          className={`shadow ${style.searchFunctionContainer} ${style.spaceTitle}`}
-        >
-          <div className={style.searchFunctionBox}>
-            <div className="filterFunction">
-              <button className={`${style.button1}`}>
-                <div className={`${style.row}`}>
-                  <select className={style.selectForm} name="selectedRole">
-                    <option value="" disabled selected hidden>
-                      Select Group User
-                    </option>
-                    <option value="all">All</option>
-                    <option value="user">User</option>
-                    <option value="admin">Admin</option>
-                  </select>
-                </div>
-                <div className={`${style.line2}`}></div>
-              </button>
-              <button className={`${style.button1}`}>
-                <div className={`${style.row}`}>
-                  <select className={style.selectForm} name="selectedRole">
-                    <option value="" disabled selected hidden color="#ffffff">
-                      Select Status
-                    </option>
-                    <option value="all">All</option>
-                    <option value="active">Active</option>
-                    <option value="inactive">Inactive</option>
-                  </select>
-                </div>
-                <div className={`${style.line2}`}></div>
-              </button>
-            </div>
+        <div className={`shadow ${style.searchFunctionContainer}`}>
+          <div className={style.filterContainer}>
+            <button className={`${style.button1}`}>
+              <div className={`${style.row}`}>
+                <select className={style.selectForm} name="selectedRole">
+                  <option value="" disabled selected hidden>
+                    Select Group User
+                  </option>
+                  <option value="all">All</option>
+                  <option value="user">User</option>
+                  <option value="admin">Admin</option>
+                </select>
+              </div>
+              <div className={`${style.line2}`}></div>
+            </button>
+            <button className={`${style.button1}`}>
+              <div className={`${style.row}`}>
+                <select className={style.selectForm} name="selectedRole">
+                  <option value="" disabled selected hidden color="#ffffff">
+                    Select Status
+                  </option>
+                  <option value="all">All</option>
+                  <option value="active">Active</option>
+                  <option value="inactive">Inactive</option>
+                </select>
+              </div>
+              <div className={`${style.line2}`}></div>
+            </button>
+          </div>
+          <div className={style.searchLayout}>
             <button className={style.searchButton}>
               <div className={style.row}>
                 <svg
@@ -366,21 +364,24 @@ export default function RoleManagement() {
             </button>
           </div>
         </div>
-        <table>
-          <thead>
-            <tr>
-              <th>No.</th>
-              <th>Group User</th>
-              <th>Created User</th>
-              <th>Created Date</th>
-              <th>Updated Date</th>
-              <th>Updated User</th>
-              <th>Status</th>
-              <th>Manage</th>
-            </tr>
-          </thead>
-          {roleTable}
-        </table>
+
+        <div className={`${style.transactionTable}`}>
+          <table>
+            <thead>
+              <tr>
+                <th>No.</th>
+                <th>Group User</th>
+                <th>Created User</th>
+                <th>Created Date</th>
+                <th>Updated Date</th>
+                <th>Updated User</th>
+                <th>Status</th>
+                <th>Manage</th>
+              </tr>
+            </thead>
+            {roleTable}
+          </table>
+        </div>
         <div className={style.addContainer}>
           <AddRole />
         </div>

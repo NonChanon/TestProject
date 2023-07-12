@@ -217,63 +217,42 @@ export default function DetailCollection() {
       <div className="Transection">
         <div className="BatchBar shadow">
           <div className={`${style.space3}`}>
-            <div
-              className="Batch shadow"
-              style={{
-                position: "relative",
-                padding: "15px 20px 15px 30px",
-                color: "#535353",
-                fontWeight: "600",
-                fontSize: "14px",
-              }}
-            >
-              <div
-                className={`${style.row} ${style.btw}`}
-                style={{ marginBottom: "25px" }}
-              >
-                <div className={`${style.row}`}>
-                  <p style={{ position: "absolute", left: "30px" }}>
-                    Batch Date : {datas.lot.batchDate}
-                  </p>
-                  <div
-                    className={`${style.line3}`}
-                    style={{ position: "absolute", left: "210px" }}
-                  ></div>
-                  <p style={{ position: "absolute", left: "235px" }}>
-                    Lot Name : {datas.lot.name}
-                  </p>
-                </div>
-                <p className={`${style.row}`}>
-                  Status :
-                  <div className={style[datas.lot.approvalStatus]}>
-                    <p style={{ marginTop: "10px", marginBottom: "10px" }}>
-                      {datas.lot.approvalStatus}
-                    </p>
-                  </div>
-                </p>
+            <div className={`Batch shadow ${style.detailContainer}`}>
+              <div className={`${style.detailLayout}  ${style.dateRes}`}>
+                <p>Batch Date : {datas.lot.batchDate}</p>
               </div>
-              <div className={`${style.row}`} style={{ marginBottom: "15px" }}>
-                <p style={{ position: "absolute", left: "30px" }}>
-                  Total Duty : {datas.lot.totalDuty}
-                </p>
+              <div className={`${style.detailLayout}  ${style.detailRes}`}>
+                <div className={`${style.line3}`}></div>
+                <p>Lot Name : {datas.lot.name}</p>
+              </div>
+
+              <div className={`${style.statusLayout}`}>
+                Status :
                 <div
-                  className={`${style.line3}`}
-                  style={{ position: "absolute", left: "210px" }}
-                ></div>
-                <p style={{ position: "absolute", left: "235px" }}>
-                  Total Dub Duty Amount : {datas.lot.totalDubDutyAmount}
-                </p>
-                <div
-                  className={`${style.line3}`}
-                  style={{ position: "absolute", left: "480px" }}
-                ></div>
-                <p style={{ position: "absolute", left: "505px" }}>
-                  Total Payment : {datas.lot.totalPayment}
-                </p>
+                  className={`${style[datas.lot.approvalStatus]} ${
+                    style.statusBtn
+                  }`}
+                >
+                  <p>{datas.lot.approvalStatus}</p>
+                </div>
+              </div>
+
+              <div className={`${style.detailLayout}  ${style.detailRes}`}>
+                <p>Total Duty : {datas.lot.totalDuty}</p>
+              </div>
+              <div className={`${style.detailLayout}  ${style.detailRes}`}>
+                <div className={`${style.line3}`}></div>
+                <p>Total Dub Duty Amount : {datas.lot.totalDubDutyAmount}</p>
+              </div>
+              <div
+                className={`${style.detailLayout} ${style.payment} ${style.detailRes}`}
+              >
+                <div className={`${style.line3} ${style.lineRes}`}></div>
+                <p>Total Payment : {datas.lot.totalPayment}</p>
               </div>
             </div>
 
-            <div className={`${style.top}`}>
+            <div className={`${style.top} ${style.tableTransaction}`}>
               <table>
                 <thead>
                   <tr>
@@ -329,8 +308,6 @@ export default function DetailCollection() {
                                   X
                                 </div>
                               </div>
-                              {/* <img src={pics} /> */}
-                              {/* <input type="file" /> */}
 
                               <div className="doneButt" onClick={toggleModal}>
                                 DONE
@@ -389,7 +366,9 @@ export default function DetailCollection() {
               </table>
             </div>
 
-            <div className={`page&butt ${style.row} ${style.top2}`}>
+            <div
+              className={`page&butt ${style.row} ${style.top2} ${style.pageRes}`}
+            >
               <div className={`${style.pagination} ${style.end}`}>
                 {renderPageNumber()}
               </div>

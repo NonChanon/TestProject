@@ -4,10 +4,8 @@ import { useLocation, NavLink } from "react-router-dom";
 import moment from "moment";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import QrBtn from "../components/QrBtn";
+
 import style from "./InvoicePayment.module.css";
-import SlipBtn from "../components/SlipBtn";
-import EPayBtn from "../components/EPayBtn";
 
 interface lotModel {
   name: string;
@@ -223,12 +221,10 @@ export default function InvoicePayment() {
         <div>Invoice Payment</div>
       </div>
 
-      <div
-        className={`SearchBar shadow ${style.row} ${style.btw} ${style.spaceTitle}`}
-      >
-        <div className={`${style.FilterButon}`}>
+      <div className={`shadow ${style.searchContainer}`}>
+        <div className={style.filterContainer}>
           <button className={`BatchDate ${style.button1}`}>
-            <div className={`${style.row}`}>
+            <div className={style.dateLayout}>
               <DatePicker
                 id="batchDate"
                 dateFormat="dd/MM/yyy"
@@ -261,7 +257,6 @@ export default function InvoicePayment() {
             <div className={`${style.row}`}>
               <input
                 name="lotNameInput"
-                className="form-control"
                 style={{
                   height: "100%",
                   border: "0",
@@ -278,41 +273,42 @@ export default function InvoicePayment() {
             <div className={`${style.line2}`}></div>
           </button>
         </div>
-        <button
-          className={`${style.SearchButton}`}
-          onClick={(e) =>
-            onSearch(e, {
-              batchDate:
-                startDate === null
-                  ? ""
-                  : moment(startDate).format("DD/MM/yyyy").toString(),
-              lotName: lotName.lotNameInput,
-            })
-          }
-        >
-          <div className={`${style.row}`}>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="22"
-              height="22"
-              viewBox="0 0 22 22"
-            >
-              <g
-                fill="none"
-                fill-rule="evenodd"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+        <div className={style.searchLayout}>
+          <button
+            className={`${style.searchButton}`}
+            onClick={(e) =>
+              onSearch(e, {
+                batchDate:
+                  startDate === null
+                    ? ""
+                    : moment(startDate).format("DD/MM/yyyy").toString(),
+                lotName: lotName.lotNameInput,
+              })
+            }
+          >
+            <div className={`${style.buttonLayout}`}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="22"
+                height="22"
+                viewBox="0 0 22 22"
               >
-                <circle cx="8.5" cy="8.5" r="5" />
-                <path d="M17.571 17.5L12 12" />
-              </g>
-            </svg>
-            <div className={`${style.space5}`}>Search</div>
-          </div>
-        </button>
+                <g
+                  fill="none"
+                  fill-rule="evenodd"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <circle cx="8.5" cy="8.5" r="5" />
+                  <path d="M17.571 17.5L12 12" />
+                </g>
+              </svg>
+              <div className={`${style.space5}`}>Search</div>
+            </div>
+          </button>
+        </div>
       </div>
-
       <div className={`Transaction`}>
         <div className={`BatchBar shadow`}>
           <div className={`${style.space3}`}>
