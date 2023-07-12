@@ -6,7 +6,7 @@ import DetailCollection from "./pages/DetailCollection.tsx";
 import InvoicePayment from "./pages/InvoicePayment.tsx";
 import RDTransaction from "./pages/RDTransaction.tsx";
 import RDDetailCollection from "./pages/RDDetailCollection.tsx";
-import RDEditDetail from "./pages/RDEditDetail.tsx"
+import RDEditDetail from "./pages/RDEditDetail.tsx";
 import RecieptAS9 from "./pages/RecieptAS9.tsx";
 import UserManagement from "./pages/UserManagement.tsx";
 import RoleManagement from "./pages/RoleManagement.tsx";
@@ -14,8 +14,9 @@ import EditDetail from "./pages/EditDetail.tsx";
 import Login from "./pages/Login.tsx";
 import UseAuth from "./services/UseAuth.tsx";
 import AddUser from "./users/AddUser.tsx";
-import EditUser from "./users/EditUser.tsx";
+
 import "react-datepicker/dist/react-datepicker.css";
+import { ProtectRoute } from "./services/ProtectRoute.tsx";
 
 function App() {
   const { isAuthen } = UseAuth();
@@ -76,11 +77,27 @@ function App() {
         />
         <Route
           path="/usermanagement"
-          element={isAuthen ? <UserManagement /> : <Navigate to="/login" />}
+          element={
+            isAuthen ? (
+              <ProtectRoute>
+                <UserManagement />
+              </ProtectRoute>
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
         />
         <Route
           path="/rolemanagement"
-          element={isAuthen ? <RoleManagement /> : <Navigate to="/login" />}
+          element={
+            isAuthen ? (
+              <ProtectRoute>
+                <RoleManagement />
+              </ProtectRoute>
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
         />
         <Route
           path="/usermanagement/adduser"
@@ -88,8 +105,6 @@ function App() {
         />
       </Routes>
     </>
-
-
   );
 }
 

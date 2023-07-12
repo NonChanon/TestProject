@@ -1,12 +1,7 @@
-import style from "./RoleManagement.module.css";
-import { useEffect, useState } from "react";
 import axios from "axios";
-import editIcon from "../img/edit.svg";
-import deleteIcon from "../img/delete.svg";
-import AddRole from "../roles/AddRole";
-axios.defaults.headers.common = {
-  Authorization: `Bearer ${localStorage.token}`,
-};
+import { FormEvent, useState } from "react";
+import style from "./AddRole.module.css";
+import "../components/PopupButt.css";
 
 interface roleModel {
   name: string;
@@ -17,13 +12,7 @@ interface roleModel {
   ];
 }
 
-export default function RoleManagement() {
-  const [roles, setRoles] = useState([]);
-
-  useEffect(() => {
-    loadRoles();
-  }, []);
-
+export default function AddRole() {
   const [role, setRole] = useState<roleModel>({
     name: "",
     permissions: [
@@ -34,19 +23,7 @@ export default function RoleManagement() {
   });
 
   const { name } = role;
-  const [isOpen, setIsOpen] = useState(false);
 
-  const toggleModal = (e: React.MouseEvent, id: number) => {
-    e.preventDefault();
-    loadRole(id);
-    setIsOpen(!isOpen);
-  };
-
-  const closeModal = (e: React.MouseEvent) => {
-    e.preventDefault();
-    setIsOpen(!isOpen);
-    localStorage.removeItem("id");
-  };
   const handleChange = (e: { target: { name: any; value: any } }) => {
     setRole({ ...role, [e.target.name]: e.target.value });
     console.log(role);
@@ -57,70 +34,35 @@ export default function RoleManagement() {
     console.log(role);
   };
 
-  const loadRoles = async () => {
-    const dataRes = await axios.post("http://localhost:8080/api/roles");
-    setRoles(dataRes.data);
-  };
-
-  const loadRole = async (id: Number) => {
-    const dataRes = await axios.post(`http://localhost:8080/api/roles/${id}`);
-    setRole(dataRes.data);
-    console.log(role);
-  };
-
-  const handleSubmit = async (e: any) => {
-    e.preventDefault();
-    await axios.put(`http://localhost:8080/api/roles`, role);
+  const handleSubmit = async (e: FormEvent) => {
+    await axios.post("http://localhost:8080/api/roles/add", role);
     setIsOpen(!isOpen);
-    loadRoles();
   };
 
-  const deleteRole = async (id: Number) => {
-    if (window.confirm("Confirm Delete?")) {
-      await axios.delete(`http://localhost:8080/api/roles/${id}`);
-      loadRoles();
-    }
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleModal = () => {
+    setIsOpen(!isOpen);
   };
-
-  let arr = role.permissions;
-  const hasIdOne = arr.some((obj) => obj.id === 1);
-  const hasIdTwo = arr.some((obj) => obj.id === 2);
-  const hasIdThree = arr.some((obj) => obj.id === 3);
-  const hasIdFour = arr.some((obj) => obj.id === 4);
-
-  const roleTable = roles.map((data, i) => {
-    return (
-      <tbody>
-        <td>{i + 1}</td>
-        <td>{data.name}</td>
-        <td>{data.createdDate}</td>
-        <td>{data.createdUser}</td>
-        <td>{data.updatedDate}</td>
-        <td>{data.updatedUser}</td>
-        <td>
-          <label className={`${style[data.status]}`}>{data.status}</label>
-        </td>
-        <td className={style.manage}>
-          <button
-            className={style.editButton}
-            onClick={(e) => toggleModal(e, data.id)}
-          >
-            <img src={editIcon} alt="edit" />
-          </button>
-          <button
-            className={style.deleteLayout}
-            onClick={() => deleteRole(data.id)}
-          >
-            <img src={deleteIcon} alt="delete" />
-          </button>
-        </td>
-      </tbody>
-    );
-  });
 
   return (
-    <>
-      <div className={style.space2}>
+    <div className={style.container}>
+      <div>
+        <button className={style.addButton} onClick={toggleModal}>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+          >
+            <path
+              fill="white"
+              d="M12 4c4.411 0 8 3.589 8 8s-3.589 8-8 8s-8-3.589-8-8s3.589-8 8-8m0-2C6.477 2 2 6.477 2 12s4.477 10 10 10s10-4.477 10-10S17.523 2 12 2zm5 9h-4V7h-2v4H7v2h4v4h2v-4h4v-2z"
+            />
+          </svg>
+          Add
+        </button>
+
         {isOpen && (
           <form
             className="registerPopup"
@@ -131,8 +73,8 @@ export default function RoleManagement() {
             <div className="bgFade">
               <div className="a">
                 <div className="titleBlock">
-                  <p className="popupTitle">Edit Role</p>
-                  <button onClick={closeModal} className={style.exit}>
+                  <p className="popupTitle">Add Role</p>
+                  <button onClick={toggleModal} className={style.exit}>
                     X
                   </button>
                 </div>
@@ -159,20 +101,17 @@ export default function RoleManagement() {
                           type="checkbox"
                           name="id"
                           value="1"
-                          checked={hasIdOne}
                           onClick={(e) => {
                             let thisBox = document.getElementById(
                               "checkbox1"
                             ) as HTMLInputElement;
-                            console.log(thisBox);
+                            console.log(thisBox.checked);
                             let arr = role.permissions;
                             if (thisBox.checked) {
                               arr.push({ id: 1 });
                               console.log(arr);
                             } else {
-                              var index = arr
-                                .map((object) => object.id)
-                                .indexOf(1);
+                              var index =  arr.map(object => object.id).indexOf(1);
                               console.log(index);
                               if (index !== -1) {
                                 arr.splice(index, 1);
@@ -193,12 +132,10 @@ export default function RoleManagement() {
                           type="checkbox"
                           name="id"
                           value="2"
-                          checked={hasIdTwo}
                           onClick={(e) => {
                             let thisBox = document.getElementById(
                               "checkbox2"
                             ) as HTMLInputElement;
-                            console.log(thisBox);
                             console.log(thisBox.checked);
                             let arr = role.permissions;
                             console.log(arr);
@@ -206,9 +143,7 @@ export default function RoleManagement() {
                               arr.push({ id: 2 });
                               console.log(arr);
                             } else {
-                              var index = arr
-                                .map((object) => object.id)
-                                .indexOf(2);
+                              var index =  arr.map(object => object.id).indexOf(2);
                               if (index !== -1) {
                                 arr.splice(index, 1);
                               } else {
@@ -228,21 +163,17 @@ export default function RoleManagement() {
                           type="checkbox"
                           name="id"
                           value="3"
-                          checked={hasIdThree}
                           onClick={(e) => {
                             let thisBox = document.getElementById(
                               "checkbox3"
                             ) as HTMLInputElement;
-                            console.log(thisBox);
                             console.log(thisBox.checked);
                             let arr = role.permissions;
                             if (thisBox.checked) {
                               arr.push({ id: 3 });
                               console.log(arr);
                             } else {
-                              var index = arr
-                                .map((object) => object.id)
-                                .indexOf(3);
+                              var index =  arr.map(object => object.id).indexOf(3);
                               console.log(index);
                               if (index !== -1) {
                                 arr.splice(index, 1);
@@ -263,21 +194,17 @@ export default function RoleManagement() {
                           type="checkbox"
                           name="id"
                           value="4"
-                          checked={hasIdFour}
                           onClick={(e) => {
                             let thisBox = document.getElementById(
                               "checkbox4"
                             ) as HTMLInputElement;
-                            console.log(thisBox);
                             console.log(thisBox.checked);
                             let arr = role.permissions;
                             if (thisBox.checked) {
                               arr.push({ id: 4 });
                               console.log(arr);
                             } else {
-                              var index = arr
-                                .map((object) => object.id)
-                                .indexOf(4);
+                              var index =  arr.map(object => object.id).indexOf(4);
                               console.log(index);
                               if (index !== -1) {
                                 arr.splice(index, 1);
@@ -298,7 +225,7 @@ export default function RoleManagement() {
                   <button type="submit" className={style.submitButt}>
                     Submit
                   </button>
-                  <button className={style.cancelButt} onClick={closeModal}>
+                  <button className={style.cancelButt} onClick={toggleModal}>
                     Cancel
                   </button>
                 </div>
@@ -306,85 +233,7 @@ export default function RoleManagement() {
             </div>
           </form>
         )}
-        <div className={`${style.title} ${style.spaceTitle}`}>
-          <div className={style.line}></div>
-          <div>Role Management</div>
-        </div>
-        <div
-          className={`shadow ${style.searchFunctionContainer} ${style.spaceTitle}`}
-        >
-          <div className={style.searchFunctionBox}>
-            <div className="filterFunction">
-              <button className={`${style.button1}`}>
-                <div className={`${style.row}`}>
-                  <select className={style.selectForm} name="selectedRole">
-                    <option value="" disabled selected hidden>
-                      Select Group User
-                    </option>
-                    <option value="all">All</option>
-                    <option value="user">User</option>
-                    <option value="admin">Admin</option>
-                  </select>
-                </div>
-                <div className={`${style.line2}`}></div>
-              </button>
-              <button className={`${style.button1}`}>
-                <div className={`${style.row}`}>
-                  <select className={style.selectForm} name="selectedRole">
-                    <option value="" disabled selected hidden color="#ffffff">
-                      Select Status
-                    </option>
-                    <option value="all">All</option>
-                    <option value="active">Active</option>
-                    <option value="inactive">Inactive</option>
-                  </select>
-                </div>
-                <div className={`${style.line2}`}></div>
-              </button>
-            </div>
-            <button className={style.searchButton}>
-              <div className={style.row}>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="22"
-                  height="22"
-                  viewBox="0 0 22 22"
-                >
-                  <g
-                    fill="none"
-                    fill-rule="evenodd"
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  >
-                    <circle cx="8.5" cy="8.5" r="5" />
-                    <path d="M17.571 17.5L12 12" />
-                  </g>
-                </svg>
-                <div className={style.spaceSearchButton}>Search</div>
-              </div>
-            </button>
-          </div>
-        </div>
-        <table>
-          <thead>
-            <tr>
-              <th>No.</th>
-              <th>Group User</th>
-              <th>Created User</th>
-              <th>Created Date</th>
-              <th>Updated Date</th>
-              <th>Updated User</th>
-              <th>Status</th>
-              <th>Manage</th>
-            </tr>
-          </thead>
-          {roleTable}
-        </table>
-        <div className={style.addContainer}>
-          <AddRole />
-        </div>
       </div>
-    </>
+    </div>
   );
 }
