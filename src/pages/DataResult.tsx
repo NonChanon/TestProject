@@ -19,13 +19,13 @@ interface lotModel {
 }
 
 interface dataModel {
-  content: lotModel[],
+  content: lotModel[];
   sumStatus: {
     approved: number;
     pending: number;
     invalidData: number;
     denied: number;
-  }
+  };
 }
 
 export default function DataResult() {
@@ -87,16 +87,19 @@ export default function DataResult() {
   console.log(grouped);
 
   if (datas.content != null) {
-    grouped = datas.content.reduce((acc: {[key:string] :lotModel[]}, obj: lotModel) => {
-      console.log("Acc ======>", acc);
-      const key: string = obj.batchDate;
-      acc[key] = acc[key] || [];
-      acc[key].push(obj);
-      return acc;
-    }, {});
+    grouped = datas.content.reduce(
+      (acc: { [key: string]: lotModel[] }, obj: lotModel) => {
+        console.log("Acc ======>", acc);
+        const key: string = obj.batchDate;
+        acc[key] = acc[key] || [];
+        acc[key].push(obj);
+        return acc;
+      },
+      {}
+    );
   }
 
-  grouped = grouped as {[key:string] :lotModel[]};
+  grouped = grouped as { [key: string]: lotModel[] };
 
   console.log(grouped);
 

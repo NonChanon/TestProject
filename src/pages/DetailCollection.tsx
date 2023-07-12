@@ -54,10 +54,10 @@ interface contractModel {
 
 interface dataModel {
   totalItems: number;
-    totalPages: number;
-    currentPage: number;
-    content: customerModel[];
-    lot: lotModel;
+  totalPages: number;
+  currentPage: number;
+  content: customerModel[];
+  lot: lotModel;
 }
 
 export default function DetailCollection() {
@@ -74,8 +74,8 @@ export default function DetailCollection() {
       approvedBy: "",
       totalDuty: 0,
       totalDubDutyAmount: 0,
-      totalPayment: 0
-    }
+      totalPayment: 0,
+    },
   });
 
   const [pageNo, setPageNo] = useState("0");
@@ -85,13 +85,13 @@ export default function DetailCollection() {
   console.log("path = " + path);
   console.log("search path = " + searchPath);
   console.log(useLocation());
-  console.log("lotname : " + path.split('/')[path.split('/').length - 1]);
+  console.log("lotname : " + path.split("/")[path.split("/").length - 1]);
 
   const navigate = useNavigate();
 
   const loadDatas = async () => {
     const dataRes = await axios.get(
-      `http://localhost:8080/api/${path.split('/')[path.split('/').length - 1]}`
+      `http://localhost:8080/api/${path.split("/")[path.split("/").length - 1]}`
     );
     setDatas(dataRes.data);
     console.log("loaddata = " + dataRes.data);
@@ -99,11 +99,13 @@ export default function DetailCollection() {
 
   const loadPageDatas = async (page: string) => {
     const dataRes = await axios.get(
-      `http://localhost:8080/api/${path.split('/')[path.split('/').length - 1]}?page=${page}`
+      `http://localhost:8080/api/${
+        path.split("/")[path.split("/").length - 1]
+      }?page=${page}`
     );
     setDatas(dataRes.data);
     console.log("currentPage = " + dataRes.data.currentPage);
-  }
+  };
 
   const onApprove = async (e: React.MouseEvent, status: object) => {
     e.preventDefault();
@@ -126,7 +128,9 @@ export default function DetailCollection() {
         <button
           onClick={() => {
             setPageNo(`${datas.currentPage == 0 ? 0 : datas.currentPage - 1}`);
-            loadPageDatas(`${datas.currentPage == 0 ? 0 : datas.currentPage - 1}`);
+            loadPageDatas(
+              `${datas.currentPage == 0 ? 0 : datas.currentPage - 1}`
+            );
           }}
         >
           <svg
@@ -162,8 +166,20 @@ export default function DetailCollection() {
       list.push(
         <button
           onClick={() => {
-            setPageNo(`${datas.currentPage == datas.totalPages - 1 ? datas.totalPages - 1 : datas.currentPage + 1}`);
-            loadPageDatas(`${datas.currentPage == datas.totalPages - 1 ? datas.totalPages - 1 : datas.currentPage + 1}`);
+            setPageNo(
+              `${
+                datas.currentPage == datas.totalPages - 1
+                  ? datas.totalPages - 1
+                  : datas.currentPage + 1
+              }`
+            );
+            loadPageDatas(
+              `${
+                datas.currentPage == datas.totalPages - 1
+                  ? datas.totalPages - 1
+                  : datas.currentPage + 1
+              }`
+            );
           }}
         >
           <svg
@@ -311,7 +327,12 @@ export default function DetailCollection() {
               </div>
               <div className={`${style.ButtonAction}`}>
                 <button
-                  onClick={(e) => onApprove(e, { approvalStatus: "Approved", approvalBy: localStorage.user_name })}
+                  onClick={(e) =>
+                    onApprove(e, {
+                      approvalStatus: "Approved",
+                      approvalBy: localStorage.user_name,
+                    })
+                  }
                   className={`${style.apbutt} ${style.tab2}`}
                 >
                   Approve

@@ -1,5 +1,5 @@
 import style from "./UserManagement.module.css";
-import { FormEvent, FormEventHandler, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import editIcon from "../img/edit.svg";
 import deleteIcon from "../img/delete.svg";
@@ -9,11 +9,15 @@ import AddUser from "../users/AddUser";
 export default function UserManagement() {
   const [users, setUsers] = useState([]);
 
+  const [roles, setRoles] = useState([]);
+
   const [user, setUser] = useState({
     firstname: "",
     lastname: "",
     email: "",
-    role: "",
+    role: {
+      name: "",
+    },
   });
 
   const editUser = {
@@ -23,11 +27,17 @@ export default function UserManagement() {
     role: user.role,
   };
 
+  const loadRoles = async () => {
+    const dataRes = await axios.post("http://localhost:8080/api/roles");
+    setRoles(dataRes.data);
+  };
+
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleModal = (e: React.MouseEvent, id: number) => {
     e.preventDefault();
     setIsOpen(!isOpen);
+    loadRoles();
     localStorage.setItem("id", `${id}`);
   };
 
@@ -37,6 +47,17 @@ export default function UserManagement() {
     localStorage.removeItem("id");
   };
   const { firstname, lastname, email } = user;
+
+  const handleRole = (e: { target: { name: any; value: any } }) => {
+    setUser({
+      ...user,
+      role: {
+        ...user.role,
+        [e.target.name]: e.target.value,
+      },
+    });
+    console.log(user);
+  };
 
   const handleChange = (e: any) => {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -82,7 +103,7 @@ export default function UserManagement() {
       <tbody>
         <td>{i + 1}</td>
         <td>{data.username}</td>
-        <td>{data.role}</td>
+        <td>{data.role.name}</td>
         <td>{data.firstname}</td>
         <td>{data.lastname}</td>
         <td>{data.email}</td>
@@ -124,16 +145,18 @@ export default function UserManagement() {
                 <div className={style.header}>Group User</div>
                 <div className={style.formDetail}>
                   <label className={style.formLabel}>Role</label>
+
                   <select
                     className={style.tab}
-                    name="role"
-                    onChange={handleChange}
+                    name="name"
+                    onChange={handleRole}
                   >
                     <option value="" disabled selected hidden>
-                      {user.role}
+                      {user.role.name}
                     </option>
-                    <option value="USER">USER</option>
-                    <option value="ADMIN">ADMIN</option>
+                    {roles.map((data, i) => {
+                      return <option value={data.name}>{data.name}</option>;
+                    })}
                   </select>
                 </div>
               </form>

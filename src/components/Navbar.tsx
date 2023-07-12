@@ -69,7 +69,7 @@ export default function Navbar() {
   const { logout } = UseAuth();
   const { pathname } = useLocation();
 
-  if (pathname == "/login") {
+  if (pathname == "/login" || pathname == "*") {
     return <div></div>;
   }
 
