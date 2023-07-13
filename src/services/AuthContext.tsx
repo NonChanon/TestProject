@@ -39,8 +39,12 @@ export const AuthProvider = ({ children }: any) => {
         form
       );
       localStorage.setItem("token", res.data.access_token);
-      localStorage.setItem("role", res.data.role.name);
-      console.log(res.data.role.name);
+      for (let i = 0; i < res.data.role.permissions.length; i++) {
+        localStorage.setItem(
+          `permission${i + 1}`,
+          res.data.role.permissions[i].id
+        );
+      }
       localStorage.setItem(
         "user_name",
         res.data.firstname + " " + res.data.lastname
@@ -60,7 +64,11 @@ export const AuthProvider = ({ children }: any) => {
       axios.post("http://localhost:8080/api/v1/auth/logout");
       console.log(localStorage.token);
       localStorage.removeItem("token");
-      localStorage.removeItem("role");
+      localStorage.removeItem("permission1");
+      localStorage.removeItem("permission2");
+      localStorage.removeItem("permission3");
+      localStorage.removeItem("permission4");
+      localStorage.removeItem("user_name");
       dispatch({ type: "LOGOUT" });
       return { error: false };
     } catch (error) {
