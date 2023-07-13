@@ -8,13 +8,14 @@ export default function AddUser() {
     firstname: "",
     lastname: "",
     email: "",
+    username: "",
     password: "",
     role: {
       name: "",
     },
   });
 
-  const { firstname, lastname, email, password } = user;
+  const { firstname, lastname, email, username, password } = user;
 
   const handleChange = (e: { target: { name: any; value: any } }) => {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -88,6 +89,7 @@ export default function AddUser() {
                   <div className={style.formDetail}>
                     <label className={style.formLabel}>Role</label>
                     <select
+                      required
                       className={style.tab}
                       name="name"
                       onChange={handleRole}
@@ -106,6 +108,7 @@ export default function AddUser() {
                   <div className={style.formDetail}>
                     <label className={style.formLabel}>Firstname</label>
                     <input
+                      required
                       type={"text"}
                       className={style.tab}
                       placeholder="firstname"
@@ -117,6 +120,7 @@ export default function AddUser() {
                   <div className={style.formDetail}>
                     <label className={style.formLabel}>Lastname</label>
                     <input
+                      required
                       type={"text"}
                       className={style.tab}
                       placeholder="lastname"
@@ -128,6 +132,7 @@ export default function AddUser() {
                   <div className={style.formDetail}>
                     <label className={style.formLabel}>E-mail</label>
                     <input
+                      required
                       type={"email"}
                       className={style.tab}
                       placeholder="email"
@@ -137,8 +142,21 @@ export default function AddUser() {
                     />
                   </div>
                   <div className={style.formDetail}>
+                    <label className={style.formLabel}>Username</label>
+                    <input
+                      required
+                      type={"text"}
+                      className={style.tab}
+                      placeholder="username"
+                      name="username"
+                      value={username}
+                      onChange={handleChange}
+                    />
+                  </div>
+                  <div className={style.formDetail}>
                     <label className={style.formLabel}>Password</label>
                     <input
+                      required
                       type={"password"}
                       className={style.tab}
                       placeholder="password"

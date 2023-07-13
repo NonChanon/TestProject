@@ -7,63 +7,69 @@ import { useState } from "react";
 let activeClassName = "nav-active";
 
 const adminPage = () => {
-  if (localStorage.role == "ADMIN")
-    return (
-      <div>
-        <li>
-          <NavLink
-            to="/usermanagement"
-            className={({ isActive }) =>
-              isActive ? activeClassName : undefined
-            }
-          >
-            <svg
-              className="menulistsvg"
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
+  for (let i = 1; i <= 4; i++) {
+    if (
+      localStorage.getItem(`permission${i}`) === "1" ||
+      localStorage.getItem(`permission${i}`) === "3"
+    ) {
+      return (
+        <div>
+          <li>
+            <NavLink
+              to="/usermanagement"
+              className={({ isActive }) =>
+                isActive ? activeClassName : undefined
+              }
             >
-              <path
-                fill="none"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0-8 0M6 21v-2a4 4 0 0 1 4-4h3.5m4.92.61a2.1 2.1 0 0 1 2.97 2.97L18 22h-3v-3l3.42-3.39z"
-              />
-            </svg>
-            User Management
-          </NavLink>
-        </li>
-        <li>
-          <NavLink
-            to="/rolemanagement"
-            className={({ isActive }) =>
-              isActive ? activeClassName : undefined
-            }
-          >
-            <svg
-              className="menulistsvg"
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
+              <svg
+                className="menulistsvg"
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0-8 0M6 21v-2a4 4 0 0 1 4-4h3.5m4.92.61a2.1 2.1 0 0 1 2.97 2.97L18 22h-3v-3l3.42-3.39z"
+                />
+              </svg>
+              User Management
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/rolemanagement"
+              className={({ isActive }) =>
+                isActive ? activeClassName : undefined
+              }
             >
-              <path
-                fill="none"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0-8 0M6 21v-2a4 4 0 0 1 4-4h2.5m4.501 4a2 2 0 1 0 4 0a2 2 0 1 0-4 0m2-3.5V17m0 4v1.5m3.031-5.25l-1.299.75m-3.463 2l-1.3.75m0-3.5l1.3.75m3.463 2l1.3.75"
-              />
-            </svg>
-            Role Management
-          </NavLink>
-        </li>
-      </div>
-    );
+              <svg
+                className="menulistsvg"
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0-8 0M6 21v-2a4 4 0 0 1 4-4h2.5m4.501 4a2 2 0 1 0 4 0a2 2 0 1 0-4 0m2-3.5V17m0 4v1.5m3.031-5.25l-1.299.75m-3.463 2l-1.3.75m0-3.5l1.3.75m3.463 2l1.3.75"
+                />
+              </svg>
+              Role Management
+            </NavLink>
+          </li>
+        </div>
+      );
+    }
+  }
 };
 
 export default function Navbar() {
