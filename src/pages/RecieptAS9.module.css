@@ -259,7 +259,7 @@
   margin-bottom: 20px;
 }
 
-.searchButton {
+.SearchButton {
   background-color: #489788;
   border: none;
   border-radius: 5px;
@@ -306,6 +306,13 @@
   transition-duration: 0.4s;
 }
 
+<<<<<<< HEAD
+.pdfSize {
+  max-width: 500px;
+  min-height: 400px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+=======
 .buttonLayout {
   display: flex;
   flex-direction: row;
@@ -363,4 +370,5 @@
     display: flex;
     justify-content: center;
   }
+>>>>>>> 098bf9f406ad41dd02e418981f123c682d45a72a
 }
