@@ -27,19 +27,8 @@ interface dataModel {
   content: lotModel[];
 }
 
-interface dataModel {
-  totalItems: number;
-  totalPages: number;
-  currentPage: number;
-  content: lotModel[];
-}
-
 export default function RecieptAS9() {
   const [tab, setTab] = useState("all");
-  const [datas, setDatas] = useState<dataModel>({
-    totalItems: 0,
-    totalPages: 0,
-    currentPage: 0,
   const [datas, setDatas] = useState<dataModel>({
     totalItems: 0,
     totalPages: 0,
@@ -143,103 +132,11 @@ export default function RecieptAS9() {
     return <div>{list}</div>;
   }
 
-  const [pageNo, setPageNo] = useState("0");
-
-  const loadPageDatas = async (filter: string, pageNo: string) => {
-    const dataRes = await axios.get(
-      `http://localhost:8080/api${filter}?page=${pageNo}`
-    );
-    setDatas(dataRes.data);
-    console.log("currentPage = " + dataRes.data.currentPage);
-  };
-
-  function renderPageNumber() {
-    const list = [];
-    if (datas.totalPages > 1) {
-      list.push(
-        <button
-          onClick={() => {
-            setPageNo(`${datas.currentPage == 0 ? 0 : datas.currentPage - 1}`);
-            loadPageDatas(
-              tab,
-              `${datas.currentPage == 0 ? 0 : datas.currentPage - 1}`
-            );
-          }}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            viewBox="0 2 16 16"
-          >
-            <g transform="translate(24 0) scale(-1 1)">
-              <path
-                fill="none"
-                stroke="#489788"
-                stroke-width="2"
-                d="m9 6l6 6l-6 6"
-              />
-            </g>
-          </svg>
-        </button>
-      );
-      for (let i = 0; i < datas.totalPages; i++) {
-        list.push(
-          <button
-            onClick={() => {
-              setPageNo(`${i}`);
-              loadPageDatas(tab, `${i}`);
-            }}
-            className={pageNo == `${i}` ? `${style.active}` : undefined}
-          >
-            {i + 1}
-          </button>
-        );
-      }
-      list.push(
-        <button
-          onClick={() => {
-            setPageNo(
-              `${
-                datas.currentPage == datas.totalPages - 1
-                  ? datas.totalPages - 1
-                  : datas.currentPage + 1
-              }`
-            );
-            loadPageDatas(
-              tab,
-              `${
-                datas.currentPage == datas.totalPages - 1
-                  ? datas.totalPages - 1
-                  : datas.currentPage + 1
-              }`
-            );
-          }}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            viewBox="7 2 16 16"
-          >
-            <path
-              fill="none"
-              stroke="#489788"
-              stroke-width="2"
-              d="m9 6l6 6l-6 6"
-            />
-          </svg>
-        </button>
-      );
-    }
-    return <div>{list}</div>;
-  }
-
   const path = useLocation().pathname;
   console.log("path = " + path);
   console.log(useLocation());
 
-  let grouped: any: any = datas.content.content;
+  let grouped: any = datas.content;
 
   const loadDatas = async () => {
     const dataRes = await axios.get(
@@ -254,16 +151,12 @@ export default function RecieptAS9() {
     moment;
     const dataRes = await axios.post(
       `http://localhost:8080/api/lots/search/recAs9`,
-      `http://localhost:8080/api/lots/search/recAs9`,
       request
     );
     setDatas(dataRes.data);
     console.log("search data is " + dataRes.data);
   };
 
-  const updateLotNameInput = (e: {
-    target: { name: string; value: string };
-  }) => {
   const updateLotNameInput = (e: {
     target: { name: string; value: string };
   }) => {
@@ -344,58 +237,6 @@ export default function RecieptAS9() {
     loadDatas();
   };
 
-  const [imageData, setImageData] = useState("");
-  const [isOpen1, setIsOpen1] = useState(false);
-  const [isOpen2, setIsOpen2] = useState(false);
-
-  const getPayment = async (type: any) => {
-    await axios
-      .get(
-        `http://localhost:8080/api/${localStorage.lotName}/download/${type}`,
-        {
-          responseType: "arraybuffer",
-        }
-      )
-      .then((response) => {
-        const base64 = btoa(
-          new Uint8Array(response.data).reduce(
-            (data, byte) => data + String.fromCharCode(byte),
-            ""
-          )
-        );
-        setImageData(base64);
-        // console.log(base64);
-        console.log(response.data);
-      });
-  };
-
-  const toggleModal1 = (lotname: string, type: string) => {
-    setIsOpen1(!isOpen1);
-    localStorage.setItem("lotName", `${lotname}`);
-    getPayment(type);
-    console.log(imageData);
-    console.log(localStorage.lotName);
-    console.log("asdkasdsaoidj");
-  };
-
-  const toggleModal2 = (lotname: string, type: string) => {
-    setIsOpen2(!isOpen2);
-    localStorage.setItem("lotName", `${lotname}`);
-    getPayment(type);
-    console.log(imageData);
-    console.log(localStorage.lotName);
-    console.log("asdkasdsaoidj");
-  };
-
-  const onApprove = async (e: React.MouseEvent, status: string) => {
-    e.preventDefault();
-    console.log(status);
-    await axios.put(`http://localhost:8080/api/invoice/${status}`);
-    setIsOpen1(!isOpen1);
-    setIsOpen2(!isOpen2);
-    loadDatas();
-  };
-
   useEffect(() => {
     console.log("Trigger use Effect");
     loadDatas();
@@ -406,6 +247,7 @@ export default function RecieptAS9() {
       sumTotalDuty = 0,
       sumTotalDubDutyAmount = 0,
       sumTotalPayment = 0;
+
     return (
       <div>
         {datas.content.length > 0 ? (
@@ -596,22 +438,7 @@ export default function RecieptAS9() {
                 isClearable
                 placeholderText="Batch Date"
                 className={`${style.calendarDate}`}
-                isClearable
-                placeholderText="Batch Date"
-                className={`${style.calendarDate}`}
               />
-              <svg
-                style={{ margin: "0px" }}
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  fill="#7F7F7F"
-                  d="M8 14q-.425 0-.713-.288T7 13q0-.425.288-.713T8 12q.425 0 .713.288T9 13q0 .425-.288.713T8 14Zm4 0q-.425 0-.713-.288T11 13q0-.425.288-.713T12 12q.425 0 .713.288T13 13q0 .425-.288.713T12 14Zm4 0q-.425 0-.713-.288T15 13q0-.425.288-.713T16 12q.425 0 .713.288T17 13q0 .425-.288.713T16 14ZM5 22q-.825 0-1.413-.588T3 20V6q0-.825.588-1.413T5 4h1V2h2v2h8V2h2v2h1q.825 0 1.413.588T21 6v14q0 .825-.588 1.413T19 22H5Zm0-2h14V10H5v10ZM5 8h14V6H5v2Zm0 0V6v2Z"
-                />
-              </svg>
               <svg
                 style={{ margin: "0px" }}
                 xmlns="http://www.w3.org/2000/svg"
@@ -627,7 +454,6 @@ export default function RecieptAS9() {
             </div>
             <div className={`${style.line2}`}></div>
           </button>
-
 
           <button className={`LotName ${style.button1}`}>
             <div className={`${style.row}`}>
@@ -651,10 +477,8 @@ export default function RecieptAS9() {
           </button>
         </div>
 
-
         <div className={style.searchLayout}>
           <button
-            className={`${style.SearchButton}`}
             className={`${style.SearchButton}`}
             onClick={(e) =>
               onSearch(e, {
@@ -692,13 +516,11 @@ export default function RecieptAS9() {
       <div className="Transection">
         <div className="BatchBar shadow ">
           <div className={`${style.space3}`}>
-            <div>{dataRecAS9Table}</div>
+            <div>
+              <table>{dataRecAS9Table}</table>
+            </div>
           </div>
         </div>
-      </div>
-
-      <div className={`${style.pagination} ${style.end}`}>
-        {renderPageNumber()}
       </div>
 
       <div className={`${style.pagination} ${style.end}`}>
