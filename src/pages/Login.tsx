@@ -41,6 +41,7 @@ const Login = () => {
             placeholder="Email"
             value={form.email}
             onChange={handleChange}
+            required
           />
           <input
             required

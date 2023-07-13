@@ -45,11 +45,27 @@ function App() {
         />
         <Route
           path="/batchdataresult/:lotname"
-          element={isAuthen ? <DetailCollection /> : <Navigate to="/login" />}
+          element={
+            isAuthen ? (
+              <ProtectRoute>
+                <DetailCollection />
+              </ProtectRoute>
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
         />
         <Route
           path="/batchdataresult/:lotname/:customertaxid/edit"
-          element={isAuthen ? <EditDetail /> : <Navigate to="/login" />}
+          element={
+            isAuthen ? (
+              <ProtectRoute>
+                <EditDetail />
+              </ProtectRoute>
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
         />
         <Route
           path="/invoice"

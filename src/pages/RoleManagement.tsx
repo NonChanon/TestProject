@@ -147,7 +147,7 @@ export default function RoleManagement() {
       <div className={style.space2}>
         {isOpen && (
           <form
-            className="registerPopup"
+            className={style.registerPopup}
             onSubmit={(e) => {
               handleSubmit(e);
             }}
@@ -349,8 +349,9 @@ export default function RoleManagement() {
                     Select Group User
                   </option>
                   <option value="all">All</option>
-                  <option value="user">User</option>
-                  <option value="admin">Admin</option>
+                  {roles.map((data, i) => {
+                    return <option value={data.name}>{data.name}</option>;
+                  })}
                 </select>
               </div>
               <div className={`${style.line2}`}></div>

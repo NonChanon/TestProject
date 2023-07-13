@@ -154,11 +154,15 @@ export default function InvoicePayment() {
     e.preventDefault();
     console.log(status);
     await axios.put(`http://localhost:8080/api/invoice/${status}`);
-    setIsOpen(!isOpen);
+    setIsOpen1(!isOpen1);
+    setIsOpen2(!isOpen2);
+    setIsOpen3(!isOpen3);
     loadDatas();
   };
 
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen1, setIsOpen1] = useState(false);
+  const [isOpen2, setIsOpen2] = useState(false);
+  const [isOpen3, setIsOpen3] = useState(false);
 
   console.log(grouped);
 
@@ -185,8 +189,24 @@ export default function InvoicePayment() {
       });
   };
 
-  const toggleModal = (lotname: string, type: string) => {
-    setIsOpen(!isOpen);
+  const toggleModal1 = (lotname: string, type: string) => {
+    setIsOpen1(!isOpen1);
+    localStorage.setItem("lotName", `${lotname}`);
+    getPayment(type);
+    console.log(localStorage.lotName);
+    console.log("asdkasdsaoidj");
+  };
+
+  const toggleModal2 = (lotname: string, type: string) => {
+    setIsOpen2(!isOpen2);
+    localStorage.setItem("lotName", `${lotname}`);
+    getPayment(type);
+    console.log(localStorage.lotName);
+    console.log("asdkasdsaoidj");
+  };
+
+  const toggleModal3 = (lotname: string, type: string) => {
+    setIsOpen3(!isOpen3);
     localStorage.setItem("lotName", `${lotname}`);
     getPayment(type);
     console.log(localStorage.lotName);
@@ -439,9 +459,9 @@ export default function InvoicePayment() {
               </button>
             </div>
             {datas.content.length > 0 ? (
-              <div>
+              <div className={`${style.transactionTable}`}>
                 <div className={`${style.Table} ${style.top}`}>
-                  <table className={`${style.transactionTable}`}>
+                  <table>
                     <thead>
                       <tr className={`${style.tableTitle}`}>
                         <th>No.</th>
@@ -491,7 +511,7 @@ export default function InvoicePayment() {
                               <div className="QrButton">
                                 <div
                                   className="iconSize"
-                                  onClick={(e) => toggleModal(lot.name, "qr")}
+                                  onClick={(e) => toggleModal1(lot.name, "qr")}
                                 >
                                   <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -533,13 +553,15 @@ export default function InvoicePayment() {
                                   </svg>
                                 </div>
 
-                                {isOpen && (
+                                {isOpen1 && (
                                   <div className="bgFade">
                                     <div className="a">
                                       <div className="titleBlock">
-                                        <p className="popupTitle">QR CODE</p>
+                                        <p className="popupTitle">
+                                          QR Code Payment
+                                        </p>
                                         <div
-                                          onClick={(e) => setIsOpen(!isOpen)}
+                                          onClick={(e) => setIsOpen1(!isOpen1)}
                                           className="exit"
                                         >
                                           X
@@ -548,7 +570,7 @@ export default function InvoicePayment() {
                                       <div>
                                         <img
                                           src={`data:;base64,${imageData}`}
-                                          className="imgPopup"
+                                          className={`${style.imgPopup}`}
                                         />
                                       </div>
 
@@ -567,7 +589,9 @@ export default function InvoicePayment() {
                               <div className="SlipButton">
                                 <div
                                   className="iconSize"
-                                  onClick={(e) => toggleModal(lot.name, "slip")}
+                                  onClick={(e) =>
+                                    toggleModal2(lot.name, "slip")
+                                  }
                                 >
                                   <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -587,14 +611,15 @@ export default function InvoicePayment() {
                                     </g>
                                   </svg>
                                 </div>
-
-                                {isOpen && (
+                                {isOpen2 && (
                                   <div className="bgFade">
                                     <div className="a">
                                       <div className="titleBlock">
-                                        <p className="popupTitle">QR CODE</p>
+                                        <p className="popupTitle">
+                                          Slip Payment
+                                        </p>
                                         <div
-                                          onClick={(e) => setIsOpen(!isOpen)}
+                                          onClick={(e) => setIsOpen2(!isOpen2)}
                                           className="exit"
                                         >
                                           X
@@ -622,7 +647,9 @@ export default function InvoicePayment() {
                               <div className="EPaymentButton">
                                 <div
                                   className="iconSize"
-                                  onClick={(e) => toggleModal(lot.name, "ePay")}
+                                  onClick={(e) =>
+                                    toggleModal3(lot.name, "ePay")
+                                  }
                                 >
                                   <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -643,13 +670,13 @@ export default function InvoicePayment() {
                                   </svg>
                                 </div>
 
-                                {isOpen && (
+                                {isOpen3 && (
                                   <div className="bgFade">
                                     <div className="a">
                                       <div className="titleBlock">
-                                        <p className="popupTitle">QR CODE</p>
+                                        <p className="popupTitle">E-Payment</p>
                                         <div
-                                          onClick={(e) => setIsOpen(!isOpen)}
+                                          onClick={(e) => setIsOpen3(!isOpen3)}
                                           className="exit"
                                         >
                                           X

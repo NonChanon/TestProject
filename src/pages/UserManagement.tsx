@@ -15,6 +15,7 @@ export default function UserManagement() {
     firstname: "",
     lastname: "",
     email: "",
+    username: "",
     role: {
       name: "",
     },
@@ -32,6 +33,7 @@ export default function UserManagement() {
     firstname: user.firstname,
     lastname: user.lastname,
     email: user.email,
+    username: user.username,
     role: user.role,
   };
 
@@ -64,7 +66,7 @@ export default function UserManagement() {
     setIsOpen(!isOpen);
     localStorage.removeItem("id");
   };
-  const { firstname, lastname, email } = user;
+  const { firstname, lastname, email, username } = user;
 
   const handleRole = (e: { target: { name: any; value: any } }) => {
     setUser({
@@ -127,22 +129,24 @@ export default function UserManagement() {
         <td>{data.lastname}</td>
         <td>{data.email}</td>
         <td>{data.enabled}</td>
-        <td className={style.manage}>
-          <button
-            className={style.editButton}
-            onClick={(e) => {
-              loadUser(data.id);
-              toggleModal(e, data.id);
-            }}
-          >
-            <img src={editIcon} alt="edit" />
-          </button>
-          <button
-            className={style.deleteLayout}
-            onClick={() => deleteUser(data.id)}
-          >
-            <img src={deleteIcon} alt="delete" />
-          </button>
+        <td>
+          <div className={style.manage}>
+            <button
+              className={style.editButton}
+              onClick={(e) => {
+                loadUser(data.id);
+                toggleModal(e, data.id);
+              }}
+            >
+              <img src={editIcon} alt="edit" />
+            </button>
+            <button
+              className={style.deleteLayout}
+              onClick={() => deleteUser(data.id)}
+            >
+              <img src={deleteIcon} alt="delete" />
+            </button>
+          </div>
         </td>
       </tbody>
     );
@@ -151,7 +155,7 @@ export default function UserManagement() {
   return (
     <div className={style.space2}>
       {isOpen && (
-        <form className="registerPopup" onSubmit={handleSubmit}>
+        <form className={style.registerPopup} onSubmit={handleSubmit}>
           <div className="bgFade">
             <div className="a">
               <div className="titleBlock">
@@ -211,6 +215,17 @@ export default function UserManagement() {
                     placeholder="email"
                     name="email"
                     value={email}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className={style.formDetail}>
+                  <label className={style.formLabel}>Username</label>
+                  <input
+                    type={"text"}
+                    className={style.tab}
+                    placeholder="username"
+                    name="username"
+                    value={username}
                     onChange={handleChange}
                   />
                 </div>
@@ -277,8 +292,9 @@ export default function UserManagement() {
                   Select Group User
                 </option>
                 <option value="all">All</option>
-                <option value="user">User</option>
-                <option value="admin">Admin</option>
+                {roles.map((data, i) => {
+                  return <option value={data.name}>{data.name}</option>;
+                })}
               </select>
             </div>
             <div className={`${style.line2}`}></div>

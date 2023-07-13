@@ -91,6 +91,7 @@ export default function AddRole() {
                   <div className={style.formDetail}>
                     <label className={style.formLabel}>Role Name</label>
                     <input
+                      required
                       type={"text"}
                       className={style.tab}
                       placeholder="name"
