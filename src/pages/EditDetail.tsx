@@ -342,7 +342,7 @@ export default function EditDetail() {
         <div className={`${style.ttline}`}></div>
         <div>Edit Detail</div>
       </div>
-
+      {isOpen && warningInput()}
       <form className={`${style.content}`}>
         <div className="Contract Information">
           <p className={`${style.tt}`}>Contract Information</p>
@@ -1069,6 +1069,7 @@ export default function EditDetail() {
             if (Object.values(initErr).includes(true)) {
               setIsOpen(true);
             } else {
+              console.log("123");
               await axios.put(
                 `http://localhost:8080/api${path.replace(
                   "/batchdataresult",
