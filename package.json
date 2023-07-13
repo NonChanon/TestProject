@@ -12,7 +12,7 @@
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
-    "@mui/material": "^5.13.7",
+    "@mui/material": "^5.14.0",
     "@phntms/use-local-state": "^0.1.4",
     "@react-pdf-viewer/core": "^3.12.0",
     "@react-pdf-viewer/default-layout": "^3.12.0",
@@ -23,8 +23,12 @@
     "hooks": "^0.3.2",
     "install": "^0.13.0",
     "moment": "^2.29.4",
+<<<<<<< HEAD
     "pdfjs-dist": "^3.8.162",
     "pspdfkit": "^2023.3.4",
+=======
+    "mui": "0.0.1",
+>>>>>>> 098bf9f406ad41dd02e418981f123c682d45a72a
     "react": "^18.2.0",
     "react-datepicker": "^4.15.0",
     "react-dom": "^18.2.0",
@@ -35,6 +39,7 @@
     "react-select": "^5.7.3"
   },
   "devDependencies": {
+    "@types/jquery": "^3.5.16",
     "@types/node": "^20.3.3",
     "@types/react": "^18.2.14",
     "@types/react-datepicker": "^4.11.2",

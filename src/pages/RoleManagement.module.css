@@ -1,6 +1,5 @@
 .space2 {
-  margin: 10px 10px 0 210px;
-  height: 100%;
+  margin: 85px 20px;
 }
 
 .line {
@@ -28,7 +27,7 @@
   border: none;
   border-radius: 5px;
   color: #ffffff;
-  margin: 15px 32px 15px 0px;
+  margin: 18px 32px 15px 0px;
   padding: 5px;
   text-align: center;
   text-decoration: none;
@@ -60,11 +59,11 @@
 .buttonLayout {
   font-size: 14px;
   border-radius: 5px;
-  margin-right: 10px;
   padding: 10px;
   border: none;
   font-weight: lighter;
   text-align: center;
+  text-decoration: none;
 }
 
 .manageButtonLayout {
@@ -75,6 +74,11 @@
   border: none;
   font-weight: lighter;
   text-align: center;
+}
+
+.manage {
+  display: flex;
+  justify-content: center;
 }
 
 .row {
@@ -90,6 +94,10 @@
 
 .searchFunctionContainer {
   width: 100%;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .searchFunctionBox {
@@ -118,7 +126,7 @@
 
 .selectForm {
   height: 100%;
-  width: 200px;
+  width: 180px;
   border: none;
   font-size: 14px;
   padding: 5px;
@@ -295,3 +303,67 @@
   justify-content: center;
 }
 
+.checkboxContainer {
+  margin-right: 5px;
+  font-size: 13px;
+}
+
+input[type="checkbox"] {
+  color: currentColor;
+  width: 12px;
+  height: 12px;
+  border: 0.15em solid currentColor;
+  border-radius: 0.15em;
+  transform: translateY(1.5px);
+  margin-left: 4px;
+}
+
+.transactionTable {
+  overflow: auto;
+}
+
+@media only screen and (max-width: 768px) {
+  .filterContainer {
+    display: flex;
+  }
+
+  .button1 {
+    padding: 15px;
+  }
+
+  .searchButton {
+    margin-right: 15px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .searchFunctionContainer {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  .selectForm {
+    width: 100%;
+  }
+
+  .filterContainer {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .searchLayout {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 15px;
+  }
+
+  .searchButton {
+    width: 100%;
+    margin: 0 15px;
+    display: flex;
+    justify-content: center;
+  }
+}

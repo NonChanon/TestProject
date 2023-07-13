@@ -115,7 +115,7 @@
 }
 
 .space2 {
-  margin: 10px 10px 0px 210px;
+  margin: 85px 20px;
 }
 
 .space3 {
@@ -254,6 +254,8 @@
 
 .filter {
   border-bottom: 1px solid #e6e5e5;
+  display: flex;
+  overflow: auto;
 }
 
 .filterButton {
@@ -317,12 +319,14 @@
 }
 
 table {
+  overflow: auto;
   .th {
     padding: 0;
     background: #ff0000;
   }
 }
-.SearchButton {
+
+.searchButton {
   background-color: #489788;
   border: none;
   border-radius: 5px;
@@ -331,7 +335,6 @@ table {
   margin-right: 32px;
   text-align: center;
   text-decoration: none;
-  display: inline-block;
   font-size: 15px;
   cursor: pointer;
 }
@@ -366,8 +369,69 @@ table {
   margin-inline: auto;
 }
 
+<<<<<<< HEAD
 .imgPopup {
   max-width: 300px;
   min-height: 320px;
   margin-top: 10px;
+=======
+.buttonLayout {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.dateLayout {
+  display: flex;
+  justify-content: space-between;
+}
+
+.searchContainer {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@media only screen and (max-width: 768px) {
+  .filterContainer {
+    display: flex;
+  }
+
+  .button1 {
+    padding: 15px;
+  }
+
+  .searchButton {
+    margin-right: 15px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .searchContainer {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  .filterContainer {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .searchLayout {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 15px;
+  }
+
+  .searchButton {
+    width: 100%;
+    margin: 0 15px;
+    display: flex;
+    justify-content: center;
+  }
+>>>>>>> 098bf9f406ad41dd02e418981f123c682d45a72a
 }

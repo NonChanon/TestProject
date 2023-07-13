@@ -224,44 +224,42 @@ export default function UserManagement() {
         <div className={style.line}></div>
         <div>User Management</div>
       </div>
-      <div
-        className={`shadow ${style.searchFunctionContainer} ${style.spaceTitle}`}
-      >
-        <div className={style.searchFunctionBox}>
-          <div className="filterFunction">
-            <button className={`${style.button1}`}>
-              <div className={`${style.row}`}>
-                <input placeholder="Username" className={style.inputForm} />
-              </div>
-              <div className={`${style.line2}`}></div>
-            </button>
-            <button className={`${style.button1}`}>
-              <div className={`${style.row}`}>
-                <select className={style.selectForm} name="selectedRole">
-                  <option value="" disabled selected hidden>
-                    Select Group User
-                  </option>
-                  <option value="all">All</option>
-                  <option value="user">User</option>
-                  <option value="admin">Admin</option>
-                </select>
-              </div>
-              <div className={`${style.line2}`}></div>
-            </button>
-            <button className={`${style.button1}`}>
-              <div className={`${style.row}`}>
-                <select className={style.selectForm} name="selectedRole">
-                  <option value="" disabled selected hidden color="#ffffff">
-                    Select Status
-                  </option>
-                  <option value="all">All</option>
-                  <option value="active">Active</option>
-                  <option value="inactive">Inactive</option>
-                </select>
-              </div>
-              <div className={`${style.line2}`}></div>
-            </button>
-          </div>
+      <div className={`shadow ${style.searchFunctionContainer}`}>
+        <div className={style.filterContainer}>
+          <button className={`${style.button1}`}>
+            <div className={`${style.row}`}>
+              <input placeholder="Username" className={style.inputForm} />
+            </div>
+            <div className={`${style.line2}`}></div>
+          </button>
+          <button className={`${style.button1}`}>
+            <div className={`${style.row}`}>
+              <select className={style.selectForm} name="selectedRole">
+                <option value="" disabled selected hidden>
+                  Select Group User
+                </option>
+                <option value="all">All</option>
+                <option value="user">User</option>
+                <option value="admin">Admin</option>
+              </select>
+            </div>
+            <div className={`${style.line2}`}></div>
+          </button>
+          <button className={`${style.button1}`}>
+            <div className={`${style.row}`}>
+              <select className={style.selectForm} name="selectedRole">
+                <option value="" disabled selected hidden color="#ffffff">
+                  Select Status
+                </option>
+                <option value="all">All</option>
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+              </select>
+            </div>
+            <div className={`${style.line2}`}></div>
+          </button>
+        </div>
+        <div className={style.searchLayout}>
           <button className={style.searchButton}>
             <div className={style.row}>
               <svg
@@ -286,21 +284,23 @@ export default function UserManagement() {
           </button>
         </div>
       </div>
-      <table>
-        <thead>
-          <tr>
-            <th>No.</th>
-            <th>Username</th>
-            <th>Group User</th>
-            <th>Firstname</th>
-            <th>Lastname</th>
-            <th>Email</th>
-            <th>Status</th>
-            <th>Manage</th>
-          </tr>
-        </thead>
-        {userRoleTable}
-      </table>
+      <div className={`${style.transactionTable}`}>
+        <table>
+          <thead>
+            <tr>
+              <th>No.</th>
+              <th>Username</th>
+              <th>Group User</th>
+              <th>Firstname</th>
+              <th>Lastname</th>
+              <th>Email</th>
+              <th>Status</th>
+              <th>Manage</th>
+            </tr>
+          </thead>
+          {userRoleTable}
+        </table>
+      </div>
       <div className={style.addContainer}>
         <AddUser />
       </div>

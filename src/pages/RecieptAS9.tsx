@@ -249,7 +249,7 @@ export default function RecieptAS9() {
       sumTotalPayment = 0;
 
     return (
-      <div>
+      <div className={`${style.transactionTable}`}>
         <table className="transaction-table">
           <thead>
             <tr>
@@ -419,9 +419,9 @@ export default function RecieptAS9() {
         <div>Reciept & AS9</div>
       </div>
 
-      <div className={`shadow ${style.row} ${style.btw} ${style.spaceTitle}`}>
-        <div className={`${style.FilterButon}`}>
-          <button className={`BatchDate ${style.button1}`}>
+      <div className={`shadow ${style.searchContainer}`}>
+        <div className={style.filterContainer}>
+          <button className={`LotName ${style.button1}`}>
             <div className={`${style.row}`}>
               <DatePicker
                 id="batchDate"
@@ -473,41 +473,44 @@ export default function RecieptAS9() {
           </button>
         </div>
 
-        <button
-          className={`${style.SearchButton}`}
-          onClick={(e) =>
-            onSearch(e, {
-              batchDate:
-                startDate === null
-                  ? ""
-                  : moment(startDate).format("DD/MM/yyyy").toString(),
-              lotName: lotName.lotNameInput,
-            })
-          }
-        >
-          <div className={`${style.row}`}>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="22"
-              height="22"
-              viewBox="0 0 22 22"
-            >
-              <g
-                fill="none"
-                fill-rule="evenodd"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <circle cx="8.5" cy="8.5" r="5" />
-                <path d="M17.571 17.5L12 12" />
-              </g>
-            </svg>
-            <div className={`${style.space5}`}>Search</div>
-          </div>
-        </button>
-      </div>
 
+  
+        <div className={style.searchLayout}>
+          <button
+            className={`${style.searchButton}`}
+            onClick={(e) =>
+              onSearch(e, {
+                batchDate:
+                  startDate === null
+                    ? ""
+                    : moment(startDate).format("DD/MM/yyyy").toString(),
+                lotName: lotName.lotNameInput,
+              })
+            }
+          >
+            <div className={`${style.buttonLayout}`}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="22"
+                height="22"
+                viewBox="0 0 22 22"
+              >
+                <g
+                  fill="none"
+                  fill-rule="evenodd"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <circle cx="8.5" cy="8.5" r="5" />
+                  <path d="M17.571 17.5L12 12" />
+                </g>
+              </svg>
+              <div className={`${style.space5}`}>Search</div>
+            </div>
+          </button>
+        </div>
+      </div>
       <div className="Transection">
         <div className="BatchBar shadow ">
           <div className={`${style.space3}`}>

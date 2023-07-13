@@ -1,6 +1,5 @@
 .space2 {
-  margin: 10px 10px 0 210px;
-  height: 100%;
+  margin: 85px 20px;
 }
 
 .line {
@@ -57,7 +56,7 @@
   background-color: #ffffff;
   border: none;
   color: #535353;
-  padding: 15px 32px;
+  padding: 20px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
@@ -67,6 +66,7 @@
 
 .inputForm {
   height: 100%;
+  width: 150px;
   border: none;
   font-size: 14px;
   padding: 5px;
@@ -74,10 +74,10 @@
 
 .selectForm {
   height: 100%;
-  width: 200px;
+  width: 160px;
   border: none;
-  font-size: 14px;
-  padding: 5px;
+  font-size: 13px;
+  padding-bottom: 4.5px;
 }
 
 .line2 {
@@ -103,7 +103,7 @@
   border: none;
   border-radius: 5px;
   color: #ffffff;
-  margin: 15px 32px 15px 0px;
+  margin: 18px 20px 15px 0px;
   padding: 5px;
   text-align: center;
   text-decoration: none;
@@ -114,6 +114,10 @@
 
 .searchFunctionContainer {
   width: 100%;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .searchFunctionBox {
@@ -136,6 +140,12 @@
   width: 100%;
   font-size: 14px;
   font-weight: lighter;
+}
+
+.buttonLayout {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .userTable {
@@ -251,6 +261,11 @@
   cursor: pointer;
 }
 
+.manage {
+  display: flex;
+  justify-content: center;
+}
+
 .addButton {
   padding: 10px 15px;
   color: #ffffff;
@@ -262,4 +277,40 @@
   text-align: center;
   display: flex;
   justify-content: center;
+}
+
+.transactionTable {
+  overflow: auto;
+}
+
+@media only screen and (max-width: 768px) {
+  .searchFunctionContainer {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  .selectForm {
+    width: 100%;
+  }
+
+  .filterContainer {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .searchLayout {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 15px;
+  }
+
+  .searchButton {
+    width: 100%;
+    margin: 0 15px;
+    display: flex;
+    justify-content: center;
+  }
 }

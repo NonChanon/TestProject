@@ -1,10 +1,11 @@
-import "./Login.css";
+import style from "./Login.module.css";
 import { useState, FormEvent } from "react";
 import UseAuth from "../services/UseAuth";
+import logo from "../img/logo.png";
 
 const initState = {
   email: "",
-  password: ""
+  password: "",
 };
 
 const Login = () => {
@@ -18,8 +19,8 @@ const Login = () => {
     setForm(temp);
   };
 
-  const handleSubmit = async (event : FormEvent) => {
-    event.preventDefault()
+  const handleSubmit = async (event: FormEvent) => {
+    event.preventDefault();
     try {
       const temp = { ...form };
       const res = await login(temp);
@@ -30,13 +31,14 @@ const Login = () => {
   };
 
   return (
-    <div className="login-page">
-      <div className="form">
-        <form className="login-form" onSubmit={handleSubmit}>
+    <div className={style.loginPage}>
+      <div className={style.form}>
+        <img className={style.logoimg} src={logo} />
+        <form className={style.loginForm} onSubmit={handleSubmit}>
           <input
             name="email"
             type="text"
-            placeholder="email"
+            placeholder="Email"
             value={form.email}
             onChange={handleChange}
           />
@@ -44,11 +46,13 @@ const Login = () => {
             required
             name="password"
             type="password"
-            placeholder="password"
+            placeholder="Password"
             value={form.password}
             onChange={handleChange}
           />
-          <button id="submit" type="submit">login</button>
+          <button id="submit" type="submit">
+            login
+          </button>
         </form>
       </div>
     </div>

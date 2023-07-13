@@ -44,7 +44,6 @@
 .formLabel {
   font-size: 15px;
   color: #535353;
-
   margin-left: 10px;
 }
 
@@ -107,4 +106,19 @@
   text-align: center;
   display: flex;
   justify-content: center;
+}
+
+.checkboxContainer {
+  margin-right: 5px;
+  font-size: 13px;
+}
+
+input[type="checkbox"] {
+  color: currentColor;
+  width: 12px;
+  height: 12px;
+  border: 0.15em solid currentColor;
+  border-radius: 0.15em;
+  transform: translateY(1.5px);
+  margin-left: 4px;
 }

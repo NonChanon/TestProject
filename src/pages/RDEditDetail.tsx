@@ -67,7 +67,7 @@ interface errModel {
 }
 
 export default function EditDetail() {
-  const [datas, setDatas] = useState<any>({
+  const [datas, setDatas] = useState<customerModel>({
     title: "",
     firstname: "",
     lastname: "",
@@ -77,6 +77,7 @@ export default function EditDetail() {
     totalDubDutyAmount: 0,
     totalPayment: 0,
     finalPaymentDate: "",
+    completed: false,
     address: {
       village: "",
       addressNo: "",
@@ -94,6 +95,7 @@ export default function EditDetail() {
       startDate: "",
       endDate: "",
       applicantId: "",
+      branchType: "",
       branchNumber: "",
       relatedStatus: "",
     },
@@ -127,7 +129,7 @@ export default function EditDetail() {
 
   console.log(datas);
 
-  let initErr:errModel = {
+  let initErr: errModel = {
     contractNumber: true,
     applicantId: true,
     branchNumber: true,
@@ -165,7 +167,7 @@ export default function EditDetail() {
     validNumberAndLetterAndSpace.test(states.customer.address.district) ? initErr.district = false : initErr.district = true;
     validLetterAndSpace.test(states.customer.address.province) ? initErr.province = false : initErr.province = true;
     validPostalCode.test(states.customer.address.postalCode) ? initErr.postalCode = false : initErr.postalCode = true;
-    console.log(states.customer.address.street , validNumberAndLetterAndSpace.test(states.customer.address.street));
+    console.log(states.customer.address.street, validNumberAndLetterAndSpace.test(states.customer.address.street));
   }
 
   const warningInput = () => {
@@ -173,7 +175,7 @@ export default function EditDetail() {
     console.log(initErr);
     validate();
     Object.entries(initErr).map((input) => {
-      if (input[1] === true){
+      if (input[1] === true) {
         invalidInput.push(input[0]);
       }
     });
@@ -236,7 +238,7 @@ export default function EditDetail() {
       }
     });
     console.log(message);
-    return <Alert style={{'marginBottom': '10px'}} severity="warning">{message.map((detail) => {
+    return <Alert style={{ 'marginBottom': '10px' }} severity="warning">{message.map((detail) => {
       return (<p>{detail}</p>);
     })}</Alert>;
   }
@@ -300,7 +302,7 @@ export default function EditDetail() {
                   className={`${style.inputDiv}`}
                   style={
                     datas.contract.number === null ||
-                    datas.contract.number === ""
+                      datas.contract.number === ""
                       ? { borderColor: "#CA0700" }
                       : { borderColor: "#CECECE" }
                   }
@@ -313,7 +315,7 @@ export default function EditDetail() {
                     onChange={(e) => {
                       updateContract(e)
                       validContractNumber.test(e.target.value) ? initErr.contractNumber = false : initErr.contractNumber = true;
-                      if (Object.values(initErr).every(element => element === false)){
+                      if (Object.values(initErr).every(element => element === false)) {
                         setIsOpen(false);
                       }
                     }}
@@ -326,7 +328,7 @@ export default function EditDetail() {
                   className={`${style.inputDiv}`}
                   style={
                     datas.contract.startDate === null ||
-                    datas.contract.startDate === ""
+                      datas.contract.startDate === ""
                       ? { borderColor: "#CA0700" }
                       : { borderColor: "#CECECE" }
                   }
@@ -385,7 +387,7 @@ export default function EditDetail() {
                   className={`${style.inputDiv}`}
                   style={
                     datas.contract.endDate === null ||
-                    datas.contract.endDate === ""
+                      datas.contract.endDate === ""
                       ? { borderColor: "#CA0700" }
                       : { borderColor: "#CECECE" }
                   }
@@ -454,7 +456,7 @@ export default function EditDetail() {
                   className={`${style.inputDiv}`}
                   style={
                     datas.contract.applicantId === null ||
-                    datas.contract.applicantId === ""
+                      datas.contract.applicantId === ""
                       ? { borderColor: "#CA0700" }
                       : { borderColor: "#CECECE" }
                   }
@@ -467,7 +469,7 @@ export default function EditDetail() {
                     onChange={(e) => {
                       updateContract(e)
                       validId.test(e.target.value) ? initErr.applicantId = false : initErr.applicantId = true;
-                      if (Object.values(initErr).every(element => element === false)){
+                      if (Object.values(initErr).every(element => element === false)) {
                         setIsOpen(false);
                       }
                     }}
@@ -480,7 +482,7 @@ export default function EditDetail() {
                   className={`${style.inputDiv}`}
                   style={
                     datas.contract.branchNumber === null ||
-                    datas.contract.branchNumber === ""
+                      datas.contract.branchNumber === ""
                       ? { borderColor: "#CA0700" }
                       : { borderColor: "#CECECE" }
                   }
@@ -493,7 +495,7 @@ export default function EditDetail() {
                     onChange={(e) => {
                       updateContract(e)
                       validNumber.test(e.target.value) ? initErr.branchNumber = false : initErr.branchNumber = true;
-                      if (Object.values(initErr).every(element => element === false)){
+                      if (Object.values(initErr).every(element => element === false)) {
                         setIsOpen(false);
                       }
                     }}
@@ -506,18 +508,37 @@ export default function EditDetail() {
                   className={`${style.inputDiv}`}
                   style={
                     datas.contract.branchType === null ||
-                    datas.contract.branchType === ""
-                      ? { borderColor: "#CA0700" }
-                      : { borderColor: "#CECECE" }
+                      datas.contract.branchType === ""
+                      ? {
+                        borderColor: "#CA0700", height: "26px",
+                        display: "flex",
+                        position: "relative",
+                      }
+                      : {
+                        borderColor: "#CECECE", height: "26px",
+                        display: "flex",
+                        position: "relative",
+                      }
                   }
                 >
-                  <input
+                  <select
                     name="branchType"
-                    type="text"
-                    className={`${style.txt}`}
-                    defaultValue={datas.contract.branchType}
+                    id="customerContractBranchType"
+                    style={{
+                      height: "100%",
+                      width: "90%",
+                      border: "none",
+                      display: "flex",
+                      position: "absolute",
+                      left: "8px",
+                    }}
                     onChange={(e) => updateContract(e)}
-                  />
+                  >
+                    {datas.contract.branchType === "" || datas.contract.branchType === null ? <option value="" selected disabled hidden>Choose here</option> : undefined}
+                    {datas.contract.branchType === "Main" ? <option selected value="Main">Main</option> : <option value="Main">Main</option>}
+                    {datas.contract.branchType === "Sub" ? <option selected value="Sub">Sub</option> : <option value="Sub">Sub</option>}
+                    {datas.contract.branchType === "Cooperative" ? <option selected value="Cooperative">Cooperative</option> : <option value="Cooperative">Cooperative</option>}
+                  </select>
                 </div>
               </div>
               <div className={`${style.item}`}>
@@ -526,18 +547,36 @@ export default function EditDetail() {
                   className={`${style.inputDiv}`}
                   style={
                     datas.contract.relatedStatus === null ||
-                    datas.contract.relatedStatus === ""
-                      ? { borderColor: "#CA0700" }
-                      : { borderColor: "#CECECE" }
+                      datas.contract.relatedStatus === ""
+                      ? {
+                        borderColor: "#CA0700", height: "26px",
+                        display: "flex",
+                        position: "relative"
+                      }
+                      : {
+                        borderColor: "#CECECE", height: "26px",
+                        display: "flex",
+                        position: "relative"
+                      }
                   }
                 >
-                  <input
+                  <select
                     name="relatedStatus"
-                    type="text"
-                    className={`${style.txt}`}
-                    defaultValue={datas.contract.relatedStatus}
+                    id="customerContractRelatedStatus"
+                    style={{
+                      height: "100%",
+                      width: "90%",
+                      border: "none",
+                      display: "flex",
+                      position: "absolute",
+                      left: "8px",
+                    }}
                     onChange={(e) => updateContract(e)}
-                  />
+                  >
+                    {datas.contract.relatedStatus === "" || datas.contract.relatedStatus === null ? <option value="" selected disabled hidden>Choose here</option> : undefined}
+                    {datas.contract.relatedStatus === "Lender" ? <option selected value="Lender">Lender</option> : <option value="Lender">Lender</option>}
+                    {datas.contract.relatedStatus === "Borrower" ? <option selected value="Borrower">Borrower</option> : <option value="Borrower">Borrower</option>}
+                  </select>
                 </div>
               </div>
             </div>
@@ -551,7 +590,7 @@ export default function EditDetail() {
                   className={`${style.inputDiv}`}
                   style={
                     datas.finalPaymentDate === null ||
-                    datas.finalPaymentDate === ""
+                      datas.finalPaymentDate === ""
                       ? { borderColor: "#CA0700" }
                       : { borderColor: "#CECECE" }
                   }
@@ -620,14 +659,14 @@ export default function EditDetail() {
                     onChange={(e) => {
                       updateCustomer(e);
                       validNumber.test(e.target.value) ? initErr.totalDuty = false : initErr.totalDuty = true;
-                      if (Object.values(initErr).every(element => element === false)){
+                      if (Object.values(initErr).every(element => element === false)) {
                         setIsOpen(false);
                       }
                     }}
                     onBlur={() => {
                       console.log(
                         states.customer.totalDuty +
-                          states.customer.totalDubDutyAmount
+                        states.customer.totalDubDutyAmount
                       );
                       setTotalPayment({
                         ...totalPayment,
@@ -657,7 +696,7 @@ export default function EditDetail() {
                     onChange={(e) => {
                       updateCustomer(e);
                       validNumber.test(e.target.value) ? initErr.totalDubDutyAmount = false : initErr.totalDubDutyAmount = true;
-                      if (Object.values(initErr).every(element => element === false)){
+                      if (Object.values(initErr).every(element => element === false)) {
                         setIsOpen(false);
                       }
                     }}
@@ -677,11 +716,6 @@ export default function EditDetail() {
                 <p className={`${style.txtblk}`}>Total Amount</p>
                 <div
                   className={`${style.inputDiv}`}
-                  style={
-                    datas.totalAmount === null
-                      ? { borderColor: "#CA0700" }
-                      : { borderColor: "#CECECE" }
-                  }
                 >
                   <div className={`${style.txt}`}>
                     {totalPayment.paymentAmount}
@@ -700,17 +734,17 @@ export default function EditDetail() {
                   style={
                     datas.title === null || datas.title === ""
                       ? {
-                          borderColor: "#CA0700",
-                          height: "100%",
-                          display: "flex",
-                          position: "relative",
-                        }
+                        borderColor: "#CA0700",
+                        height: "100%",
+                        display: "flex",
+                        position: "relative",
+                      }
                       : {
-                          borderColor: "#CECECE",
-                          height: "100%",
-                          display: "flex",
-                          position: "relative",
-                        }
+                        borderColor: "#CECECE",
+                        height: "100%",
+                        display: "flex",
+                        position: "relative",
+                      }
                   }
                 >
                   <select
@@ -750,7 +784,7 @@ export default function EditDetail() {
                     onChange={(e) => {
                       updateCustomer(e);
                       validLetterAndSpace.test(e.target.value) ? initErr.firstname = false : initErr.firstname = true;
-                      if (Object.values(initErr).every(element => element === false)){
+                      if (Object.values(initErr).every(element => element === false)) {
                         setIsOpen(false);
                       }
                     }}
@@ -775,7 +809,7 @@ export default function EditDetail() {
                     onChange={(e) => {
                       updateCustomer(e);
                       validLetterAndSpace.test(e.target.value) ? initErr.lastname = false : initErr.lastname = true;
-                      if (Object.values(initErr).every(element => element === false)){
+                      if (Object.values(initErr).every(element => element === false)) {
                         setIsOpen(false);
                       }
                     }}
@@ -800,7 +834,7 @@ export default function EditDetail() {
                     onChange={(e) => {
                       updateAddress(e)
                       validNumberAndLetterAndSpace.test(e.target.value) ? initErr.village = false : initErr.village = true;
-                      if (Object.values(initErr).every(element => element === false)){
+                      if (Object.values(initErr).every(element => element === false)) {
                         setIsOpen(false);
                       }
                     }}
@@ -813,7 +847,7 @@ export default function EditDetail() {
                   <div
                     style={
                       datas.address.addressNo === null ||
-                      datas.address.addressNo === ""
+                        datas.address.addressNo === ""
                         ? { borderColor: "#CA0700" }
                         : { borderColor: "#CECECE" }
                     }
@@ -826,7 +860,7 @@ export default function EditDetail() {
                       onChange={(e) => {
                         updateAddress(e)
                         validNumber.test(e.target.value) ? initErr.addressNo = false : initErr.addressNo = true;
-                        if (Object.values(initErr).every(element => element === false)){
+                        if (Object.values(initErr).every(element => element === false)) {
                           setIsOpen(false);
                         }
                       }}
@@ -850,7 +884,7 @@ export default function EditDetail() {
                       onChange={(e) => {
                         updateAddress(e);
                         validNumber.test(e.target.value) ? initErr.floor = false : initErr.floor = true;
-                        if (Object.values(initErr).every(element => element === false)){
+                        if (Object.values(initErr).every(element => element === false)) {
                           setIsOpen(false);
                         }
                       }}
@@ -864,7 +898,7 @@ export default function EditDetail() {
                   className={`${style.inputDiv}`}
                   style={
                     datas.address.villageNo === null ||
-                    datas.address.villageNo === ""
+                      datas.address.villageNo === ""
                       ? { borderColor: "#CA0700" }
                       : { borderColor: "#CECECE" }
                   }
@@ -877,7 +911,7 @@ export default function EditDetail() {
                     onChange={(e) => {
                       updateAddress(e);
                       validNumber.test(e.target.value) ? initErr.villageNo = false : initErr.villageNo = true;
-                      if (Object.values(initErr).every(element => element === false)){
+                      if (Object.values(initErr).every(element => element === false)) {
                         setIsOpen(false);
                       }
                     }}
@@ -902,7 +936,7 @@ export default function EditDetail() {
                     onChange={(e) => {
                       updateAddress(e);
                       validNumberAndLetterAndSpace.test(e.target.value) ? initErr.alley = false : initErr.alley = true;
-                      if (Object.values(initErr).every(element => element === false)){
+                      if (Object.values(initErr).every(element => element === false)) {
                         setIsOpen(false);
                       }
                     }}
@@ -927,7 +961,7 @@ export default function EditDetail() {
                     onChange={(e) => {
                       updateAddress(e)
                       validNumberAndLetterAndSpace.test(e.target.value) ? initErr.street = false : initErr.street = true
-                      if (Object.values(initErr).every(element => element === false)){
+                      if (Object.values(initErr).every(element => element === false)) {
                         setIsOpen(false);
                       }
                     }}
@@ -940,7 +974,7 @@ export default function EditDetail() {
                   className={`${style.inputDiv}`}
                   style={
                     datas.address.subDistrict === null ||
-                    datas.address.subDistrict === ""
+                      datas.address.subDistrict === ""
                       ? { borderColor: "#CA0700" }
                       : { borderColor: "#CECECE" }
                   }
@@ -953,7 +987,7 @@ export default function EditDetail() {
                     onChange={(e) => {
                       updateAddress(e);
                       validNumberAndLetterAndSpace.test(e.target.value) ? initErr.subDistrict = false : initErr.subDistrict = true;
-                      if (Object.values(initErr).every(element => element === false)){
+                      if (Object.values(initErr).every(element => element === false)) {
                         setIsOpen(false);
                       }
                     }}
@@ -966,7 +1000,7 @@ export default function EditDetail() {
                   className={`${style.inputDiv}`}
                   style={
                     datas.address.district === null ||
-                    datas.address.district === ""
+                      datas.address.district === ""
                       ? { borderColor: "#CA0700" }
                       : { borderColor: "#CECECE" }
                   }
@@ -979,7 +1013,7 @@ export default function EditDetail() {
                     onChange={(e) => {
                       updateAddress(e);
                       validNumberAndLetterAndSpace.test(e.target.value) ? initErr.district = false : initErr.district = true;
-                      if (Object.values(initErr).every(element => element === false)){
+                      if (Object.values(initErr).every(element => element === false)) {
                         setIsOpen(false);
                       }
                     }}
@@ -992,7 +1026,7 @@ export default function EditDetail() {
                   className={`${style.inputDiv}`}
                   style={
                     datas.address.province === null ||
-                    datas.address.province === ""
+                      datas.address.province === ""
                       ? { borderColor: "#CA0700" }
                       : { borderColor: "#CECECE" }
                   }
@@ -1005,7 +1039,7 @@ export default function EditDetail() {
                     onChange={(e) => {
                       updateAddress(e);
                       validLetterAndSpace.test(e.target.value) ? initErr.province = false : initErr.province = true;
-                      if (Object.values(initErr).every(element => element === false)){
+                      if (Object.values(initErr).every(element => element === false)) {
                         setIsOpen(false);
                       }
                     }}
@@ -1018,7 +1052,7 @@ export default function EditDetail() {
                   className={`${style.inputDiv}`}
                   style={
                     datas.address.postalCode === null ||
-                    datas.address.postalCode === ""
+                      datas.address.postalCode === ""
                       ? { borderColor: "#CA0700" }
                       : { borderColor: "#CECECE" }
                   }
@@ -1031,7 +1065,7 @@ export default function EditDetail() {
                     onChange={(e) => {
                       updateAddress(e);
                       validPostalCode.test(e.target.value) ? initErr.postalCode = false : initErr.postalCode = true;
-                      if (Object.values(initErr).every(element => element === false)){
+                      if (Object.values(initErr).every(element => element === false)) {
                         setIsOpen(false);
                       }
                       console.log(initErr);
@@ -1051,7 +1085,7 @@ export default function EditDetail() {
               validate();
               console.log(initErr);
               console.log(Object.values(initErr), Object.values(initErr).includes(true));
-              if (Object.values(initErr).includes(true)){
+              if (Object.values(initErr).includes(true)) {
                 setIsOpen(true);
               }
               else {
@@ -1066,7 +1100,7 @@ export default function EditDetail() {
             type="submit"
           >
             Submit
-            
+
           </button>
           <button
             className={`${style.cancelButton}`}
