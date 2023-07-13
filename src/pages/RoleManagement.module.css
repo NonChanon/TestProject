@@ -22,6 +22,11 @@
   color: #393939;
 }
 
+.registerPopup {
+  position: relative;
+  z-index: 1000;
+}
+
 .searchButton {
   background-color: #489788;
   border: none;

@@ -306,21 +306,25 @@
   transition-duration: 0.4s;
 }
 
-<<<<<<< HEAD
 .pdfSize {
   max-width: 500px;
   min-height: 400px;
   margin-top: 10px;
   margin-bottom: 10px;
-=======
+}
+.transactionTable {
+  overflow: auto;
+}
+
 .buttonLayout {
   display: flex;
   flex-direction: row;
   align-items: center;
 }
 
-.transactionTable {
-  overflow: auto;
+.dateLayout {
+  display: flex;
+  justify-content: space-between;
 }
 
 .searchContainer {
@@ -339,7 +343,7 @@
     padding: 15px;
   }
 
-  .searchButton {
+  .SearchButton {
     margin-right: 15px;
   }
 }
@@ -364,11 +368,10 @@
     margin-top: 15px;
   }
 
-  .searchButton {
+  .SearchButton {
     width: 100%;
     margin: 0 15px;
     display: flex;
     justify-content: center;
   }
->>>>>>> 098bf9f406ad41dd02e418981f123c682d45a72a
 }
