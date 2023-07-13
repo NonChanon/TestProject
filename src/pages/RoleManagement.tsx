@@ -125,7 +125,7 @@ export default function RoleManagement() {
       <div className={style.space2}>
         {isOpen && (
           <form
-            className="registerPopup"
+            className={style.registerPopup}
             onSubmit={(e) => {
               handleSubmit(e);
             }}

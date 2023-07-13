@@ -195,9 +195,7 @@ export default function RDTransaction() {
         <div className={style.line}></div>
         <div>RD Transaction</div>
       </div>
-      <div className="img" style={{ backgroundColor: "red" }}>
-        {/* <img src={`data:;base64,${imageData}`} /> */}
-      </div>
+      <div className="img" style={{ backgroundColor: "red" }}></div>
 
       <div className={`shadow ${style.searchContainer}`}>
         <div className={style.filterContainer}>

@@ -136,7 +136,7 @@ export default function UserManagement() {
   return (
     <div className={style.space2}>
       {isOpen && (
-        <form className="registerPopup" onSubmit={handleSubmit}>
+        <form className={style.registerPopup} onSubmit={handleSubmit}>
           <div className="bgFade">
             <div className="a">
               <div className="titleBlock">

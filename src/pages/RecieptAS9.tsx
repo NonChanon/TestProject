@@ -247,10 +247,9 @@ export default function RecieptAS9() {
       sumTotalDuty = 0,
       sumTotalDubDutyAmount = 0,
       sumTotalPayment = 0;
-
     return (
       <div className={`${style.transactionTable}`}>
-        <table className="transaction-table">
+        <table>
           <thead>
             <tr>
               <th>No.</th>
@@ -422,7 +421,7 @@ export default function RecieptAS9() {
       <div className={`shadow ${style.searchContainer}`}>
         <div className={style.filterContainer}>
           <button className={`LotName ${style.button1}`}>
-            <div className={`${style.row}`}>
+            <div className={`${style.row} ${style.dateLayout}`}>
               <DatePicker
                 id="batchDate"
                 dateFormat="dd/MM/yyy"
@@ -473,11 +472,9 @@ export default function RecieptAS9() {
           </button>
         </div>
 
-
-  
         <div className={style.searchLayout}>
           <button
-            className={`${style.searchButton}`}
+            className={`${style.SearchButton}`}
             onClick={(e) =>
               onSearch(e, {
                 batchDate:
@@ -514,9 +511,7 @@ export default function RecieptAS9() {
       <div className="Transection">
         <div className="BatchBar shadow ">
           <div className={`${style.space3}`}>
-            <div>
-              <table>{dataRecAS9Table}</table>
-            </div>
+            <div>{dataRecAS9Table}</div>
           </div>
         </div>
       </div>

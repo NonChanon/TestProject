@@ -33,6 +33,10 @@
   padding-left: 10px;
 }
 
+.registerPopup {
+  position: relative;
+  z-index: 1000;
+}
 .buttonLayout {
   font-size: 14px;
   border-radius: 5px;

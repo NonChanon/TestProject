@@ -71,7 +71,7 @@ export default function AddUser() {
 
         {isOpen && (
           <form
-            className="registerPopup"
+            className={style.registerPopup}
             onSubmit={(e) => {
               handleSubmit(e);
             }}
