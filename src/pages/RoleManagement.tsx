@@ -100,19 +100,21 @@ export default function RoleManagement() {
         <td>
           <label className={`${style[data.status]}`}>{data.status}</label>
         </td>
-        <td className={style.manage}>
-          <button
-            className={style.editButton}
-            onClick={(e) => toggleModal(e, data.id)}
-          >
-            <img src={editIcon} alt="edit" />
-          </button>
-          <button
-            className={style.deleteLayout}
-            onClick={() => deleteRole(data.id)}
-          >
-            <img src={deleteIcon} alt="delete" />
-          </button>
+        <td>
+          <div className={style.manage}>
+            <button
+              className={style.editButton}
+              onClick={(e) => toggleModal(e, data.id)}
+            >
+              <img src={editIcon} alt="edit" />
+            </button>
+            <button
+              className={style.deleteLayout}
+              onClick={() => deleteRole(data.id)}
+            >
+              <img src={deleteIcon} alt="delete" />
+            </button>
+          </div>
         </td>
       </tbody>
     );
@@ -319,8 +321,9 @@ export default function RoleManagement() {
                     Select Group User
                   </option>
                   <option value="all">All</option>
-                  <option value="user">User</option>
-                  <option value="admin">Admin</option>
+                  {roles.map((data, i) => {
+                    return <option value={data.name}>{data.name}</option>;
+                  })}
                 </select>
               </div>
               <div className={`${style.line2}`}></div>

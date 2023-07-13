@@ -37,10 +37,11 @@ const Login = () => {
         <form className={style.loginForm} onSubmit={handleSubmit}>
           <input
             name="email"
-            type="text"
+            type="email"
             placeholder="Email"
             value={form.email}
             onChange={handleChange}
+            required
           />
           <input
             required
