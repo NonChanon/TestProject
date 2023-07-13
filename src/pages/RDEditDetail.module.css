@@ -12,8 +12,7 @@
 }
 
 .ttspace {
-  margin: 10px 10px 0px 210px;
-  height: 100%;
+  margin: 85px 20px;
 }
 
 .title {
@@ -27,8 +26,9 @@
 }
 
 .content {
-  padding: 15px 20px 15px 20px;
+  padding: 20px;
   box-shadow: 0px 4px 4px 0 rgba(0, 0, 0, 0.25);
+  margin-bottom: 20px;
 }
 
 .tt {
@@ -50,15 +50,12 @@
 
 .txt {
   display: flex;
-  
   font-size: 14px;
-  
   border: none;
+  width: 100%;
   align-items: center;
-  padding: 12px;
-  height: 14px;
-  max-width:120px;
- 
+  background: none;
+  padding: 2px 0 2px 5px;
 }
 
 .txt:focus {
@@ -71,55 +68,58 @@
   text-align: center;
   border: solid#CECECE 1px;
   border-radius: 5px;
-  padding: 10px 2px;
-  margin-left: 5px;
-  height: 14px;
+  padding: 2px 2px;
+  height: 100%;
   width: 40px;
 }
 
 .gridContainer {
   display: grid;
-  grid-template-columns: auto auto auto;
-  margin: 10px 0;
-  
+  grid-template-columns: 1fr 1fr 1fr;
+  margin-top: 20px;
 }
 
 .gridContainer > div {
   text-align: end;
-
   font-size: 14px;
 }
 
 .txtblk {
-  width: 200px;
   height: auto;
-  margin-right: 5px;
+  margin-right: 20px;
 }
 
-.minitxtblk{
-  margin: 0 2px 0 5px;
+.minitxtblk {
+  margin: 0 15px 0 23px;
 }
 
 .minigrid {
-    display: flex;
-    align-items: center;
-    
-    
-  }
-
-.item {
   display: flex;
   align-items: center;
-  margin-bottom: 10px;
-  justify-content: end;
-  
+  height: 100%;
 }
 
-.con{
-    background: #ffffff;
-    padding: auto;
-    display: flex;
-    align-items: center;
+.item {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-content: center;
+  margin: 10px;
+  align-items: center;
+}
+
+.rdStatus {
+  width: 100%;
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 2px 0;
+}
+
+.con {
+  background: #ffffff;
+  padding: auto;
+  display: flex;
+  align-items: center;
 }
 
 .submitButton {
@@ -152,7 +152,7 @@
 }
 
 .cancelButton {
-  background-color: #A6431E;
+  background-color: #a6431e;
   border: none;
   border-radius: 5px;
   color: #ffffff;
@@ -183,38 +183,58 @@
 .inputDiv {
   display: flex;
   align-items: center;
-  margin-left: 3px;
+  border: solid#CECECE 1px;
   border-radius: 5px;
   width: 150px;
+  padding: 4px;
 }
 
-/* .calendarDate {
-  height: 100%;
-  border: 0;
-  font-size: 14px;
-  font-family: 'Rubik', sans-serif;
-  margin-right: 100%;
-  padding: 1px;
-  box-sizing: border-box;
-} */
-
-.test { 
+.test {
   width: 100%;
   height: 100%;
   border: 0;
   font-size: 14px;
-  font-family: 'Rubik', sans-serif;
+  font-family: "Rubik", sans-serif;
   padding: 1px;
   align-items: center;
 }
-.test input{
+.test input {
   width: 100%;
   height: 100%;
   border: 0;
   font-size: 14px;
-  font-family: 'Rubik', sans-serif;
-  padding: 3.5px 3.5px 3.5px 12px;
+  font-family: "Rubik", sans-serif;
   align-items: center;
+  padding-left: 4px;
+}
+
+.react-datepicker-wrapper {
+  padding: 0;
+}
+
+.svgLayout {
+  padding-right: 4px;
+}
+
+.btnContainer {
+  display: flex;
+  justify-content: end;
+}
+
+@media only screen and (max-width: 1024px) {
+  .gridContainer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-top: 20px;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .gridContainer {
+    display: grid;
+    grid-template-columns: 1fr;
+    margin-top: 20px;
+  }
 }
 
 .svgEdit {

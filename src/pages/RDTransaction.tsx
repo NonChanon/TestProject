@@ -45,27 +45,11 @@ export default function RDTransaction() {
   const [pageNo, setPageNo] = useState("0");
   const [startDate = null, setStartDate] = useState<Date | null>();
   const [tab, setTab] = useState("/rd/all");
+  const [permission, setPermission] = useState(false);
   const [lotName, setLotName] = useState({
     lotNameInput: "",
   });
-  // const [imageData, setImageData] = useState("");
 
-  // const getImage = () => {
-  //   axios.get("http://localhost:8080/api/image/img1.png", {
-  //     responseType: "arraybuffer"
-  //   }).then((response) => {
-  //     const base64 = btoa(
-  //       new Uint8Array(response.data).reduce(
-  //         (data, byte) => data + String.fromCharCode(byte),
-  //         ''
-  //       )
-  //     )
-  //     setImageData(base64);
-  //     console.log(base64);
-  //     console.log(response.data);
-  //   });
-  // };
-  //load data by api to backend
   const loadDatas = async () => {
     const dataRes = await axios.get(`http://localhost:8080/api/rd/all`);
     setDatas(dataRes.data);
@@ -108,8 +92,15 @@ export default function RDTransaction() {
 
   useEffect(() => {
     console.log("trigger useEffect");
+    for (let i = 1; i <= 4; i++) {
+      if (
+        localStorage.getItem(`permission${i}`) === "1" ||
+        localStorage.getItem(`permission${i}`) === "3"
+      ) {
+        setPermission(true);
+      }
+    }
     loadDatas();
-    // getImage();
   }, [useLocation().key]);
 
   function renderPageNumber() {
@@ -204,9 +195,7 @@ export default function RDTransaction() {
         <div className={style.line}></div>
         <div>RD Transaction</div>
       </div>
-      <div className="img" style={{ backgroundColor: "red" }}>
-        {/* <img src={`data:;base64,${imageData}`} /> */}
-      </div>
+      <div className="img" style={{ backgroundColor: "red" }}></div>
 
       <div className={`shadow ${style.searchContainer}`}>
         <div className={style.filterContainer}>
@@ -390,11 +379,17 @@ export default function RDTransaction() {
                       return (
                         <tr>
                           <td width="5%">{i + 1}</td>
-                          <td width="10%">
-                            <Link to={`/rd/${lot.name}`} state={{ lot: lot }}>
-                              {lot.name}
-                            </Link>
-                          </td>
+                          {permission ? (
+                            <td width="10%">
+                              <Link to={`/rd/${lot.name}`} state={{ lot: lot }}>
+                                {lot.name}
+                              </Link>
+                            </td>
+                          ) : (
+                            <td width="10%">
+                              <div>{lot.name}</div>
+                            </td>
+                          )}
                           <td width="8%">{lot.batchDate}</td>
                           <td width="10%">{lot.batchTime}</td>
                           <td width="15%">{lot.sendRdDate}</td>

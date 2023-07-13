@@ -98,6 +98,7 @@
   padding-right: 5px;
   background-color: #fafafa;
   font-size: 14px;
+  overflow: auto;
 }
 
 .row {
@@ -367,6 +368,12 @@ table {
 
 .end {
   margin-inline: auto;
+}
+
+.imgPopup {
+  max-width: 300px;
+  min-height: 320px;
+  margin-top: 10px;
 }
 
 .buttonLayout {
