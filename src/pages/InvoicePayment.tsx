@@ -628,7 +628,7 @@ export default function InvoicePayment() {
                                       <div>
                                         <img
                                           src={`data:;base64,${imageData}`}
-                                          className="imgPopup"
+                                          className={`${style.imgPopup}`}
                                         />
                                       </div>
 
@@ -685,7 +685,7 @@ export default function InvoicePayment() {
                                       <div>
                                         <img
                                           src={`data:;base64,${imageData}`}
-                                          className="imgPopup"
+                                          className={`${style.imgPopup}`}
                                         />
                                       </div>
 
