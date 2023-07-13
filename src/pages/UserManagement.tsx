@@ -21,6 +21,14 @@ export default function UserManagement() {
     },
   });
 
+  const [search, setSearch] = useState({
+    username: "",
+    role: {
+      name: ""
+    },
+    enabled: ""
+  });
+
   const editUser = {
     firstname: user.firstname,
     lastname: user.lastname,
@@ -41,6 +49,16 @@ export default function UserManagement() {
     setIsOpen(!isOpen);
     loadRoles();
     localStorage.setItem("id", `${id}`);
+  };
+
+  const onSearch = async (e: React.MouseEvent, request: object) => {
+    e.preventDefault();
+    const dataRes = await axios.post(
+      `http://localhost:8080/api/v1/admin/users/search`,
+      request
+    );
+    setUsers(dataRes.data.content);
+    console.log("search data is : ", dataRes.data);
   };
 
   const closeModal = (e: React.MouseEvent) => {
@@ -79,6 +97,7 @@ export default function UserManagement() {
   }, []);
 
   const loadUsers = async () => {
+    console.log("loadUsers");
     const dataRes = await axios.post(
       "http://localhost:8080/api/v1/admin/users"
     );
@@ -243,13 +262,32 @@ export default function UserManagement() {
         <div className={style.filterContainer}>
           <button className={`${style.button1}`}>
             <div className={`${style.row}`}>
-              <input placeholder="Username" className={style.inputForm} />
+              <input
+                name="username"
+                placeholder="username"
+                className={style.inputForm}
+                onChange={(e) => {
+                  setSearch({...search, [e.target.name]: e.target.value});
+                }}
+              />
             </div>
             <div className={`${style.line2}`}></div>
           </button>
           <button className={`${style.button1}`}>
             <div className={`${style.row}`}>
-              <select className={style.selectForm} name="selectedRole">
+              <select
+                className={style.selectForm}
+                name="selectedRole"
+                onChange={(e) => {
+                  setSearch({
+                    ...search,
+                    role: {
+                      ...search.role,
+                      ['name']: e.target.value
+                    },
+                  });
+                }}
+                >
                 <option value="" disabled selected hidden>
                   Select Group User
                 </option>
@@ -261,9 +299,15 @@ export default function UserManagement() {
             </div>
             <div className={`${style.line2}`}></div>
           </button>
-          <button className={`${style.button1}`}>
+          {/* <button className={`${style.button1}`}>
             <div className={`${style.row}`}>
-              <select className={style.selectForm} name="selectedRole">
+              <select
+                className={style.selectForm}
+                name="enabled"
+                onChange={(e) => {
+                  setSearch({...search, [e.target.name]: e.target.value});
+                }}
+              >
                 <option value="" disabled selected hidden color="#ffffff">
                   Select Status
                 </option>
@@ -273,10 +317,13 @@ export default function UserManagement() {
               </select>
             </div>
             <div className={`${style.line2}`}></div>
-          </button>
+          </button> */}
         </div>
         <div className={style.searchLayout}>
-          <button className={style.searchButton}>
+          <button
+            className={style.searchButton}
+            onClick={(e) => onSearch(e, search)}
+          >
             <div className={style.row}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
