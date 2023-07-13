@@ -247,32 +247,29 @@ export default function RecieptAS9() {
       sumTotalDuty = 0,
       sumTotalDubDutyAmount = 0,
       sumTotalPayment = 0;
-
     return (
-      <div>
-        {datas.content.length > 0 ? (
-          <div className={`${style.transactionTable}`}>
-            <table>
-              <thead>
-                <tr>
-                  <th>No.</th>
-                  <th>Lot Name</th>
-                  <th>Batch Date</th>
-                  <th>Batch Time</th>
-                  <th>InstInfo ID</th>
-                  <th>TaxPayer ID</th>
-                  <th>Total Doc</th>
-                  <th>Total Payment</th>
-                  <th>AS9</th>
-                  <th>Receipt</th>
-                </tr>
-              </thead>
-              {grouped[data].map((lot: lotModel, i: number) => {
-                console.log(lot);
-                sumDoc += lot.totalDoc;
-                sumTotalDuty += lot.totalDuty;
-                sumTotalDubDutyAmount += lot.totalDubDutyAmount;
-                sumTotalPayment += lot.totalPayment;
+      <div className={`${style.transactionTable}`}>
+        <table className="transaction-table">
+          <thead>
+            <tr>
+              <th>No.</th>
+              <th>Lot Name</th>
+              <th>Batch Date</th>
+              <th>Batch Time</th>
+              <th>InstInfo ID</th>
+              <th>TaxPayer ID</th>
+              <th>Total Doc</th>
+              <th>Total Payment</th>
+              <th>AS9</th>
+              <th>Receipt</th>
+            </tr>
+          </thead>
+          {grouped[data].map((lot: lotModel, i: number) => {
+            console.log(lot);
+            sumDoc += lot.totalDoc;
+            sumTotalDuty += lot.totalDuty;
+            sumTotalDubDutyAmount += lot.totalDubDutyAmount;
+            sumTotalPayment += lot.totalPayment;
 
                 return (
                   <tbody>
@@ -426,7 +423,7 @@ export default function RecieptAS9() {
       <div className={`shadow ${style.searchContainer}`}>
         <div className={style.filterContainer}>
           <button className={`LotName ${style.button1}`}>
-            <div className={`${style.row}`}>
+            <div className={`${style.row} ${style.dateLayout}`}>
               <DatePicker
                 id="batchDate"
                 dateFormat="dd/MM/yyy"
@@ -516,9 +513,7 @@ export default function RecieptAS9() {
       <div className="Transection">
         <div className="BatchBar shadow ">
           <div className={`${style.space3}`}>
-            <div>
-              <table>{dataRecAS9Table}</table>
-            </div>
+            <div>{dataRecAS9Table}</div>
           </div>
         </div>
       </div>

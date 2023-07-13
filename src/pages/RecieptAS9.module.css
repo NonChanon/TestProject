@@ -306,23 +306,25 @@
   transition-duration: 0.4s;
 }
 
+.pdfSize {
+  max-width: 500px;
+  min-height: 400px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.transactionTable {
+  overflow: auto;
+}
+
 .buttonLayout {
   display: flex;
   flex-direction: row;
   align-items: center;
 }
 
-.transactionTable {
-  margin-top: 5px;
-  margin-bottom: 20px;
-  width: 100%;
-  border-collapse: collapse;
-  text-align: center;
-  padding-left: 5px;
-  padding-right: 5px;
-  background-color: #fafafa;
-  font-size: 14px;
-  overflow: auto;
+.dateLayout {
+  display: flex;
+  justify-content: space-between;
 }
 
 .searchContainer {
@@ -345,7 +347,7 @@
     padding: 15px;
   }
 
-  .searchButton {
+  .SearchButton {
     margin-right: 15px;
   }
 }
@@ -370,7 +372,7 @@
     margin-top: 15px;
   }
 
-  .searchButton {
+  .SearchButton {
     width: 100%;
     margin: 0 15px;
     display: flex;
