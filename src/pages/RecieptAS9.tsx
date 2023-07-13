@@ -249,165 +249,169 @@ export default function RecieptAS9() {
       sumTotalPayment = 0;
 
     return (
-      <div className={`${style.transactionTable}`}>
-        <table className="transaction-table">
-          <thead>
-            <tr>
-              <th>No.</th>
-              <th>Lot Name</th>
-              <th>Batch Date</th>
-              <th>Batch Time</th>
-              <th>InstInfo ID</th>
-              <th>TaxPayer ID</th>
-              <th>Total Doc</th>
-              <th>Total Payment</th>
-              <th>AS9</th>
-              <th>Receipt</th>
-            </tr>
-          </thead>
-          {grouped[data].map((lot: lotModel, i: number) => {
-            console.log(lot);
-            sumDoc += lot.totalDoc;
-            sumTotalDuty += lot.totalDuty;
-            sumTotalDubDutyAmount += lot.totalDubDutyAmount;
-            sumTotalPayment += lot.totalPayment;
-
-            return (
-              <tbody>
+      <div>
+        {datas.content.length > 0 ? (
+          <div className={`${style.transactionTable}`}>
+            <table>
+              <thead>
                 <tr>
-                  <td>{i + 1}</td>
-                  <td>{lot.name}</td>
-                  <td>{lot.batchDate}</td>
-                  <td>{lot.batchTime}</td>
-                  <td></td>
-                  <td></td>
-                  <td>{lot.totalDoc}</td>
-                  <td>{lot.totalPayment}</td>
-                  <td>
-                    <div className="As9Button">
-                      <div
-                        className="iconSize"
-                        onClick={(e) => toggleModal1(lot.name, "as9")}
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="26"
-                          height="25"
-                          viewBox="0 0 24 24"
-                        >
-                          <g
-                            fill="none"
-                            stroke="#489788"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="1.5"
-                          >
-                            <path d="M14 3v4a1 1 0 0 0 1 1h4" />
-                            <path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2zM9 7h1m-1 6h6m-2 4h2" />
-                          </g>
-                        </svg>
-                      </div>
-
-                      {isOpen1 && (
-                        <div className="bgFade">
-                          <div className="a">
-                            <div className="titleBlock">
-                              <p className="popupTitle">AS9</p>
-                              <div
-                                onClick={(e) => setIsOpen1(!isOpen1)}
-                                className="exit"
-                              >
-                                X
-                              </div>
-                            </div>
-                            <div>
-                              <iframe
-                                src={`data:application/pdf;base64,${imageData}`}
-                                className={`${style.pdfSize}`}
-                              />
-                            </div>
-
-                            <button
-                              onClick={(e) => onApprove(e, lot.name)}
-                              className="doneButt"
-                            >
-                              DONE
-                            </button>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  </td>
-                  <td>
-                    <div className="ReceiptButton">
-                      <div
-                        className="iconSize"
-                        onClick={(e) => toggleModal2(lot.name, "receipt")}
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="28"
-                          height="28"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            fill="#489788"
-                            d="M3 5.25A2.25 2.25 0 0 1 5.25 3h9.5A2.25 2.25 0 0 1 17 5.25V14h4v3.75A3.25 3.25 0 0 1 17.75 21H6.25A3.25 3.25 0 0 1 3 17.75V5.25ZM17 19.5h.75a1.75 1.75 0 0 0 1.75-1.75V15.5H17v4ZM5.25 4.5a.75.75 0 0 0-.75.75v12.5c0 .966.784 1.75 1.75 1.75h9.25V5.25a.75.75 0 0 0-.75-.75h-9.5Zm2 2.5a.75.75 0 0 0 0 1.5h5.5a.75.75 0 0 0 0-1.5h-5.5Zm-.75 4.75a.75.75 0 0 1 .75-.75h5.5a.75.75 0 0 1 0 1.5h-5.5a.75.75 0 0 1-.75-.75ZM7.25 15a.75.75 0 0 0 0 1.5h3a.75.75 0 0 0 0-1.5h-3Z"
-                          />
-                        </svg>
-                      </div>
-
-                      {isOpen2 && (
-                        <div className="bgFade">
-                          <div className="a">
-                            <div className="titleBlock">
-                              <p className="popupTitle">Receipt</p>
-                              <div
-                                onClick={(e) => setIsOpen2(!isOpen2)}
-                                className="exit"
-                              >
-                                X
-                              </div>
-                            </div>
-                            <div>
-                              <iframe
-                                src={`data:application/pdf;base64,${imageData}`}
-                                className={`${style.pdfSize}`}
-                              />
-                            </div>
-
-                            <button
-                              onClick={(e) => onApprove(e, lot.name)}
-                              className="doneButt"
-                            >
-                              DONE
-                            </button>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  </td>
+                  <th>No.</th>
+                  <th>Lot Name</th>
+                  <th>Batch Date</th>
+                  <th>Batch Time</th>
+                  <th>InstInfo ID</th>
+                  <th>TaxPayer ID</th>
+                  <th>Total Doc</th>
+                  <th>Total Payment</th>
+                  <th>AS9</th>
+                  <th>Receipt</th>
                 </tr>
-              </tbody>
-            );
-          })}
-          <tfoot>
-            <tr>
-              <th className={`${style.ltb}`}>Total</th>
-              <th className={`${style.ltb}`}></th>
+              </thead>
+              {grouped[data].map((lot: lotModel, i: number) => {
+                console.log(lot);
+                sumDoc += lot.totalDoc;
+                sumTotalDuty += lot.totalDuty;
+                sumTotalDubDutyAmount += lot.totalDubDutyAmount;
+                sumTotalPayment += lot.totalPayment;
 
-              <th className={`${style.ltb}`}></th>
-              <th className={`${style.ltb}`}></th>
+                return (
+                  <tbody>
+                    <tr>
+                      <td>{i + 1}</td>
+                      <td>{lot.name}</td>
+                      <td>{lot.batchDate}</td>
+                      <td>{lot.batchTime}</td>
+                      <td></td>
+                      <td></td>
+                      <td>{lot.totalDoc}</td>
+                      <td>{lot.totalPayment}</td>
+                      <td>
+                        <div className="As9Button">
+                          <div
+                            className="iconSize"
+                            onClick={(e) => toggleModal1(lot.name, "as9")}
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="26"
+                              height="25"
+                              viewBox="0 0 24 24"
+                            >
+                              <g
+                                fill="none"
+                                stroke="#489788"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="1.5"
+                              >
+                                <path d="M14 3v4a1 1 0 0 0 1 1h4" />
+                                <path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2zM9 7h1m-1 6h6m-2 4h2" />
+                              </g>
+                            </svg>
+                          </div>
 
-              <th className={`${style.ltb}`}></th>
-              <th className={`${style.ltb}`}></th>
-              <th className={`${style.ltb}`}>{sumDoc}</th>
-              <th className={`${style.ltb}`}>{sumTotalPayment}</th>
-              <th className={`${style.ltb}`}></th>
-              <th className={`${style.ltb}`}></th>
-            </tr>
-          </tfoot>
-        </table>
+                          {isOpen1 && (
+                            <div className="bgFade">
+                              <div className="a">
+                                <div className="titleBlock">
+                                  <p className="popupTitle">AS9</p>
+                                  <div
+                                    onClick={(e) => setIsOpen1(!isOpen1)}
+                                    className="exit"
+                                  >
+                                    X
+                                  </div>
+                                </div>
+                                <div>
+                                  <iframe
+                                    src={`data:application/pdf;base64,${imageData}`}
+                                    className={`${style.pdfSize}`}
+                                  />
+                                </div>
+
+                                <button
+                                  onClick={(e) => onApprove(e, lot.name)}
+                                  className="doneButt"
+                                >
+                                  DONE
+                                </button>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      </td>
+                      <td>
+                        <div className="ReceiptButton">
+                          <div
+                            className="iconSize"
+                            onClick={(e) => toggleModal2(lot.name, "receipt")}
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="28"
+                              height="28"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                fill="#489788"
+                                d="M3 5.25A2.25 2.25 0 0 1 5.25 3h9.5A2.25 2.25 0 0 1 17 5.25V14h4v3.75A3.25 3.25 0 0 1 17.75 21H6.25A3.25 3.25 0 0 1 3 17.75V5.25ZM17 19.5h.75a1.75 1.75 0 0 0 1.75-1.75V15.5H17v4ZM5.25 4.5a.75.75 0 0 0-.75.75v12.5c0 .966.784 1.75 1.75 1.75h9.25V5.25a.75.75 0 0 0-.75-.75h-9.5Zm2 2.5a.75.75 0 0 0 0 1.5h5.5a.75.75 0 0 0 0-1.5h-5.5Zm-.75 4.75a.75.75 0 0 1 .75-.75h5.5a.75.75 0 0 1 0 1.5h-5.5a.75.75 0 0 1-.75-.75ZM7.25 15a.75.75 0 0 0 0 1.5h3a.75.75 0 0 0 0-1.5h-3Z"
+                              />
+                            </svg>
+                          </div>
+
+                          {isOpen2 && (
+                            <div className="bgFade">
+                              <div className="a">
+                                <div className="titleBlock">
+                                  <p className="popupTitle">Receipt</p>
+                                  <div
+                                    onClick={(e) => setIsOpen2(!isOpen2)}
+                                    className="exit"
+                                  >
+                                    X
+                                  </div>
+                                </div>
+                                <div>
+                                  <iframe
+                                    src={`data:application/pdf;base64,${imageData}`}
+                                    className={`${style.pdfSize}`}
+                                  />
+                                </div>
+
+                                <button
+                                  onClick={(e) => onApprove(e, lot.name)}
+                                  className="doneButt"
+                                >
+                                  DONE
+                                </button>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                );
+              })}
+              <tfoot>
+                <tr>
+                  <th className={`${style.ltb}`}>Total</th>
+                  <th className={`${style.ltb}`}></th>
+
+                  <th className={`${style.ltb}`}></th>
+                  <th className={`${style.ltb}`}></th>
+
+                  <th className={`${style.ltb}`}></th>
+                  <th className={`${style.ltb}`}></th>
+                  <th className={`${style.ltb}`}>{sumDoc}</th>
+                  <th className={`${style.ltb}`}>{sumTotalPayment}</th>
+                  <th className={`${style.ltb}`}></th>
+                  <th className={`${style.ltb}`}></th>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        ) : undefined}
       </div>
     );
   });
@@ -473,11 +477,9 @@ export default function RecieptAS9() {
           </button>
         </div>
 
-
-  
         <div className={style.searchLayout}>
           <button
-            className={`${style.searchButton}`}
+            className={`${style.SearchButton}`}
             onClick={(e) =>
               onSearch(e, {
                 batchDate:

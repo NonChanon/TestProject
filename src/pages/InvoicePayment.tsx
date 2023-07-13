@@ -459,9 +459,9 @@ export default function InvoicePayment() {
               </button>
             </div>
             {datas.content.length > 0 ? (
-              <div>
+              <div className={`${style.transactionTable}`}>
                 <div className={`${style.Table} ${style.top}`}>
-                  <table className={`${style.transactionTable}`}>
+                  <table>
                     <thead>
                       <tr className={`${style.tableTitle}`}>
                         <th>No.</th>
@@ -628,7 +628,7 @@ export default function InvoicePayment() {
                                       <div>
                                         <img
                                           src={`data:;base64,${imageData}`}
-                                          className="imgPopup"
+                                          className={`${style.imgPopup}`}
                                         />
                                       </div>
 
@@ -685,7 +685,7 @@ export default function InvoicePayment() {
                                       <div>
                                         <img
                                           src={`data:;base64,${imageData}`}
-                                          className="imgPopup"
+                                          className={`${style.imgPopup}`}
                                         />
                                       </div>
 

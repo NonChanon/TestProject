@@ -98,6 +98,7 @@
   padding-right: 5px;
   background-color: #fafafa;
   font-size: 14px;
+  overflow: auto;
 }
 
 .row {
@@ -369,12 +370,6 @@ table {
   margin-inline: auto;
 }
 
-<<<<<<< HEAD
-.imgPopup {
-  max-width: 300px;
-  min-height: 320px;
-  margin-top: 10px;
-=======
 .buttonLayout {
   display: flex;
   flex-direction: row;
@@ -391,6 +386,10 @@ table {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+.imgPopup {
+  width: 400px;
+  height: 400px;
 }
 
 @media only screen and (max-width: 768px) {
@@ -433,5 +432,4 @@ table {
     display: flex;
     justify-content: center;
   }
->>>>>>> 098bf9f406ad41dd02e418981f123c682d45a72a
 }

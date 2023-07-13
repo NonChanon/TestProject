@@ -23,12 +23,7 @@
     "hooks": "^0.3.2",
     "install": "^0.13.0",
     "moment": "^2.29.4",
-<<<<<<< HEAD
-    "pdfjs-dist": "^3.8.162",
-    "pspdfkit": "^2023.3.4",
-=======
     "mui": "0.0.1",
->>>>>>> 098bf9f406ad41dd02e418981f123c682d45a72a
     "react": "^18.2.0",
     "react-datepicker": "^4.15.0",
     "react-dom": "^18.2.0",
