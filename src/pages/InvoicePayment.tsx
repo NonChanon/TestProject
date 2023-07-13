@@ -169,6 +169,7 @@ export default function InvoicePayment() {
   const [imageData, setImageData] = useState("");
 
   const getPayment = async (type: string) => {
+    console.log(localStorage.lotName);
     await axios
       .get(
         `http://localhost:8080/api/${localStorage.lotName}/download/${type}`,
@@ -191,17 +192,17 @@ export default function InvoicePayment() {
 
   const toggleModal1 = (lotname: string, type: string) => {
     setIsOpen1(!isOpen1);
-    localStorage.setItem("lotName", `${lotname}`);
-    getPayment(type);
+    localStorage.setItem("lotName", lotname);
     console.log(localStorage.lotName);
+    getPayment(type);
     console.log("asdkasdsaoidj");
   };
 
   const toggleModal2 = (lotname: string, type: string) => {
     setIsOpen2(!isOpen2);
     localStorage.setItem("lotName", `${lotname}`);
-    getPayment(type);
     console.log(localStorage.lotName);
+    getPayment(type);
     console.log("asdkasdsaoidj");
   };
 
@@ -511,7 +512,10 @@ export default function InvoicePayment() {
                               <div className="QrButton">
                                 <div
                                   className="iconSize"
-                                  onClick={(e) => toggleModal1(lot.name, "qr")}
+                                  onClick={(e) => {
+                                    console.log(lot.name);
+                                    toggleModal1(lot.name, "qr");
+                                  }}
                                 >
                                   <svg
                                     xmlns="http://www.w3.org/2000/svg"
