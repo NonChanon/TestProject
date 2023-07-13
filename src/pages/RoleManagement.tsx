@@ -10,6 +10,10 @@ axios.defaults.headers.common = {
 
 interface roleModel {
   name: string;
+  createdUser: string;
+  createdDate: string,
+  updatedUser: string;
+  updatedDate: string;
   permissions: [
     {
       id: number;
@@ -26,6 +30,10 @@ export default function RoleManagement() {
 
   const [role, setRole] = useState<roleModel>({
     name: "",
+    createdUser: "",
+    createdDate: "",
+    updatedUser: "",
+    updatedDate: "",
     permissions: [
       {
         id: 0,
@@ -35,6 +43,9 @@ export default function RoleManagement() {
 
   const { name } = role;
   const [isOpen, setIsOpen] = useState(false);
+  const [search, setSearch] = useState({
+    groupUser: ''
+  });
 
   const toggleModal = (e: React.MouseEvent, id: number) => {
     e.preventDefault();
@@ -64,12 +75,25 @@ export default function RoleManagement() {
 
   const loadRole = async (id: Number) => {
     const dataRes = await axios.post(`http://localhost:8080/api/roles/${id}`);
-    setRole(dataRes.data);
+    let dataResponse: roleModel = dataRes.data;
+    dataResponse.updatedUser = localStorage.user_name;
+    setRole(dataResponse);
     console.log(role);
+  };
+
+  const onSearch = async (e: React.MouseEvent, request: object) => {
+    e.preventDefault();
+    const dataRes = await axios.post(
+      `http://localhost:8080/api/roles/search`,
+      request
+    );
+    setRoles(dataRes.data.content);
+    console.log("search data is : ", dataRes.data);
   };
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+    console.log(role);
     await axios.put(`http://localhost:8080/api/roles`, role);
     setIsOpen(!isOpen);
     loadRoles();
@@ -93,13 +117,13 @@ export default function RoleManagement() {
       <tbody>
         <td>{i + 1}</td>
         <td>{data.name}</td>
-        <td>{data.createdDate}</td>
         <td>{data.createdUser}</td>
-        <td>{data.updatedDate}</td>
+        <td>{data.createdDate}</td>
         <td>{data.updatedUser}</td>
-        <td>
+        <td>{data.updatedDate}</td>
+        {/* <td>
           <label className={`${style[data.status]}`}>{data.status}</label>
-        </td>
+        </td> */}
         <td className={style.manage}>
           <button
             className={style.editButton}
@@ -314,7 +338,13 @@ export default function RoleManagement() {
           <div className={style.filterContainer}>
             <button className={`${style.button1}`}>
               <div className={`${style.row}`}>
-                <select className={style.selectForm} name="selectedRole">
+                <select
+                  className={style.selectForm}
+                  name="groupUser"
+                  onChange={(e) => {
+                    setSearch({...search, [e.target.name]: e.target.value});
+                  }}
+                >
                   <option value="" disabled selected hidden>
                     Select Group User
                   </option>
@@ -325,7 +355,7 @@ export default function RoleManagement() {
               </div>
               <div className={`${style.line2}`}></div>
             </button>
-            <button className={`${style.button1}`}>
+            {/* <button className={`${style.button1}`}>
               <div className={`${style.row}`}>
                 <select className={style.selectForm} name="selectedRole">
                   <option value="" disabled selected hidden color="#ffffff">
@@ -337,10 +367,15 @@ export default function RoleManagement() {
                 </select>
               </div>
               <div className={`${style.line2}`}></div>
-            </button>
+            </button> */}
           </div>
           <div className={style.searchLayout}>
-            <button className={style.searchButton}>
+            <button
+              className={style.searchButton}
+              onClick={(e) => onSearch(e, 
+                {groupUser: search.groupUser}
+                )}
+            >
               <div className={style.row}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -373,9 +408,9 @@ export default function RoleManagement() {
                 <th>Group User</th>
                 <th>Created User</th>
                 <th>Created Date</th>
-                <th>Updated Date</th>
                 <th>Updated User</th>
-                <th>Status</th>
+                <th>Updated Date</th>
+                {/* <th>Status</th> */}
                 <th>Manage</th>
               </tr>
             </thead>

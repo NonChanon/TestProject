@@ -5,6 +5,10 @@ import "../components/PopupButt.css";
 
 interface roleModel {
   name: string;
+  createdUser: string;
+  createdDate: string;
+  updatedUser: string;
+  updatedDate: string;
   permissions: [
     {
       id: number;
@@ -15,6 +19,10 @@ interface roleModel {
 export default function AddRole() {
   const [role, setRole] = useState<roleModel>({
     name: "",
+    createdUser: localStorage.user_name,
+    createdDate: "",
+    updatedUser: localStorage.user_name,
+    updatedDate: "",
     permissions: [
       {
         id: 0,
